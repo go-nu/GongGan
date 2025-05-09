@@ -37,6 +37,12 @@
         </div>
     </section>
     <section class="empty"></section>
-    <%@ include file="footer.jsp" %>
+	<footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2025 K-CULTURE GUIDE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
