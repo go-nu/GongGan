@@ -49,16 +49,8 @@
         </div>
     </div>
 </section>
-<<<<<<< HEAD
-	<footer>
-        <div class="container">
-            <div class="copyright">
-                <p>&copy; 2025 K-CULTURE GUIDE. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-=======
+
 <%@ include file="footer.jsp" %>
->>>>>>> refs/remotes/origin/main
+
 </body>
 </html>
