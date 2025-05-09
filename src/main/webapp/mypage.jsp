@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -53,71 +52,18 @@
     <section class="featured-section">
         <div class="container">
             <div class="section-title">
-                <h2>메인 카테고리</h2>
+                <h2>내가 쓴 글</h2>
             </div>
-            <div class="category-grid">
-                <%-- 여기에 서버 측 데이터로 반복 출력 가능 --%>
-                <div class="category-card" onclick="location.href='food.jsp'" style="cursor: pointer;">
-                    <img src="./resources/img/category_f.JPG" class="category-image">
-                    <div class="category-info">
-                        <h3>K-FOOD</h3>
-                        <p>한국 음식(한식)에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-	                            <span class="star">★ ★ ★ ★ ★</span>
-	                            <span>(127 리뷰)</span>
-	                        </div> -->
-                        <div>
-                            <span class="tag">한식 레시피 나눔</span>
-                            <span class="tag">맛집 공유</span>
-                            <span class="tag">원데이 클래스 예약</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-card" onclick="location.href='beauty.jsp'" style="cursor: pointer;">
-                	<img src="./resources/img/category_b.jpg" class="category-image">
-                    <div class="category-info">
-                        <h3>K-BEUATY</h3>
-                        <p>한국의 화장품에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-                            	<span class="star">★ ★ ★ ★ ★</span>
-                            	<span>(98 리뷰)</span>
-                        	</div> -->
-                        <div>
-                            <span class="tag">화장품 정보 공유</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-card" onclick="location.href='location.jsp'" style="cursor: pointer;">
-                    <img src="./resources/img/category_l.jpg" class="category-image">
-                    <div class="category-info">
-                        <h3>LOCATION</h3>
-                        <p>한국 관광지에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-	                            <span class="star">★ ★ ★ ★ ★</span>
-	                            <span>(145 리뷰)</span>
-	                        </div> -->
-                        <div>
-                            <span class="tag">내 스타가 다녀간 곳</span>
-                            <span class="tag">전통 관광지</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </section>
     
 <!-- 초록칸 -->
     <section class="about-section">
         <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>한국을 방문한 <br>외국인 관광객수</h2>
-                    <p>여성 관광객이 남성보다 월등히 많음</p>
-                </div>
-                <div class="about-image">
-					<%@ include file="chart.jsp" %>
-                </div>
-            </div>
+			<div class="section-title">
+				<h2>내가 쓴 댓글</h2>
+			</div>
         </div>
     </section>
     
@@ -125,8 +71,7 @@
     <section class="community-section">
         <div class="container">
             <div class="section-title">
-                <h2>[사이트 이름] 사용법</h2>
-                <p>사용법 어쩌고 저쩌고</p>
+                <h2>내가 신청한 프로그램</h2>
             </div>
             <div class="community-cards">
                 <div class="community-card">
