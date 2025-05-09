@@ -40,3 +40,37 @@ h2 {
 .member{
 	padding-left: 160px;
 }
+
+.custom-gender-padding {
+  padding-left: 0;
+  padding-right: 70px;
+}
+
+/* 1000px 이하일 때 */
+@media (max-width: 1000px) {
+  .custom-gender-padding {
+    padding-right: 40px;
+  }
+}
+
+/* 900px 이하일 때 */
+@media (max-width: 900px) {
+  .custom-gender-padding {
+    padding-right: 10px;
+  }
+}
+
+/* 800px 이하일 때 */
+@media (max-width: 800px) {
+  .custom-gender-padding {
+    padding-right: 0px;
+    padding-left: 10px;
+  }
+}
+/* 600px 이하일 때 */
+@media (max-width: 600px) {
+  .custom-gender-padding {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}

@@ -34,7 +34,7 @@
 	<section class="hero">
 		<div class="container">
 			<div class="row align-items-md-stretch   text-center">
-				<h2 class="my-5">회원가입</h2>
+				<h2 class="mt-3 mb-4">회원가입</h2>
 				<form name="newMember" action="processSignin.jsp" method="post"
 					onsubmit="return checkForm()" class="member">
 					<div class="mb-3 row">
@@ -67,14 +67,14 @@
 					</div>
 					<div class="mb-3 row">
 						<label class="col-sm-2">성별</label>
-						<div class="col-sm-1" style="padding-top: 5px; padding-right: 0px;">
+						<div class="col-sm-2 custom-gender-padding">
 							<input name="gender" type="radio" value="남" /> 남 <input
 								name="gender" type="radio" value="여" /> 여
 						</div>
 					</div>
 
 					<div class="mb-3 row">
-						<label class="col-sm-2">생일</label>
+						<label class="col-sm-2" style="padding-top: 15px;">생일</label>
 						<div class="col-sm-10  ">
 							<div class="row">
 								<div class="col-sm-2">
