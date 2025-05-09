@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
+<%@ page import = "java.util.*" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,6 +16,7 @@
 </head>
 <body>
     <%@ include file="header.jsp" %>
+    <%@ include file="dbconn.jsp" %>
     
 <!-- 슬라이드 -->
 	<section class="hero">
@@ -91,6 +93,7 @@
     <section class="about-section">
         <div class="container">
          	<div class="section-title">
+         		<a href="reservationDetail.jsp" class="text-primary text-end pe-20">모든 활동 보기</a>
 	      		<h2>이번 주 활동</h2>
 	      		<p>25/5/5 ~ 25/5/12 활동</p>
 	    	</div>
@@ -98,19 +101,31 @@
     		<!-- Swiper Carousel -->
 	    	<div class="swiper classSwiper">
 	      		<div class="swiper-wrapper">
-	
+					<%
+						PreparedStatement pstmt = null;
+						ResultSet rs = null;
+						String sql = "select * from activity";
+						
+						pstmt = conn.prepareStatement(sql);
+						rs = pstmt.executeQuery();
+						while(rs.next()) {
+							
+					%>
 	        		<div class="swiper-slide">
 		          		<div class="class-card">
 	            			<div class="class-top">
-	            				<img src="./resources/img/kimchi-1 copy.jpg">
+	            				<img src="./resources/img/<%=rs.getString("img") %>">
 	            				<span class="badge bg-secondary text-light rounded-pill ms-2">D-0</span>
 	            			</div>
-            				<h3>김장 담그기</h3>
-	            			<p>25/5/8 13:00</p>
+            				<h3><%=rs.getString("title") %></h3>
+	            			<p><%=rs.getString("act_date") %></p>
 	          			</div>
         			</div>
+        			<%
+						}
+        			%>
 
-        			<div class="swiper-slide">
+        			<!-- <div class="swiper-slide">
           				<div class="class-card">
             				<div class="class-top">
             					<img src="./resources/img/mak-1 copy.jpg">
@@ -140,7 +155,7 @@
 	            			<h3>김장 담그기-Ⅱ</h3>
 	            			<p>25/5/11 13:00</p>
 	          			</div>
-	        		</div>
+	        		</div> -->
 	
 	      		</div>
 	

@@ -124,6 +124,13 @@ nav ul li a:hover {
     margin-bottom: 50px;
 }
 
+.section-title a {
+	display: block;
+    color: #666;
+    max-width: 700px;
+    text-align: right !important;
+    text-decorate: none;
+}
 .section-title h2 {
     font-size: 36px;
     color: #1d3557;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import = "java.util.*" %>
 <html>
 <head>
 <title>예약 상세 페이지</title>
@@ -87,6 +88,7 @@
 
 <body>
 <%@ include file="header.jsp"%>
+<%@ include file="dbconn.jsp" %>
 <div class="container py-5 mt-5">
 
 	<!-- 예약 정보 -->
@@ -98,14 +100,26 @@
 
 		<!-- 오른쪽 정보 -->
 		<div class="right-info">
-			<h3 class="pb-2"><b>김밥 만들기 체험</b></h3>
-			<p><strong>체험일자 :</strong> 2025-06-07 12:00</p>
+			<%
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				String sql = "select * from activity where act_id = '9BC4D872'";
+				
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+			%>
+			<h3 class="pb-2"><b><%=rs.getString("title") %></b><span style="font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;<%=rs.getString("act_id") %></span></h3>
+			<p><strong>체험일자 :</strong> <%=rs.getString("act_date") %></p>
 			<p><strong>마감일자 :</strong> 2025-05-10 (D-3)</p>
-			<p><strong>현재정원 :</strong> 2명 / 10명</p>
-			<p><strong>장소 :</strong> 서울시 구로구 더조은아카데미 2층</p>
+			<p><strong>현재정원 :</strong> 2명 / <%=rs.getInt("max_count") %>명</p>
+			<p><strong>장소 :</strong> <%=rs.getString("address") %></p>
 			<p><strong>설명</strong></p>
-			<p>이 예약 프로그램은 한국의 대중 음식 중 하나인 김밥을 만드는 프로그램입니다. 직접 재료를 손질하여 김밥을
-				만들고 맛보는 체험을 경험하실 수 있습니다.</p>
+			<p><%=rs.getString("note") %></p>
+			<%
+				}
+			%>
 
 			<!-- 예약하기 섹션 -->
 			<div class="mb-3">

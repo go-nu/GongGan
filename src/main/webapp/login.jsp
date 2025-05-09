@@ -49,7 +49,6 @@
         </div>
     </div>
 </section>
-<<<<<<< HEAD
 	<footer>
         <div class="container">
             <div class="copyright">
@@ -57,8 +56,5 @@
             </div>
         </div>
     </footer>
-=======
-<%@ include file="footer.jsp" %>
->>>>>>> refs/remotes/origin/main
 </body>
 </html>
