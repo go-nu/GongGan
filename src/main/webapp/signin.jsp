@@ -74,7 +74,7 @@
 					</div>
 
 					<div class="mb-3 row">
-						<label class="col-sm-2">생일</label>
+						<label class="col-sm-2" style="padding-top: 15px;">생일</label>
 						<div class="col-sm-10  ">
 							<div class="row">
 								<div class="col-sm-2">
