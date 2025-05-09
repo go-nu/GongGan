@@ -1,0 +1,42 @@
+@charset "UTF-8";
+.hero {
+	height: 75vh;
+    color: black;
+    margin-top: 80px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #1d3557;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+h2 {
+    font-size: 36px;
+    color: #1d3557;
+    margin-bottom: 15px;
+}
+
+.col-sm-2{
+	padding-top:8px;
+}
+
+.cancle{
+	background-color: #e63946;
+}
+.cancle:hover{
+	background-color: #c1121f !important; 
+}
+
+.btn:hover {
+    background-color: #1d2757;
+}
+
+.member{
+	padding-left: 160px;
+}
