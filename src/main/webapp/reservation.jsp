@@ -10,80 +10,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="./resources/js/bootstrap.bundle.min.js"></script>
-<style>
-.main-image {
-	width: 100%; 
-	height: auto;
-}
-
-.carousel-item img {
-	width: 100%; 
-	height: 200px;
-	object-fit: cover;
-}
-/* 이미지 스타일 */
-#detailCarousel .carousel-item img {
-  height: 200px;
-  object-fit: cover;
-  width: calc(25% - 0.5rem);
-}
-
-/* 슬라이드 안쪽 flex wrapper */
-.custom-carousel-inner {
-  padding: 0 3rem; /* 기본 padding (넓은 화면) */
-}
-
-/* 작은 화면일 때는 padding 제거 */
-@media (max-width: 1199.98px) {
-  .custom-carousel-inner {
-    padding: 0 3rem;
-  }
-}
-
-/* 슬라이드 넘침 방지 */
-.carousel-inner {
-  overflow-x: hidden;
-}
-.carousel-control-prev, .carousel-control-next{
-	top: 50%;
-	transform: translateY(-50%);
-	width: 40px;
-	height: 40px;
-	color: black;
-	z-index: 10;
-}
-
-.carousel-control-prev {
-	left: 0px;
-}
-
-.carousel-control-next {
-	right: 0px;
-}
-
-.people-btn {
-	width: 40px; /* 버튼 너비 고정 */
-	font-size: 1.2rem; /* 폰트 크기 통일 */
-	padding: 0; /* 기본 패딩 제거 */
-	text-align: center; /* 가운데 정렬 */
-}
-/* 예약 섹션의 커스텀 반응형 컨테이너 */
-.reserve-section {
-	display: block;
-}
-
-/* 992px 이상이면 가로 배치 */
-@media ( min-width : 992px) {
-	.reserve-section {
-		display: flex;
-		gap: 2rem; /* 좌우 간격 */
-	}
-	.reserve-section>.left-image, .reserve-section>.right-info {
-		flex: 1;
-	}
-}
-
-</style>
+<link rel="stylesheet" href="./resources/css/rsv_style.css">
 </head>
 
 <body>
@@ -93,23 +20,25 @@
 
 	<!-- 예약 정보 -->
 	<div class="reserve-section mt-5 mb-4 px-5">
+		<%
+			String act_id = request.getParameter("act_id");
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = "SELECT * FROM activity WHERE act_id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, act_id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+		%>
 		<!-- 왼쪽 이미지 -->
 		<div class="left-image mb-4 mb-md-0">
-			<img src="./resources/img/kimbob.jpg" alt="예약 이미지" class="main-image img-fluid text-center">
+			<img src="./resources/img/<%=rs.getString("img") %>" alt="예약 이미지" class="main-image img-fluid text-center">
 		</div>
 
 		<!-- 오른쪽 정보 -->
 		<div class="right-info">
-			<%
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				String sql = "select * from activity where act_id = '9BC4D872'";
-				
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
-			%>
 			<h3 class="pb-2"><b><%=rs.getString("title") %></b><span style="font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;<%=rs.getString("act_id") %></span></h3>
 			<p><strong>체험일자 :</strong> <%=rs.getString("act_date") %></p>
 			<p><strong>마감일자 :</strong> 2025-05-10 (D-3)</p>
@@ -117,9 +46,13 @@
 			<p><strong>장소 :</strong> <%=rs.getString("address") %></p>
 			<p><strong>설명</strong></p>
 			<p><%=rs.getString("note") %></p>
-			<%
-				}
-			%>
+		<%
+			}
+			if (rs != null) 
+				rs.close();
+			if (pstmt != null)
+				pstmt.close();
+		%>
 
 			<!-- 예약하기 섹션 -->
 			<div class="mb-3">
@@ -178,45 +111,65 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- 하단 슬라이드 이미지 (4장 수평 슬라이드) -->
+	
+	<!-- 활동 설명 사진 -->
 	<h4 class="px-5">상세 이미지</h4>
 	<div class="container-fluid px-0">
 		<div id="detailCarousel" class="carousel slide mb-5 mt-2">
 			<div class="carousel-inner">
-			  	<div class="carousel-item active">
-			    	<div class="d-flex justify-content-between custom-carousel-inner">
-				      	<img src="./resources/img/kimbob1.jpg" class="d-block mx-1" alt="상세 이미지 1">
-				      	<img src="./resources/img/kimbob2.jpg" class="d-block mx-1" alt="상세 이미지 2">
-				      	<img src="./resources/img/kimbob3.jpg" class="d-block mx-1" alt="상세 이미지 3">
-				      	<img src="./resources/img/kimbob4.jpg" class="d-block mx-1" alt="상세 이미지 4">
-			    	</div>
-			  	</div>
-			  	<div class="carousel-item">
-			    	<div class="d-flex justify-content-between custom-carousel-inner">
-				      	<img src="./resources/img/back1.jpg" class="d-block mx-1" alt="상세 이미지 5">
-				      	<img src="./resources/img/newyork.jpg" class="d-block mx-1" alt="상세 이미지 6">
-				      	<img src="./resources/img/paris.jpg" class="d-block mx-1" alt="상세 이미지 7">
-				      	<img src="./resources/img/img_avatar1.png" class="d-block mx-1" alt="상세 이미지 8">
-			    	</div>
-			  	</div>
+				<%
+					PreparedStatement sPstmt = null;
+					ResultSet sRs = null;
+					String imgSql = "SELECT filename FROM sub_img WHERE act_id = ? ORDER BY img_id ASC";
+					sPstmt = conn.prepareStatement(imgSql);
+					sPstmt.setString(1, act_id);
+					sRs = sPstmt.executeQuery();
+	
+					List<String> subImg = new ArrayList<>();
+					while (sRs.next()) {
+						subImg.add(sRs.getString("filename"));
+					}
+	
+					int groupSize = 4;
+					boolean isFirst = true;
+	
+					for (int i = 0; i < subImg.size(); i += groupSize) {
+				%>
+				<div class="carousel-item <%= isFirst ? "active" : "" %>">
+					<div class="d-flex justify-content-between custom-carousel-inner px-5">
+						<%
+							for (int j = i; j < i + groupSize && j < subImg.size(); j++) {
+						%>
+						<img src="./resources/img/<%= subImg.get(j) %>" class="d-block mx-1" alt="상세 이미지" style="width: 23%;">
+						<%
+							}
+						%>
+					</div>
+				</div>
+				<%
+						isFirst = false;
+					}
+	
+					if (sRs != null) sRs.close();
+					if (sPstmt != null) sPstmt.close();
+				%>
 			</div>
-		
+	
 			<!-- 슬라이드 버튼 -->
 			<button class="carousel-control-prev" type="button" data-bs-target="#detailCarousel" data-bs-slide="prev">
-			  	<span class="fa-solid fa-chevron-left fa-2x text-dark"></span>
+				<span class="fa-solid fa-chevron-left fa-2x text-dark"></span>
 			</button>
 			<button class="carousel-control-next" type="button" data-bs-target="#detailCarousel" data-bs-slide="next">
-			  	<span class="fa-solid fa-chevron-right fa-2x text-dark"></span>
+				<span class="fa-solid fa-chevron-right fa-2x text-dark"></span>
 			</button>
 		</div>
 	</div>
 
+	
 	<!-- 후기 섹션 -->
 	<h4 class="px-5 mt-5">후기</h4>
 	<div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
 		<div class="carousel-inner">
-
 			<!-- 슬라이드 1 -->
 			<div class="carousel-item active">
 				<div class="row gx-3">

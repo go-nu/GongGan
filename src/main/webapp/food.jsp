@@ -93,7 +93,7 @@
     <section class="about-section">
         <div class="container">
          	<div class="section-title">
-         		<a href="reservationDetail.jsp" class="text-primary text-end pe-20">모든 활동 보기</a>
+         		<a href="#" class="text-primary text-end pe-20">모든 활동 보기</a>
 	      		<h2>이번 주 활동</h2>
 	      		<p>25/5/5 ~ 25/5/12 활동</p>
 	    	</div>
@@ -112,51 +112,26 @@
 							
 					%>
 	        		<div class="swiper-slide">
-		          		<div class="class-card">
-	            			<div class="class-top">
-	            				<img src="./resources/img/<%=rs.getString("img") %>">
-	            				<span class="badge bg-secondary text-light rounded-pill ms-2">D-0</span>
-	            			</div>
-            				<h3><%=rs.getString("title") %></h3>
-	            			<p><%=rs.getString("act_date") %></p>
-	          			</div>
+	        			<a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" style="text-decoration: none; color: inherit;">
+			          		<div class="class-card">
+		            			<div class="class-top">
+		            				<img src="./resources/img/<%=rs.getString("img") %>">
+		            				<span class="badge bg-secondary text-light rounded-pill ms-2">D-0</span>
+		            			</div>
+	            				<h3><%=rs.getString("title") %></h3>
+		            			<p><%=rs.getString("act_date") %></p>
+		          			</div>
+	          			</a>
         			</div>
         			<%
 						}
+						if (rs != null) 
+							rs.close();
+						if (pstmt != null)
+							pstmt.close();
+						if (conn != null)
+							conn.close();
         			%>
-
-        			<!-- <div class="swiper-slide">
-          				<div class="class-card">
-            				<div class="class-top">
-            					<img src="./resources/img/mak-1 copy.jpg">
-	            				<span class="badge bg-danger text-light rounded-pill ms-2">D-1</span>
-            				</div>
-            				<h3>막걸리 빚기</h3>
-            				<p>25/5/9 18:30</p>
-	          			</div>
-	        		</div>
-	        		<div class="swiper-slide">
-	          			<div class="class-card">
-            				<div class="class-top">
-            					<img src="./resources/img/kimbab-2 copy.jpg">
-	            				<span class="badge bg-warning text-light rounded-pill ms-2">D-2</span>
-           					</div>
-	            			<h3>김밥 만들기</h3>
-	            			<p>25/5/10 11:00</p>
-		          		</div>
-	        		</div>
-	
-        			<div class="swiper-slide">
-	          			<div class="class-card">
-            				<div class="class-top">
-            					<img src="./resources/img/kimchi-2 copy.jpg">
-	            				<span class="badge bg-success text-light rounded-pill ms-2">D-3</span>
-            				</div>
-	            			<h3>김장 담그기-Ⅱ</h3>
-	            			<p>25/5/11 13:00</p>
-	          			</div>
-	        		</div> -->
-	
 	      		</div>
 	
 				<!-- 화살표 -->

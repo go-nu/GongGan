@@ -30,7 +30,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="../header.jsp"%>
+	<%@ include file="header.jsp"%>
 	<section class="hero">
 		<div class="container">
 			<div class="row align-items-md-stretch   text-center">
@@ -151,7 +151,6 @@
 			</div>
 		</div>
 	</section>
-	<%-- <%@ include file="../footer.jsp"%> --%>
 	<footer>
 		<div class="copyright">
 			<p>&copy; 2025 K-FOOD GUIDE. All rights reserved.</p>
