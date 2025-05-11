@@ -11,6 +11,15 @@
 	.list-group-item {
 	  cursor: pointer;
 	}
+	.custom-popup {
+	  background: #fff;
+	  border: 1px solid #ccc;
+	  border-radius: 10px;
+	  padding: 10px;
+	  font-size: 14px;
+	  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	  white-space: nowrap;
+	}
 
 </style>
 
@@ -155,30 +164,38 @@ function addMarker(store, category) {
     }
   });
 
-  const infoWindow = new naver.maps.InfoWindow({
-    content: `
-    	<div style="padding: 10px; 
-			font-size: 14px;
-	        border: 1px solid #ccc;
-	        border-radius: 10px;
-	        background-color: white;
-	        box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-	        <strong>\${store.name}</strong><br>\${store.address}</div>`,
-    maxWidth: 250
+  const overlayContent = document.createElement('div');
+  overlayContent.className = 'custom-overlay';
+  overlayContent.innerHTML = `
+    <div class="custom-popup">
+      <strong>${store.name}</strong><br>${store.address}
+    </div>
+  `;
+
+  const overlay = new naver.maps.CustomOverlay({
+    content: overlayContent,
+    position: position,
+    map: null, // 초기에 숨김
+    yAnchor: 1.5
   });
 
+  // 마커 클릭 시 토글 표시
   marker.addListener('click', () => {
-    if (currentOpenInfo === infoWindow) {
-      infoWindow.close();
-      currentOpenInfo = null;
+    // 모든 overlay 닫기
+    markers.forEach(m => {
+      if (m.overlay) m.overlay.setMap(null);
+    });
+
+    if (overlay.getMap()) {
+      overlay.setMap(null);
     } else {
-      if (currentOpenInfo) currentOpenInfo.close();
-      infoWindow.open(map, marker);
-      currentOpenInfo = infoWindow;
+      overlay.setMap(map);
     }
   });
 
-  markers.push({ name: store.name, marker, infoWindow });
+  const markerObj = { name: store.name, marker, overlay };
+  markers.push(markerObj);
+  return markerObj; // ⬅ 리턴!
 }
 
 function renderStores(region, category) {
@@ -196,27 +213,21 @@ function renderStores(region, category) {
 
         const li = document.createElement('li');
         li.className = 'list-group-item';
-        li.innerHTML = `
-          <div style="font-weight: 600;">\${store.name}</div>
-          <div style="font-size: 0.9em; color: gray;">\${store.address}</div>
-        `;
-
-        li.addEventListener('click', () => {
-          const target = markers.find(m => m.name === store.name);
-          if (target) {
-            if (currentOpenInfo === target.infoWindow) {
-              target.infoWindow.close();
-              currentOpenInfo = null;
-            } else {
-              if (currentOpenInfo) currentOpenInfo.close();
-              target.infoWindow.open(map, target.marker);
-              currentOpenInfo = target.infoWindow;
-            }
-          }
-        });
+        li.innerHTML =
+			'<div style="font-weight: 600;">' + store.name + '</div>' +
+			'<div style="font-size: 0.9em; color: gray;">' + store.address + '</div>';
+		const markerObj = addMarker(store, cat); // 마커 먼저 만든 후
+		
+		li.addEventListener('click', () => {
+			  markers.forEach(m => m.overlay?.setMap(null));
+			  if (markerObj.overlay.getMap()) {
+			    markerObj.overlay.setMap(null);
+			  } else {
+			    markerObj.overlay.setMap(map);
+			  }
+			});
 
         oliveList.appendChild(li);
-        addMarker(store, cat);
       });
     }
   });
