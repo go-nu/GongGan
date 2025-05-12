@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+    String id = (String) session.getAttribute("id");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -62,10 +65,6 @@
                     <div class="category-info">
                         <h3>K-FOOD</h3>
                         <p>한국 음식(한식)에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-	                            <span class="star">★ ★ ★ ★ ★</span>
-	                            <span>(127 리뷰)</span>
-	                        </div> -->
                         <div>
                             <span class="tag">한식 레시피 나눔</span>
                             <span class="tag">맛집 공유</span>
@@ -78,10 +77,6 @@
                     <div class="category-info">
                         <h3>K-BEUATY</h3>
                         <p>한국의 화장품에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-                            	<span class="star">★ ★ ★ ★ ★</span>
-                            	<span>(98 리뷰)</span>
-                        	</div> -->
                         <div>
                             <span class="tag">화장품 정보 공유</span>
                         </div>
@@ -92,10 +87,6 @@
                     <div class="category-info">
                         <h3>LOCATION</h3>
                         <p>한국 관광지에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-	                            <span class="star">★ ★ ★ ★ ★</span>
-	                            <span>(145 리뷰)</span>
-	                        </div> -->
                         <div>
                             <span class="tag">내 스타가 다녀간 곳</span>
                             <span class="tag">전통 관광지</span>
