@@ -144,17 +144,6 @@
 								    long diffDays = diffMillis / (24 * 60 * 60 * 1000);
 								%>
 								<span class="badge bg-secondary text-light rounded-pill ms-2">D-<%=diffDays %></span>
-<%-- 								  <c:choose>
-								    <c:when test="<%=diffDays %> <= 3">
-								      <span class="badge bg-danger text-light rounded-pill ms-2">D-<%=diffDays %></span>
-								    </c:when>
-								    <c:when test="<%=diffDays %> <= 7">
-								      <span class="badge bg-warning text-dark rounded-pill ms-2">D-<%=diffDays %></span>
-								    </c:when>
-								    <c:otherwise>
-								      <span class="badge bg-secondary text-light rounded-pill ms-2">D-<%=diffDays %></span>
-								    </c:otherwise>
-								  </c:choose> --%>
 		          			</div>
 	          			</a>
         			</div>
