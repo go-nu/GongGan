@@ -25,7 +25,9 @@
     } finally {
         try {
             if (conn != null && !conn.isClosed()) {
-                conn.close();  // 연결 종료
+                /* conn.close();  // 연결 종료 */
+                /* conn.close();를 넣으면 food페이지가 안열림 */
+                /* dbconn을 넣은 파일들은 각각에 conn.close();를 추가함 */
             }
         } catch (SQLException ex) {
             out.println("연결 종료 실패: " + ex.getMessage());

@@ -41,6 +41,7 @@
 							<h2 class="my-5">일치하는 사용자가 없습니다.</h2>
 						</c:otherwise>
 					</c:choose>
+					<%conn.close(); %>
 			        <!-- 아이디/비밀번호 찾기, 회원가입 링크 추가 -->
 	                <div class="d-flex justify-content-center mt-3">
 	                    <a href='<c:url value="searchId.jsp"/>' class="text-decoration-none mx-2">아이디 찾기</a>   
