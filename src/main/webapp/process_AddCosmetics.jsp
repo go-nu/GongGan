@@ -35,7 +35,7 @@ try {
     pstmt.setString(7, imageFile);
     pstmt.executeUpdate();
 
-    response.sendRedirect("beautyList.jsp");  // 등록 후 목록으로 이동
+    response.sendRedirect("Admin_Cosmetics.jsp");  // 등록 후 관리자 목록으로 이동
 } catch (SQLException e) {
     out.println("DB 오류: " + e.getMessage());
 } finally {

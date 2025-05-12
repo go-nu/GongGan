@@ -15,10 +15,12 @@
 <body>
 <%@ include file="header.jsp" %>
 
-<section class="bg-image">
+<section class="bg-image" style="padding-top: 100px;">
   <div class="overlay">
-    <div class="container pt-5 pb-3">
-      <h3 class="mb-4 text-start">관리자 상품 목록</h3>
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="ml-1 mt-2 mb-4 text-start">관리자 상품 목록</h2>
+        <a href="AddCosmetics.jsp" class="btn btn-sm btn-outline-primary">상품 등록</a>
+    </div>
       <div class="row row-cols-1 row-cols-md-4 gy-5 gx-4">
 
         <%
@@ -43,8 +45,7 @@
         </div>
 
         <% } %>
-
-      </div>
+      
     </div>
   </div>
 </section>

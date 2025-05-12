@@ -70,16 +70,22 @@
 		    background-size: cover; /* 배경 이미지가 섹션을 완전히 덮게 만듬 */
 		    background-position: center center; /* 배경 이미지가 섹션 중앙에 맞춰짐 */
 		    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 */
-		    max-width: 1400px;
 		    margin: 0 auto;
+		    max-width: 1400px;
 		    width: 100%;
 		    height: 100%; /* 섹션 높이에 맞게 설정 */
 		    position: relative;
 		}
 		
+		/* 상하단 공간 */
+		.white-space {
+		  background-color: white;
+		  height: 200px; /* 원하는 높이로 조절 */
+		}
+		
 		.overlay {
 		    background: rgba(255, 255, 255, 0.5);
-		    z-index: 1;
+		    z-index: 1;  
 		}
 		
 		.container.pt-5.pb-3 {
