@@ -21,7 +21,6 @@
 					<h2 class="my-5">로그인</h2>
 					
 			        <form class="form-signin" action="processLogin.jsp" method="post">
-   			 		<!-- Tomcat 컨테이너가 처리하는 로그인 서블릿 j_security_check -->
 			            <div class="mb-4">
 		                    <!-- 아이디 입력란 -->
 		                    <div class="form-floating">
