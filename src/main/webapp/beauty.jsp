@@ -15,7 +15,7 @@
     <%@ include file="header.jsp" %>
     
 <!-- 슬라이드 -->
-	<section class="hero">
+	<section class="hero">	
 		<div id="colorCarousel" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-inner">
 		    	<div class="carousel-item active">
@@ -85,18 +85,13 @@
             </div>
         </div>
     </section>
-<!-- 초록칸 -->
+<!-- 지도 -->
     <section class="about-section">
         <div class="container">
-        	<div class="section-title">
+        	<div class="section-title" style="margin-bottom: 0px;">
             	<h2>지도에서 찾기</h2>
             </div>
             <div class="about-content">
-                <!--<div class="about-text">
-                    <p>K-CULTURE 한류 문화에 대한 정보 글 간단히 + 그래프? 같은거 넣으면 좋을듯</p>
-                    <p>ㄹㅇㄹㅇ</p>
-                    <p>ㅇㅈㅇㅈ</p> 
-                </div>-->
           		<jsp:include page="map.jsp" />
             </div>
         </div>
