@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<%@ include file="header.jsp" %>
+    <%@ include file="header.jsp" %>
 
 <!-- 배경 이미지 섹션 -->
 <section class="bg-image">	
@@ -190,7 +190,7 @@
 
 
 
-<%@ include file="footer.jsp" %> 
+	<%@ include file="footer.jsp" %> 
 
 </body>
 </html>

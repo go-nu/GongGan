@@ -31,7 +31,7 @@
 
     <!-- 상품 이미지 섹션 -->
     <div class="container pt-5 pb-3">
-      <h3 class="mb-4 text-start">Skincare</h3>
+      <h3 class="mb-4 text-start"><%=request.getParameter("category") %></h3>
       <div class="row row-cols-1 row-cols-md-4 gy-5 gx-4">
 
         <%
