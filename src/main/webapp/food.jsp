@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%@ page import = "java.util.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,6 +13,7 @@
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./resources/css/food_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  	<script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
 	<script src="./resources/js/swiper-init.js"></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
 						    <a class="nav-link" data-bs-toggle="tab" href="#c3" aria-selected="false" role="tab" tabindex="-1">한식 레시피 공유</a>
 					  	</li>
 				  	  	<li class="nav-item ms-auto" role="presentation">
-			    			<a class="nav-link text-secondary" href="#">more &raquo;</a>
+			    			<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
 			  			</li>
 					</ul>
 					<div id="myTabContent" class="tab-content  min-vh-20 max-vw-60">
@@ -89,11 +91,10 @@
         </div>
     </section>
     
-<!-- 초록칸 -->
+<!-- 체험 활동 -->
     <section class="about-section">
         <div class="container">
          	<div class="section-title">
-         		<a href="#" class="text-primary text-end pe-20">모든 활동 보기</a>
 	      		<h2>이번 주 활동</h2>
 	      		<p>25/5/5 ~ 25/5/12 활동</p>
 	    	</div>
@@ -116,10 +117,10 @@
 			          		<div class="class-card">
 		            			<div class="class-top">
 		            				<img src="./resources/img/<%=rs.getString("img") %>">
-		            				<span class="badge bg-secondary text-light rounded-pill ms-2">D-0</span>
 		            			</div>
 	            				<h3><%=rs.getString("title") %></h3>
-		            			<p><%=rs.getString("act_date") %></p>
+		            			<p class="mb-1"><%=rs.getString("act_date") %></p>
+								<span class="badge d-day-badge ms-3" data-dday='<%=rs.getString("act_date")%>'></span>	
 		          			</div>
 	          			</a>
         			</div>
@@ -138,21 +139,21 @@
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-button-next"></div>
 		    </div>
-
+		    <a href="foodActivity.jsp"  class="text-end mt-3">전체 활동 보기 &raquo;</a>
         </div>
     </section>
     
-<!-- 체험 활동 -->
+<!--  -->
     <section class="class-section">
 		<div class="container">
 			<div class="about-content">
                 <div class="about-text">
-                    <h2>지도</h2>
-                    <p>근처 맛집 어쩌고 저쩌고</p>
-                    <p>좋아요 / 찜 많은 것 몇개만</p>
+                    <h2>내가 만드는 한식</h2>                    
+                    <p>인기 있는 레시피를 모아 봣어요</p>
                 </div>
                 <div class="about-image"></div>
             </div>
+		    <a href="#"  class="text-end mt-3">전체 활동 보기 &raquo;</a>
 	  	</div>
 	</section>	
 	

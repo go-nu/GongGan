@@ -175,5 +175,38 @@ public class CosmeticsRepository {
 	         ex.printStackTrace();
 	     }
 	 }
+	 
+	// 특정 카테고리에서 id를 제외한 관련 상품 가져오기
+	 public ArrayList<Cosmetics> getRelatedCosmetics(String category, int excludeId, int limit) {
+	    ArrayList<Cosmetics> relatedList = new ArrayList<>();
+	    String sql = "SELECT * FROM cosmetics WHERE category = ? AND id != ? LIMIT ?";
+
+	    try (Connection conn = getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setString(1, category);
+	        pstmt.setInt(2, excludeId);
+	        pstmt.setInt(3, limit);
+	        ResultSet rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            Cosmetics c = new Cosmetics();
+	            c.setId(rs.getInt("id"));
+	            c.setName(rs.getString("name"));
+	            c.setBrand(rs.getString("brand"));
+	            c.setPrice(rs.getInt("price"));
+	            c.setMain_ingredient(rs.getString("main_ingredient"));
+	            c.setEffect(rs.getString("effect"));
+	            c.setCategory(rs.getString("category"));
+	            c.setImage_file(rs.getString("image_file"));
+	            c.setLikes(rs.getInt("likes"));
+	            relatedList.add(c);
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+
+	    return relatedList;
+	}
 
 }

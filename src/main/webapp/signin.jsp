@@ -33,7 +33,7 @@
 	<%@ include file="header.jsp"%>
 	<section class="hero">
 		<div class="container">
-			<div class="row align-items-md-stretch   text-center">
+			<div class="row align-items-md-stretch text-center">
 				<h2 class="mt-3 mb-4">회원가입</h2>
 				<form name="newMember" action="processSignin.jsp" method="post"
 					onsubmit="return checkForm()" class="member">

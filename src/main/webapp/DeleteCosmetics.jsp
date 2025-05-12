@@ -36,54 +36,50 @@
       <%
         if (cosmetic != null) {
       %>
-      <form action="process_DeleteCosmetics.jsp" method="post" class="needs-validation" novalidate>
+      <form action="process_DeleteCosmetics.jsp" method="post">
         <input type="hidden" name="id" value="<%= cosmetic.getId() %>">
 
-        <div class="form-row-custom">
-          <div class="form-col">
-            <label class="form-label">제품명</label>
-            <input type="text" class="form-control" value="<%= cosmetic.getName() %>" readonly>
+        <div class="form-left-side">
+          <div class="form-row-custom">
+            <div class="form-col">
+              <label class="form-label">제품명</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getName() %>" readonly>
+            </div>
+            <div class="form-col">
+              <label class="form-label">브랜드</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getBrand() %>" readonly>
+            </div>
           </div>
-          <div class="form-col">
-            <label class="form-label">브랜드</label>
-            <input type="text" class="form-control" value="<%= cosmetic.getBrand() %>" readonly>
+
+          <div class="form-row-custom">
+            <div class="form-col">
+              <label class="form-label">가격</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getPrice() %>" readonly>
+            </div>
+            <div class="form-col">
+              <label class="form-label">카테고리</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getCategory() %>" readonly>
+            </div>
           </div>
-          <div class="form-col">
-            <div id="imagePreviewContainer">
-              <img id="imagePreview" src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" alt="현재 이미지">
+
+          <div class="form-row-custom">
+            <div class="form-col">
+              <label class="form-label">주요 성분</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getMain_ingredient() %>" readonly>
+            </div>
+            <div class="form-col">
+              <label class="form-label">효능</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getEffect() %>" readonly>
             </div>
           </div>
         </div>
-
-        <div class="form-row-custom">
-          <div class="form-col">
-            <label class="form-label">가격</label>
-            <input type="text" class="form-control" value="<%= cosmetic.getPrice() %>" readonly>
+        <div class="preview-container">
+          <div id="imagePreviewContainer">
+            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" style="max-width: 100%; max-height: 100%; object-fit: contain;">
           </div>
-          <div class="form-col">
-            <label class="form-label">카테고리</label>
-            <input type="text" class="form-control" value="<%= cosmetic.getCategory() %>" readonly>
-          </div>
-          <div class="form-col">
-          </div>
+          <label class="form-label">이미지 파일</label>
+          <input type="text" class="form-control" value="<%= cosmetic.getImage_file() %>" readonly>
         </div>
-
-        <div class="form-row-custom">
-		    <div class="form-col">
-		      <label for="main_ingredient" class="form-label">주요 성분</label>
-		      <input type="text" class="form-control" name="main_ingredient" id="main_ingredient" value="<%= cosmetic.getMain_ingredient() %>" required>
-		    </div>
-		    <div class="form-col">
-		      <label for="effect" class="form-label">효능</label>
-		      <input type="text" class="form-control" name="effect" id="effect" value="<%= cosmetic.getEffect() %>" required>
-		    </div>
-		    <div class="form-col preview-container">
-		      <label for="image_file" class="form-label">이미지 파일</label>
-		      <input type="file" class="form-control" name="image_file" id="image_file" accept="image/*" onchange="previewLocalImage(this);">
-		      <div class="form-text">현재 이미지: <%= cosmetic.getImage_file() %></div>
-		    </div>
-		  </div>
-
         <div class="text-end">
           <button type="submit" class="btn btn-danger">삭제</button>
           <a href="beautyList.jsp" class="btn btn-secondary">취소</a>

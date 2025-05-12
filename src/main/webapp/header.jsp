@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./resources/css/header.css">
+</head>
     <header>
         <div class="container">
             <div class="header-content">
@@ -11,7 +14,7 @@
                         <li><a href="beauty.jsp">뷰티 (K-BEAUTY)</a></li>
                         <li><a href="location.jsp">관광지 (LOCATION)</a></li>
                         <!-- 로그인세션 이름: sessionId -->
-                        <% if (session.getAttribute("sessionId") != null) { %>
+                        <% if (session.getAttribute("id") != null) { %>
                             <li><a href="logout.jsp">로그아웃</a></li>
                             <li><a href="mypage.jsp">마이페이지</a></li>
                         <% } else { %>

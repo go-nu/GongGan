@@ -69,18 +69,18 @@ a {
 }
 
 .featured-section {
-    padding: 80px 0;
+    padding: 50px 0 30px;
 }
 
 .section-title {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .section-title h2 {
     font-size: 36px;
     color: #1d3557;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 .section-title p {
@@ -149,51 +149,21 @@ a {
 }
 
 .about-section {
-    padding: 80px 0;
+    padding: 60px 0 80px 0;
     background-color: #f1faee;
 }
 
-.about-content {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-}
-
-.about-text {
-    flex: 1;
-}
-
-.about-text h2 {
-    font-size: 36px;
-    color: #1d3557;
-    margin-bottom: 20px;
-}
-
-.about-text p {
-    margin-bottom: 15px;
-    line-height: 1.6;
-}
-
-.about-image {
-    flex: 1;
-    height: 400px;
-    background-image: url('/api/placeholder/600/400');
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
-}
-
-.community-section {
+.class-section {
     padding: 80px 0;
 }
 
-.community-cards {
+.class-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
-.community-card {
+.class-card {
     background-color: #fff;
     border-radius: 8px;
     padding: 30px;
@@ -201,24 +171,45 @@ a {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.community-icon {
+.class-top {
+	display: inline-block;
     font-size: 40px;
     color: #e63946;
     margin-bottom: 20px;
 }
 
-.community-card h3 {
+.class-top img {
+	width: 100%;
+	display: block;
+}
+
+.nav-tabs {
+	margin-bottom: 15px;
+}
+.board .tab-content .tab-pane p  {
+	margin-left: 20px;
+}
+.class-top span {
+	font-size: 12px;
+}
+
+.class-card .badge {
+	width: 40px;
+	height: 20px;
+}
+
+.class-card h3 {
     font-size: 24px;
     margin-bottom: 15px;
 }
 
-.community-card p {
+.class-card p {
     color: #666;
-    line-height: 1.6;
+	line-height: 1.6;
 }
 
 @media (max-width: 992px) {
-    .category-grid, .community-cards, .footer-content {
+    .category-grid, .class-cards, .footer-content {
         /* grid-template-columns: repeat(2, 1fr); */
         grid-template-columns: 1fr;
     }
@@ -233,7 +224,7 @@ a {
 }
 
 @media (max-width: 768px) {
-    .category-grid, .community-cards, .footer-content {
+    .category-grid, .class-cards, .footer-content {
         grid-template-columns: 1fr;
     }
     
