@@ -41,3 +41,47 @@
 <%
 	}
 %>
+
+
+
+==========================  수정 바람  ===============================
+
+
+
+<sql:setDataSource var="dataSource"
+	url="jdbc:mysql://localhost:3306/semi_projectdb"
+	driver="com.mysql.jdbc.Driver" user="root" password="1234" />
+<sql:query dataSource="${dataSource}" var="resultSet">
+	select * from users where id = ? and password = ?
+	<sql:param value="<%=id%>" />
+	<sql:param value="<%=password%>" />
+</sql:query>
+
+<c:choose>
+	<c:when test="${not empty resultSet.rows}">
+		<%-- 로그인 성공: 세션 저장 후 이동 --%>
+		<c:if test="${not empty resultSet.rows}">
+			<c:set var="user" value="${resultSet.rows[0]}" />
+
+			<c:set scope="session" var="id" value="${user.id}" />
+			<c:set scope="session" var="name" value="${user.name}" />
+			<c:set scope="session" var="gender" value="${user.gender}" />
+			<c:set scope="session" var="birth" value="${user.birth}" />
+			<c:set scope="session" var="email" value="${user.email}" />
+			<c:set scope="session" var="phone" value="${user.phone}" />
+			<c:set scope="session" var="address" value="${user.address}" />
+
+		</c:if>
+		<script>
+			alert("로그인에 성공하였습니다.");
+			location.href = "index.jsp"; // 이동할 페이지
+		</script>
+	</c:when>
+	<c:otherwise>
+		<%-- 로그인 실패 --%>
+		<script>
+			alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+			location.href = "login.jsp";
+		</script>
+	</c:otherwise>
+</c:choose>
