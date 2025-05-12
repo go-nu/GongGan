@@ -88,14 +88,16 @@
 <!-- 초록칸 -->
     <section class="about-section">
         <div class="container">
+        	<div class="section-title">
+            	<h2>지도에서 찾기</h2>
+            </div>
             <div class="about-content">
-                <div class="about-text">
-                    <h2>K-CULTURE</h2>
+                <!--<div class="about-text">
                     <p>K-CULTURE 한류 문화에 대한 정보 글 간단히 + 그래프? 같은거 넣으면 좋을듯</p>
                     <p>ㄹㅇㄹㅇ</p>
-                    <p>ㅇㅈㅇㅈ</p>
-                </div>
-                <div class="about-image"></div>
+                    <p>ㅇㅈㅇㅈ</p> 
+                </div>-->
+          		<jsp:include page="map.jsp" />
             </div>
         </div>
     </section>
