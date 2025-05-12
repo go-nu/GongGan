@@ -18,64 +18,73 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>상품 삭제 확인</title>
+    <title>상품 삭제</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/AddCosmetics_style.css">
-    <script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/CrudCosmetics_style.css">
+    <script src="<%= request.getContextPath() %>/resources/js/imagePreview.js"></script>
 </head>
 <body>
 <%@ include file="header.jsp" %>
 
-<section class="bg-image pt-5">
+<section class="white-space"></section>
+
+<section class="bg-image">
   <div class="overlay">
     <div class="container pt-5 pb-5">
-      <h3 class="mb-4 text-start">상품 삭제 확인</h3>
+      <h2 class="mb-4 text-start">상품 삭제</h2>
       <%
         if (cosmetic != null) {
       %>
-      <form action="process_DeleteCosmetics.jsp" method="post" class="needs-validation" novalidate>
+      <form action="process_DeleteCosmetics.jsp" method="post">
         <input type="hidden" name="id" value="<%= cosmetic.getId() %>">
-        
-        <div class="mb-3">
-          <label class="form-label">제품명</label>
-          <input type="text" class="form-control" value="<%= cosmetic.getName() %>" readonly>
+
+        <div class="form-left-side">
+          <div class="form-row-custom">
+            <div class="form-col">
+              <label class="form-label">제품명</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getName() %>" readonly>
+            </div>
+            <div class="form-col">
+              <label class="form-label">브랜드</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getBrand() %>" readonly>
+            </div>
+          </div>
+
+          <div class="form-row-custom">
+            <div class="form-col">
+              <label class="form-label">가격</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getPrice() %>" readonly>
+            </div>
+            <div class="form-col">
+              <label class="form-label">카테고리</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getCategory() %>" readonly>
+            </div>
+          </div>
+
+          <div class="form-row-custom">
+            <div class="form-col">
+              <label class="form-label">주요 성분</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getMain_ingredient() %>" readonly>
+            </div>
+            <div class="form-col">
+              <label class="form-label">효능</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getEffect() %>" readonly>
+            </div>
+          </div>
         </div>
-        
-        <div class="mb-3">
-          <label class="form-label">브랜드</label>
-          <input type="text" class="form-control" value="<%= cosmetic.getBrand() %>" readonly>
+        <div class="preview-container">
+          <div id="imagePreviewContainer">
+            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+          </div>
+          <label class="form-label">이미지 파일</label>
+          <input type="text" class="form-control" value="<%= cosmetic.getImage_file() %>" readonly>
         </div>
-        
-        <div class="mb-3">
-          <label class="form-label">가격</label>
-          <input type="text" class="form-control" value="<%= cosmetic.getPrice() %>" readonly>
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label">주요 성분</label>
-          <input type="text" class="form-control" value="<%= cosmetic.getMain_ingredient() %>" readonly>
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label">효능</label>
-          <input type="text" class="form-control" value="<%= cosmetic.getEffect() %>" readonly>
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label">카테고리</label>
-          <input type="text" class="form-control" value="<%= cosmetic.getCategory() %>" readonly>
-        </div>
-        
-        <div class="mb-3">
-          <label class="form-label">현재 이미지</label><br>
-          <img src="<%= request.getContextPath() %>/resources/images/<%= cosmetic.getImage_file() %>" alt="제품 이미지" style="max-width: 200px;">
-        </div>
-        
         <div class="text-end">
           <button type="submit" class="btn btn-danger">삭제</button>
           <a href="beautyList.jsp" class="btn btn-secondary">취소</a>
         </div>
+
       </form>
       <%
         } else {
@@ -89,6 +98,8 @@
     </div>
   </div>
 </section>
+
+<section class="white-space"></section>
 
 <%@ include file="footer.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

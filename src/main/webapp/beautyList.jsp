@@ -6,20 +6,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스킨케어리스트</title>
+<title>Cosmetics</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/beautyList_style.css">
-<script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
 </head>
 <body>
 <%@ include file="header.jsp" %>
 
 <!-- 메인 이미지 -->
-<div class="container-fluid p-0 text-center" style="margin-top: 80px; position: relative;">
+<div class="container-fluid p-0 text-center" style="position: relative;">
   <img src="./resources/img/BEAUTY08.jpg" class="img-fluid mx-auto" alt="Your Image Description" style="width: 1400px; height: 600px;">
   <div class="text-overlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 40px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
-    Skincare <br>
     Experience the Secrets of Korean Skincare
   </div>
 </div>
@@ -27,17 +25,14 @@
 
 <!-- 배경 이미지 섹션 -->
 <section class="bg-image">
-  <div class="overlay">
+  <div class="overlay pt-1 pb-1">
 
     <!-- 상품 이미지 섹션 -->
-    <div class="container pt-5 pb-3">
-      <h3 class="mb-4 text-start"><%=request.getParameter("category") %></h3>
-      <div class="row row-cols-1 row-cols-md-4 gy-5 gx-4">
-
+    <div class="container pt-3 pb-3">
         <%
           String category = request.getParameter("category");
           if (category == null || category.trim().equals("")) {
-              category = "스킨케어"; // 기본 카테고리 지정 (원하는 기본값으로 변경)
+              category = "색조화장"; // 기본 카테고리 지정 (원하는 기본값으로 변경)
           }
 
           CosmeticsRepository cosmeticsRepository = CosmeticsRepository.getInstance();
@@ -52,11 +47,15 @@
 
           int startIndex = (currentPage - 1) * itemsPerPage;
           int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-
-          for (int i = startIndex; i < endIndex; i++) {
-              Cosmetics cosmetic = cosmeticsList.get(i);
         %>
 
+        <h3 class="mb-4 text-start"><%= category %></h3>
+        <div class="row row-cols-1 row-cols-md-4 gy-5 gx-4">
+
+          <% for (int i = startIndex; i < endIndex; i++) {
+              Cosmetics cosmetic = cosmeticsList.get(i);
+          %>
+          
         <!-- 카드 -->
         <div class="col">
           <div class="card h-100 shadow-sm border-0" style="height: 300px;">
@@ -92,7 +91,7 @@
         <li class="page-item <%= (currentPage == totalPages) ? "disabled" : "" %>">
           <a class="page-link" href="?category=<%= category %>&page=<%= currentPage + 1 %>">다음</a>
         </li>
-      </ul>
+      </ul>	
     </nav>
 
   </div> <!-- overlay 끝 -->
