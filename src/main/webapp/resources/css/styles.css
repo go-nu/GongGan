@@ -1,0 +1,374 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans KR', 'Arial', sans-serif;
+}
+
+body {
+    background-color: #fafafa;
+    color: #333;
+}
+
+header {
+    background-color: #fff;
+    padding: 20px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e63946;
+}
+
+.logo span {
+    color: #1d3557;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #e63946;
+}
+
+/* 게시판 섹션 스타일 */
+.board-section {
+    padding: 140px 0 80px;
+}
+
+.board-header {
+    margin-bottom: 30px;
+}
+
+.board-header h1 {
+    font-size: 32px;
+    color: #1d3557;
+    margin-bottom: 10px;
+}
+
+.board-header p {
+    color: #666;
+}
+
+.board-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.total-posts {
+    font-size: 16px;
+    color: #666;
+}
+
+.total-posts strong {
+    color: #e63946;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+}
+
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-left: none;
+    font-size: 14px;
+    width: 250px;
+}
+
+.search-btn {
+    padding: 8px 16px;
+    background-color: #1d3557;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+    background-color: #142a43;
+}
+
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.board-table th {
+    background-color: #f1faee;
+    color: #1d3557;
+    padding: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.board-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.board-table tr:last-child td {
+    border-bottom: none;
+}
+
+.board-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.post-number {
+    width: 8%;
+    text-align: center;
+}
+
+.post-title {
+    width: 55%;
+}
+
+.post-author {
+    width: 12%;
+}
+
+.post-date {
+    width: 10%;
+    text-align: center;
+}
+
+.post-views {
+    width: 10%;
+    text-align: center;
+}
+
+.title-link {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.title-link:hover {
+    color: #e63946;
+}
+
+.comment-count {
+    background-color: #e63946;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.new-badge {
+    background-color: #2a9d8f;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.board-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination li a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.pagination li a:hover {
+    background-color: #f1faee;
+}
+
+.pagination li.active a {
+    background-color: #1d3557;
+    color: white;
+}
+
+.write-btn {
+    padding: 10px 20px;
+    background-color: #e63946;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.write-btn:hover {
+    background-color: #c1121f;
+}
+
+footer {
+    background-color: #1d3557;
+    color: white;
+    padding: 50px 0 20px;
+    margin-top: 80px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.footer-column h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 50px;
+    height: 2px;
+    background-color: #e63946;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #a8dadc;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: #fff;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 992px) {
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .board-options {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-container {
+        margin-top: 15px;
+        width: 100%;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    nav ul {
+        display: none;
+    }
+    
+    .board-table th:nth-child(3),
+    .board-table td:nth-child(3),
+    .board-table th:nth-child(5),
+    .board-table td:nth-child(5) {
+        display: none;
+    }
+    
+    .post-title {
+        width: 60%;
+    }
+    
+    .board-footer {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .pagination {
+        margin-top: 20px;
+    }
+}

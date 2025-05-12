@@ -13,6 +13,7 @@
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./resources/css/food_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  	<script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
 	<script src="./resources/js/swiper-init.js"></script>
 </head>
 <body>
@@ -57,7 +58,7 @@
 						    <a class="nav-link" data-bs-toggle="tab" href="#c3" aria-selected="false" role="tab" tabindex="-1">한식 레시피 공유</a>
 					  	</li>
 				  	  	<li class="nav-item ms-auto" role="presentation">
-			    			<a class="nav-link text-secondary" href="#">more &raquo;</a>
+			    			<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
 			  			</li>
 					</ul>
 					<div id="myTabContent" class="tab-content  min-vh-20 max-vw-60">
@@ -119,8 +120,7 @@
 		            			</div>
 	            				<h3><%=rs.getString("title") %></h3>
 		            			<p class="mb-1"><%=rs.getString("act_date") %></p>
-		            			<span class="badge bg-secondary text-light rounded-pill ms-2">D-0</span>
-
+								<span class="badge d-day-badge ms-3" data-dday='<%=rs.getString("act_date")%>'></span>	
 		          			</div>
 	          			</a>
         			</div>

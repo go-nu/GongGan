@@ -116,7 +116,7 @@
 				          		<p class="card-text"><%=rsS.getString("note")%></p>
 				        		</div>
 				        		<div class="card-footer bg-white border-0 text-end">
-				          			<a href="#" class="btn btn-sm btn-outline-primary">예약하기</a>
+				          			<a href="reservation.jsp?act_id=<%=rsS.getString("act_id")%>" class="btn btn-sm btn-outline-primary">예약하기</a>
 				        		</div>
 				      		</div>
 				    	</div>

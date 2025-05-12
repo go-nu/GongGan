@@ -153,14 +153,14 @@ public class BoardDAO {
 		}
 
     
-    //member 테이블에서 인증된 id의 사용자명 가져오기
+    //users 테이블에서 인증된 id의 사용자명 가져오기
     public String getLoginNameById(String id) {
        Connection conn = null;
        PreparedStatement pstmt = null;
        ResultSet rs = null;   
 
        String name=null;
-       String sql = "select * from member where id = ? ";
+       String sql = "select * from users where id = ? ";
 
        try {
           conn = DBConnection.getConnection();

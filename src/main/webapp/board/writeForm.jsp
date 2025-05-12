@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
-   String id = (String) request.getAttribute("id");
+   String id = (String) session.getAttribute("id");
    
 %>
 <html>

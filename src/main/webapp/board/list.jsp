@@ -5,7 +5,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.util.List"%>
 <%
-    String sessionId = (String) session.getAttribute("sessionId");
+    String sessionId = (String) session.getAttribute("id");
 	List boardList = (List) request.getAttribute("boardList");	
 	int total_record = ((Integer) request.getAttribute("totalPosts")).intValue();
 	int pageNum = ((Integer) request.getAttribute("currentPage")).intValue();
@@ -17,16 +17,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K-Food Guide - 커뮤니티 게시판</title>
-    <link rel="stylesheet" href="./resources/./css/styles.css">
+    <link rel="stylesheet" href="./resources/css/styles.css">
     <script type="text/javascript">
-    var sessionId = "<%= session.getAttribute("sessionId") != null ? session.getAttribute("sessionId") : "" %>";
+    var id = "<%= session.getAttribute("id") != null ? session.getAttribute("id") : "" %>";
     
-    function checkForm() {   
-        if ("${sessionId}" == "") {
+    function checkForm() {
+        if ("${id}" == "") {
             alert("로그인 해주세요.");
             return false;
         }
-        location.href = "./BoardWriteForm.do?id=${sessionId}";
+        location.href = "./BoardWriteForm.do?id=${id}";
     }
     </script>
 </head>

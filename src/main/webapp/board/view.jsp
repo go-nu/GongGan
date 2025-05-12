@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%
-    String sessionId = (String) session.getAttribute("sessionId");
-%>
 <%@ page import="mvc.model.BoardDTO"%>
 <%
 	BoardDTO notice = (BoardDTO) request.getAttribute("board");
@@ -17,7 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>K-Food Guide - 게시글 상세보기</title>
-    <link rel="stylesheet" href="./resources/./css/styles.css">
+    <link rel="stylesheet" href="./resources/css/styles.css">
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
     <script type="text/javascript">
         function confirmDelete() {
@@ -65,6 +62,10 @@
 	                            <span class="count">${board.liking}</span>
 	                        </div>
 	                        <div class="btn-group">
+	                        	<%
+								    String sessionId = (String) session.getAttribute("id");
+								    pageContext.setAttribute("sessionId", sessionId);
+								%>
 	                            <c:if test="${sessionId == board.id}">
 	                                <a href="./BoardUpdateAction.do?num=${board.num}&pageNum=${page}" class="btn btn-outline-primary btn-sm">수정</a>
 	                                <a href="./BoardDeleteAction.do?num=${board.num}&pageNum=${page}" 
@@ -97,7 +98,7 @@
 	                        </ul>
 	                    </c:if>
 	
-	                    <c:if test="${not empty sessionId}">
+	                    <c:if test="${not empty sessionId}">	
 	                        <form action="CommentWriteAction.do" method="post" class="mt-3">
 	                            <input type="hidden" name="boardNum" value="${board.num}">
 	                            <input type="hidden" name="pageNum" value="${page}">
