@@ -24,7 +24,7 @@
 	java.sql.Timestamp timestamp = new java.sql.Timestamp(currentDatetime.getTime());	
 %>
 <sql:setDataSource var="dataSource"
-url="jdbc:mysql://localhost:3306/semi_projectdb"
+url="jdbc:mysql://localhost:3306/fs_semi"
 driver="com.mysql.jdbc.Driver" user="root" password="1234" />
 <sql:update dataSource="${dataSource}" var="resultSet">
 	insert into users values(?,?,?,?,?,?,?,?,?)
