@@ -3,15 +3,13 @@
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<%@ include file="dbconn.jsp" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String name = request.getParameter("name");
 	String phone = request.getParameter("phone");
 	request.setAttribute("name", name);
 %>
-<sql:setDataSource var="dataSource"
-url="jdbc:mysql://localhost:3306/semi_projectdb"
-driver="com.mysql.jdbc.Driver" user="root" password="1234" />
 <sql:query dataSource="${dataSource}" var="result">
 	select id from users where name = ? and phone = ?
 	<sql:param value="<%=name%>" />
