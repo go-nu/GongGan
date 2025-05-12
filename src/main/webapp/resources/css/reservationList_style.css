@@ -1,0 +1,206 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #fafafa;
+            color: #333;
+        }
+        
+        header {
+            background-color: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e63946;
+        }
+        
+        .logo span {
+            color: #1d3557;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #e63946;
+        }
+        
+        
+        /* 배경 이미지 섹션 */
+		.bg-image {
+			position: relative; 
+		    background-image: url('../img/slideimg02.jpg'); /* 배경 이미지 */
+		    background-size: cover; /* 배경 이미지가 섹션을 완전히 덮게 만듬 */
+		    background-position: center center; /* 배경 이미지가 섹션 중앙에 맞춰짐 */
+		    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 */
+		    max-width: 1400px;
+		    margin: 0 auto;
+		    width: 100%;
+		    height: 100%; /* 섹션 높이에 맞게 설정 */
+		    position: relative;
+		}
+		
+		.overlay {
+		    background: rgba(0, 0, 0, 0.5);
+		    z-index: 1;
+		}
+		
+		.container.pt-5.pb-3 {
+    		margin-top: 50px; /* 카드 섹션을 아래로 내리기 위해 top margin을 설정 */
+    		color : #fff;
+		}
+				 
+        .card-img-top {
+		  height: 300px;         /* 원하는 고정 높이 */
+		  object-fit: cover;     /* 이미지 비율 유지하며 채우기 */
+		  padding: 10px;            /* 이미지 안쪽 여백 */
+		  background-color: white;  /* 테두리 효과용 */
+		  border-radius: 8px;
+		}
+		
+		.card-img-top2 {
+		  height: 250px;         /* 원하는 고정 높이 */
+		  object-fit: cover;     /* 이미지 비율 유지하며 채우기 */
+		  margin: 10px;
+  		  border: 3px solid white;   /* 실제 흰색 테두리 */
+          border-radius: 8px;
+		}
+		
+		.d-flex {
+		  display: flex;
+		  align-items: center;  /* h5와 d-day 배지를 세로로 중앙 정렬 */
+		}
+		
+		.d-day-badge {
+		  font-size: 1rem;  /* 배지 글자 크기 조정 */
+  		  padding: 0.25em 0.6em;  /* 배지의 내부 여백 조정 */
+		  margin-left: 10px;  /* 왼쪽 여백을 주어 h5와 간격을 조정 */
+    	  display: inline-flex;  /* 배지가 flex로 처리되도록 */
+    	  align-items: center;  /* 세로 중앙 정렬 */
+		}
+		        
+          
+        footer {
+            background-color: #1d3557;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 50px;
+            height: 2px;
+            background-color: #e63946;
+        }
+        .footer-column {
+		    display: flex;
+		    flex-direction: column;
+		    align-items: flex-start; /* ← 좌측 정렬 명시 */
+		}
+		
+		.footer-column ul {
+		    padding-left: 0; /* 기본 ul 들여쓰기 제거 */
+		    margin: 0;
+		}
+		
+		.footer-column ul li {
+		    list-style: none;
+		    margin-bottom: 10px;
+		}
+		        
+        .footer-column ul li a {
+            color: #a8dadc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #fff;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 992px) {
+            .food-grid, .community-cards, .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .food-grid, .community-cards, .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+        }
