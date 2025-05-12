@@ -11,7 +11,7 @@ public class DBconn {
 		
 		Connection conn = null;		
 	
-		String url = "jdbc:mysql://localhost:3306/semi_projectdb";
+		String url = "jdbc:mysql://localhost:3306/fs_semi";
 		String user = "root";
 		String password = "1234";
 

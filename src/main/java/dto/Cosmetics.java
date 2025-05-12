@@ -16,21 +16,13 @@ public class Cosmetics implements Serializable {
 		private String image_file; 	// 이미지파일
 		private int likes; 	        // 좋아요
 		
-		
-		
-		
-
 		public Cosmetics() {
 		        super();
 		}
-
 		public Cosmetics(String name) {
 	        super();
 	        this.name = name;
 		}
-		 
-		
-		
 		
 		public int getId() {
 			return this.id;

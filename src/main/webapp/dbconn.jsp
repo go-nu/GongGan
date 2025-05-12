@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <sql:setDataSource var="dataSource"
     driver="com.mysql.cj.jdbc.Driver"
-    url="jdbc:mysql://localhost:3306/semi_projectdb"
+    url="jdbc:mysql://localhost:3306/fs_semi"
     user="root"
     password="1234" />
 <%
@@ -11,7 +11,7 @@
 
     try {
         // 데이터베이스 연결
-        String url = "jdbc:mysql://localhost:3306/semi_projectdb?serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/fs_semi?serverTimezone=UTC";
         String user = "root";
         String password = "1234";
         

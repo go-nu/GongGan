@@ -13,7 +13,6 @@
 <body>
 <%@ include file="header.jsp" %>
 
-
 <!-- 배경 이미지 섹션 -->
 <section class="bg-image pt-5">
   <div class="overlay">

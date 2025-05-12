@@ -9,7 +9,7 @@
     <title>[사이트 이름]</title>
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./resources/css/index_style.css">
+    <link rel="stylesheet" href="./resources/css/food_style.css">
 </head>
 <body>
     <%@ include file="header.jsp" %>

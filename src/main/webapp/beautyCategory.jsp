@@ -51,7 +51,7 @@
     <div class="container pt-5 pb-3">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="text-start mb-0"><%= categoryName %></h3>
-        <a href="beautyList.jsp" class="btn btn-sm btn-outline-secondary">
+        <a href="beautyList.jsp?category=<%= categoryName %>" class="btn btn-sm btn-outline-secondary">
           더보기(More)
         </a>
       </div>

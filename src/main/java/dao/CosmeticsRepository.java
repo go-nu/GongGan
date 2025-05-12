@@ -23,7 +23,7 @@ public class CosmeticsRepository {
 	         throw new SQLException("MySQL JDBC 드라이버를 로드할 수 없습니다.");
 	     }
 		 
-        String url = "jdbc:mysql://localhost:3306/semi?serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/fs_semi?serverTimezone=UTC";
         String user = "root";
         String password = "1234";
         return DriverManager.getConnection(url, user, password);

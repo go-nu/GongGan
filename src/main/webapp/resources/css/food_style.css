@@ -256,7 +256,6 @@ nav ul li a:hover {
 }
 
 .class-top {
-	position: relative;
 	display: inline-block;
     font-size: 40px;
     color: #e63946;
@@ -278,12 +277,9 @@ nav ul li a:hover {
 	font-size: 12px;
 }
 
-.class-top .badge {
+.class-card .badge {
 	width: 40px;
 	height: 20px;
-	position: absolute;
-	top: -10px;
-	right: -15px;
 }
 
 .class-card h3 {
@@ -293,7 +289,7 @@ nav ul li a:hover {
 
 .class-card p {
     color: #666;
-    line-height: 1.6;
+	line-height: 1.6;
 }
 
 footer {
