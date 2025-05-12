@@ -14,12 +14,16 @@
 <script src="./resources/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="./resources/css/rsv_style.css">
 </head>
-
+<style>
+	.right-info p{
+		font-size: 18px;
+	}
+</style>
 <body>
 <%@ include file="header.jsp"%>
 <%@ include file="dbconn.jsp" %>
-<div class="container py-5 mt-5">
 
+<div class="container py-5 mt-5">
 	<!-- 화장품 정보 -->
 	<div class="reserve-section mt-5 mb-4 px-5">
 		<%
@@ -38,7 +42,7 @@
 
 		<!-- 오른쪽 정보 -->
 		<div class="right-info">
-			<h3 class="pb-2"><b><%= c.getName() %></b></h3>
+			<h3 class="pb-3"><b><%= c.getName() %></b></h3>
 			<p><strong>브랜드 :</strong> <%= c.getBrand() %></p>
 			<p><strong>가격 :</strong> <%= c.getPrice() %>원</p>
 			<p><strong>메인성분 :</strong> <%= c.getMain_ingredient() %></p>
@@ -50,53 +54,63 @@
 		%>
 		</div>
 	</div>
+</div>
 
-	<!-- 관련 상품(같은 카테고리) -->
-	<h4 class="px-5 mt-5">관련 상품</h4>
-	<div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
-		<div class="carousel-inner">
-			<%
-				List<Cosmetics> relatedList = repo.getRelatedCosmetics(c.getCategory(), c.getId(), 12);
-				int groupSize = 4;
-				int total = relatedList.size();
-				int slideCount = (int) Math.ceil(total / (double) groupSize);
-
-				for (int slide = 0; slide < slideCount; slide++) {
-			%>
-			<div class="carousel-item <%= (slide == 0) ? "active" : "" %>">
-				<div class="row">
-					<%
-						for (int i = slide * groupSize; i < Math.min((slide + 1) * groupSize, total); i++) {
-							Cosmetics r = relatedList.get(i);
-					%>
-					<div class="col-md-3 text-center">
-						<div class="card border-0">
-							<img src="./resources/img/<%= r.getImage_file() %>" class="card-img-top img-fluid" alt="<%= r.getName() %>" style="height: 200px; object-fit: cover;">
-							<div class="card-body">
-								<h6 class="card-title"><%= r.getName() %></h6>
-								<a href="cosmetics_detail.jsp?id=<%= r.getId() %>" class="btn btn-sm btn-outline-primary">상세보기</a>
+<!-- 관련 상품(같은 카테고리) -->
+<section class="about-section" style="padding: 60px 0;">
+	<div class="container">
+		<h3 class="px-5 pb-3">관련 상품</h3>
+		<div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
+			<div class="carousel-inner">
+				<%
+					List<Cosmetics> relatedList = repo.getRelatedCosmetics(c.getCategory(), c.getId(), 12);
+					int groupSize = 4;
+					int total = relatedList.size();
+					int slideCount = (int) Math.ceil(total / (double) groupSize);
+	
+					for (int slide = 0; slide < slideCount; slide++) {
+				%>
+				<div class="carousel-item <%= (slide == 0) ? "active" : "" %>">
+					<div class="row">
+						<%
+							for (int i = slide * groupSize; i < Math.min((slide + 1) * groupSize, total); i++) {
+								Cosmetics r = relatedList.get(i);
+						%>
+						<div class="col-md-3 text-center">
+							<div class="card border-0">
+								<img src="./resources/img/<%= r.getImage_file() %>" class="card-img-top img-fluid" alt="<%= r.getName() %>" style="height: 200px; object-fit: cover;">
+								<div class="card-body">
+									<h6 class="card-title"><%= r.getName() %></h6>
+									<a href="cosmetics_detail.jsp?id=<%= r.getId() %>" class="btn btn-sm btn-outline-primary">상세보기</a>
+								</div>
 							</div>
 						</div>
+						<%
+							}
+						%>
 					</div>
-					<%
-						}
-					%>
 				</div>
+				<%
+					}
+				%>
 			</div>
-			<%
-				}
-			%>
+			<!-- 슬라이드 버튼 -->
+			<button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+				<span class="fa-solid fa-chevron-left fa-2x text-dark"></span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+				<span class="fa-solid fa-chevron-right fa-2x text-dark"></span>
+			</button>
 		</div>
-		<!-- 슬라이드 버튼 -->
-		<button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
-			<span class="fa-solid fa-chevron-left fa-2x text-dark"></span>
-		</button>
-		<button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
-			<span class="fa-solid fa-chevron-right fa-2x text-dark"></span>
-		</button>
 	</div>
+</section>
 
-</div>
+<!-- 공란 -->
+<section class="class-section" style="min-height: 160px;">
+	<div class="container">
+		<!-- 공란 -->
+  	</div>
+</section>	
 
 <%@ include file="footer.jsp"%>
 
