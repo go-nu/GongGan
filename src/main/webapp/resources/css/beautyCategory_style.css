@@ -9,7 +9,9 @@
             background-color: #fafafa;
             color: #333;
         }
-        
+        a {
+			text-decoration: none;
+		}
         header {
             background-color: #fafafa;
             padding: 20px 0;
@@ -66,7 +68,7 @@
         /* 배경 이미지 섹션 */
 		.bg-image {
 			position: relative; 
-		    background-color: #fff; /* 배경 */
+		    /* background-color: #fff; */ /* 배경 */
 		    background-size: cover; /* 배경 이미지가 섹션을 완전히 덮게 만듬 */
 		    background-position: center center; /* 배경 이미지가 섹션 중앙에 맞춰짐 */
 		    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 */
@@ -78,16 +80,19 @@
 		}
 		
 		.overlay {
-		    background: rgba(255, 255, 255, 0.5);
+		    /* background: rgba(255, 255, 255, 0.5); */
 		    z-index: 1;
 		}
 		
 		.container.pt-5.pb-3 {
     		color : #1d3557;
 		}
-				
-			
-          
+		
+		.about-section {
+		    padding: 60px 0 80px 0;
+		    background-color: #f1faee;
+		} 
+		
         footer {
             background-color: #1d3557;
             color: white;

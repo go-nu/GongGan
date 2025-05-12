@@ -94,7 +94,6 @@
     <section class="about-section">
         <div class="container">
          	<div class="section-title">
-         		<a href="#" class="text-primary text-end pe-20">모든 활동 보기</a>
 	      		<h2>이번 주 활동</h2>
 	      		<p>25/5/5 ~ 25/5/12 활동</p>
 	    	</div>
@@ -144,6 +143,7 @@
 								    long diffDays = diffMillis / (24 * 60 * 60 * 1000);
 								%>
 								<span class="badge bg-secondary text-light rounded-pill ms-2">D-<%=diffDays %></span>
+
 		          			</div>
 	          			</a>
         			</div>
@@ -162,7 +162,7 @@
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-button-next"></div>
 		    </div>
-
+		    <a href="foodActivity.jsp"  class="text-end mt-3">전체 활동 보기 &raquo;</a>
         </div>
     </section>
     
@@ -171,12 +171,12 @@
 		<div class="container">
 			<div class="about-content">
                 <div class="about-text">
-                    <h2>지도</h2>
-                    <p>근처 맛집 어쩌고 저쩌고</p>
-                    <p>좋아요 / 찜 많은 것 몇개만</p>
+                    <h2>내가 만드는 한식</h2>                    
+                    <p>인기 있는 레시피를 모아 봣어요</p>
                 </div>
                 <div class="about-image"></div>
             </div>
+		    <a href="#"  class="text-end mt-3">전체 활동 보기 &raquo;</a>
 	  	</div>
 	</section>	
 	
