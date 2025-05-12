@@ -119,30 +119,7 @@
 		            			</div>
 	            				<h3><%=rs.getString("title") %></h3>
 		            			<p class="mb-1"><%=rs.getString("act_date") %></p>
-		            			<%
-								    String actDateStr = rs.getString("act_date");
-								
-								    // SimpleDateFormat은 두 자릿수 연도("25")를 2025로 해석하게 패턴 지정 필요
-								    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yy/MM/dd HH:mm");
-								    java.util.Date actDate = sdf.parse(actDateStr);
-
-								    java.util.Calendar today = java.util.Calendar.getInstance();
-								    today.set(java.util.Calendar.HOUR_OF_DAY, 0);
-								    today.set(java.util.Calendar.MINUTE, 0);
-								    today.set(java.util.Calendar.SECOND, 0);
-								    today.set(java.util.Calendar.MILLISECOND, 0);
-
-								    java.util.Calendar actCal = java.util.Calendar.getInstance();
-								    actCal.setTime(actDate);
-								    actCal.set(java.util.Calendar.HOUR_OF_DAY, 0);
-								    actCal.set(java.util.Calendar.MINUTE, 0);
-								    actCal.set(java.util.Calendar.SECOND, 0);
-								    actCal.set(java.util.Calendar.MILLISECOND, 0);
-								    
-								    long diffMillis = actCal.getTimeInMillis() - today.getTimeInMillis();
-								    long diffDays = diffMillis / (24 * 60 * 60 * 1000);
-								%>
-								<span class="badge bg-secondary text-light rounded-pill ms-2">D-<%=diffDays %></span>
+		            			<span class="badge bg-secondary text-light rounded-pill ms-2">D-0</span>
 
 		          			</div>
 	          			</a>
