@@ -31,7 +31,7 @@
         <!-- 상품 카드 -->
         <div class="col">
           <div class="card h-100 shadow-sm border-0">
-            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" class="card-img-top" alt="<%= cosmetic.getName() %>" style="height: 200px; object-fit: cover;">
+            <img src="<%= request.getContextPath() %>./resources/img/<%= cosmetic.getImage_file() %>" class="card-img-top" alt="<%= cosmetic.getName() %>" style="height: 200px; object-fit: cover;">
             <div class="card-body p-2 text-center">
               <h5 class="card-title mb-2"><%= cosmetic.getName() %></h5>
               <div class="d-flex justify-content-center gap-2">
