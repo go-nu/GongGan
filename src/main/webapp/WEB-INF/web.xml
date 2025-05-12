@@ -1,7 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app>
-   	<error-page>
-   		<error-code>404</error-code>
-   		<location>/exceptionNoPage.jsp</location>
-   	</error-page>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+                             http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <!-- 서블릿 설정 -->
+    <servlet>
+        <servlet-name>BoardController</servlet-name>
+        <servlet-class>mvc.controller.BoardController</servlet-class>
+    </servlet>
+
+    <!-- 서블릿 URL 매핑 -->
+    <servlet-mapping>
+        <servlet-name>BoardController</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+    <!-- 기본 시작 페이지 설정 (필요 시 주석 해제) -->
+    <!--
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    -->
+
+    <!-- 로그인 설정 -->
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/login.jsp</form-login-page>
+            <form-error-page>/login_failed.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <!-- 에러 페이지 설정 -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/exceptionNoPage.jsp</location>
+    </error-page>
+    
+    <!-- 게시글 수정 폼 -->
+	<servlet-mapping>
+	    <servlet-name>BoardController</servlet-name>
+	    <url-pattern>/BoardUpdateForm.do</url-pattern>
+	</servlet-mapping>
+
 </web-app>
