@@ -19,9 +19,28 @@
 	.list-group-item {
 	  cursor: pointer;
 	}
-
+	
+	/* 목록 아이템 테두리 간소화 */
+	#oliveList .list-group-item {
+	  border-left: none;
+	  border-top: none;
+	  border-right: none;
+	  border-bottom: 1px solid #ddd;
+  	  border-left: 1px solid #ddd;
+  	  border-right: 1px solid #ddd;
+	  border-radius: 0;
+	}
+	
+	/* 목록 박스 스크롤 및 테두리 */
+	#oliveList {
+	  height: 500px;            /* 지도 높이와 맞춤 */
+	  overflow-y: auto;         /* 세로 스크롤 자동 생성 */
+	  border: none;
+	  border-top: 1px solid #ddd;
+	  border-radius: 0;
+	}
 </style>
-
+<!-- 메인 컨테이너 -->
 <div class="container mt-5 py-5 d-flex flex-column align-items-center">
 	<div class="row justify-content-center w-100">
 		<!-- 왼쪽: 목록 -->
@@ -30,10 +49,10 @@
 			<ul class="list-group" id="oliveList" style="margin-top: 20px;"></ul>
 		</div>
 	
-		<!-- 오른쪽: 지도 및 검색 UI 포함 -->
+		<!-- 오른쪽: 지도와 검색 옵션 -->
 		<div class="col-md-9 position-relative">
 			<div class="map-wrapper" style="width: 800px; margin: 0 auto;">
-				<!-- 드롭박스 + 버튼 -->
+				<!-- 카테고리 및 지역 선택 -->
 				<div class="d-flex gap-2 justify-content-end mb-3" style="background-color: transparent;">
 					<select id="categorySelect" class="form-select form-select-sm" style="width: 200px; height: 32px;">
 					  	<option value="전체">전체</option>
@@ -46,6 +65,8 @@
 					  	<option value="홍대">홍대</option>
 					  	<option value="DDP">DDP</option>
 					</select>
+					
+					<!-- 검색 버튼 -->
 					<button id="searchBtn" class="btn btn-sm btn-primary"
 					        style="width: 80px; height: 32px; line-height: 1.5; padding: 0 10px; 
 					        background-color: #0d6efd; border-color: #0d6efd;">검색</button>
@@ -59,6 +80,7 @@
 </div>
 
 <script>
+//지점 데이터 (지역별, 브랜드별)
 const storeData = {
 	'강남': {
 		'올리브영': [
@@ -105,11 +127,12 @@ const storeData = {
 		      { name: '올리브영 광흥창역점', lat: 37.5498134, lng: 126.9314523, address: '서울시 마포구 상수동' }
 		    ],
 		    '다이소': [
+		      { name: '다이소 홍대2호점', lat: 37.5578486, lng: 126.9255463, address: '서울시 마포구 동교동' },
 		      { name: '다이소 홍대입구점', lat: 37.5544355, lng: 126.922117, address: '서울시 마포구 동교동' },
 		      { name: '다이소 합정동점', lat: 37.5483249, lng: 126.9172999, address: '서울시 마포구 동교동' },
-		      { name: '다이소 홍대2호점', lat: 37.5578486	, lng: 126.9255463, address: '서울시 마포구 동교동' },
-		      { name: '다이소 합정동점', lat: 37.5483249	, lng: 126.9172999, address: '서울시 마포구 합정동' },
-		      { name: '다이소 신촌본점', lat: 37.5553011	, lng: 126.9355299, address: '서울시 마포구 노고산동' }
+		      { name: '다이소 연희동점', lat: 37.5657777, lng: 126.9298108, address: '서울시 서대문구 연희동' },
+		      { name: '다이소 신촌명물거리점', lat: 37.55825, lng: 126.9380507, address: '서울시 서대문구 창천동' },
+		      { name: '다이소 신촌본점', lat: 37.5553011, lng: 126.9355299, address: '서울시 마포구 노고산동' }
 		    ]
 		  },
 		  'DDP': {
@@ -133,101 +156,110 @@ const storeData = {
 let map, markers = [];
 let currentOpenInfo = null;
 
+//지도 초기화
 function initMap(centerLatLng) {
-  if (!map) {
-    map = new naver.maps.Map('map', {
-      center: centerLatLng,
-      zoom: 15
-    });
-  } else {
-    map.setCenter(centerLatLng);
-  }
+	if (!map) {
+	  	map = new naver.maps.Map('map', {
+	    	center: centerLatLng,
+	    	zoom: 15
+	  	});
+	} else {
+	  	map.setCenter(centerLatLng);
+	}
 }
 
+//모든 마커 제거
 function clearMarkers() {
-  markers.forEach(({ marker }) => marker.setMap(null));
-  markers = [];
+  	markers.forEach(({ marker }) => marker.setMap(null));
+  	markers = [];
 }
 
+//마커 추가 및 InfoWindow 연결
 function addMarker(store, category) {
-  const position = new naver.maps.LatLng(store.lat, store.lng);
-  const marker = new naver.maps.Marker({
-    position,
-    map,
-    title: store.name,
-    icon: {
-      url: category === '올리브영' ? './resources/img/oliveyoung.png' : './resources/img/daiso.png',
-      size: new naver.maps.Size(30, 30),
-      scaledSize: new naver.maps.Size(30, 30),
-      anchor: new naver.maps.Point(15, 40)
-    }
-  });
+	const position = new naver.maps.LatLng(store.lat, store.lng);
+	const marker = new naver.maps.Marker({
+	  	position,
+	  	map,
+	  	title: store.name,
+	  	icon: {
+	    	url: category === '올리브영' ? './resources/img/oliveyoung.png' : './resources/img/daiso.png',
+	    	size: new naver.maps.Size(30, 30),
+	    	scaledSize: new naver.maps.Size(30, 30),
+	    	anchor: new naver.maps.Point(15, 40)
+	  	}
+	});
 
-  const infoWindow = new naver.maps.InfoWindow({
-    content: `
-    	<div style="padding: 10px; 
+	// 정보창 생성
+	const infoWindow = new naver.maps.InfoWindow({
+	  	content: `
+	  		<div style="padding: 10px; 
 			font-size: 14px;
-	        border: 1px solid #ccc;
-	        border-radius: 10px;
-	        background-color: white;
-	        box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-	        <strong>\${store.name}</strong><br>\${store.address}</div>`,
-    maxWidth: 250
-  });
+	       	border-radius: 10px;
+	       	background-color: white;
+	       	box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+	      	color: #000;">
+	       	<strong>\${store.name}</strong><br>\${store.address}</div>`,
+	  	maxWidth: 250,
+	  	borderWidth: 0
+	});
 
-  marker.addListener('click', () => {
-    if (currentOpenInfo === infoWindow) {
-      infoWindow.close();
-      currentOpenInfo = null;
-    } else {
-      if (currentOpenInfo) currentOpenInfo.close();
-      infoWindow.open(map, marker);
-      currentOpenInfo = infoWindow;
-    }
-  });
+	// 마커 클릭 시 InfoWindow 토글
+	marker.addListener('click', () => {
+	  	if (currentOpenInfo === infoWindow) {
+	    	infoWindow.close();
+	    	currentOpenInfo = null;
+	  	} else {
+	    	if (currentOpenInfo) currentOpenInfo.close();
+	    	infoWindow.open(map, marker);
+	    	currentOpenInfo = infoWindow;
+	  	}
+	});
 
-  markers.push({ name: store.name, marker, infoWindow });
+  	markers.push({ name: store.name, marker, infoWindow });
 }
 
+//지점 목록 및 마커 렌더링
 function renderStores(region, category) {
-  const oliveList = document.getElementById('oliveList');
-  oliveList.innerHTML = '';
-  clearMarkers();
+	const oliveList = document.getElementById('oliveList');
+	oliveList.innerHTML = '';
+	clearMarkers();
+	
+	const categoriesToShow = category === '전체' ? ['올리브영', '다이소'] : [category];
+	const allStores = [];
 
-  const categoriesToShow = category === '전체' ? ['올리브영', '다이소'] : [category];
-  const allStores = [];
-
-  categoriesToShow.forEach(cat => {
-    if (storeData[region][cat]) {
-      storeData[region][cat].forEach(store => {
-        allStores.push(store);
-
-        const li = document.createElement('li');
-        li.className = 'list-group-item';
-        li.innerHTML = `
-          <div style="font-weight: 600;">\${store.name}</div>
-          <div style="font-size: 0.9em; color: gray;">\${store.address}</div>
-        `;
-
-        li.addEventListener('click', () => {
-          const target = markers.find(m => m.name === store.name);
-          if (target) {
-            if (currentOpenInfo === target.infoWindow) {
-              target.infoWindow.close();
-              currentOpenInfo = null;
-            } else {
-              if (currentOpenInfo) currentOpenInfo.close();
-              target.infoWindow.open(map, target.marker);
-              currentOpenInfo = target.infoWindow;
-            }
-          }
-        });
-
-        oliveList.appendChild(li);
-        addMarker(store, cat);
-      });
-    }
-  });
+	categoriesToShow.forEach(cat => {
+		if (storeData[region][cat]) {
+			storeData[region][cat].forEach(store => {
+			  	allStores.push(store);
+			
+			 	// 목록 항목 생성
+			  	const li = document.createElement('li');
+			  	li.className = 'list-group-item';
+			  	li.innerHTML = `
+			    	<div style="font-weight: 600;">\${store.name}</div>
+			    	<div style="font-size: 0.9em; color: gray;">\${store.address}</div>
+			  	`;
+				
+			  	// 목록 클릭 시 마커 연동
+			  	li.addEventListener('click', () => {
+			    	const target = markers.find(m => m.name === store.name);
+			    	if (target) {
+			      		if (currentOpenInfo === target.infoWindow) {
+			        		target.infoWindow.close();
+			        		currentOpenInfo = null;
+				      	} else {
+				        	if (currentOpenInfo) currentOpenInfo.close();
+				        		target.infoWindow.open(map, target.marker);
+				        		currentOpenInfo = target.infoWindow;
+				      	}
+			    	}
+			  });
+			
+			  oliveList.appendChild(li);
+			  addMarker(store, cat);
+			});
+		}
+	});
 
 	if (allStores.length > 0) {
 		const center = new naver.maps.LatLng(allStores[0].lat, allStores[0].lng);
@@ -237,12 +269,14 @@ function renderStores(region, category) {
 	}
 }
 
+//검색 버튼 클릭 시 매장 렌더링
 document.getElementById('searchBtn').addEventListener('click', () => {
 	const category = document.getElementById('categorySelect').value;
 	const legion = document.getElementById('legionSelect').value;
 	renderStores(legion, category);
 });
 
+//초기 지도 및 목록 로딩
 window.onload = function () {
 	document.getElementById('categorySelect').value = '전체';
 	document.getElementById('legionSelect').value = '강남';
