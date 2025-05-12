@@ -1,0 +1,254 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #fafafa;
+            color: #333;
+        }
+        
+        header {
+            background-color: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e63946;
+        }
+        
+        .logo span {
+            color: #1d3557;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #e63946;
+        }
+        
+        .hero {
+        	width: 100%;
+        	height: 830px;
+		    background-image: url('../img/slideimg02.jpg'); /* 배경 이미지 경로를 넣어주세요 */
+		    background-size: cover; /* 배경 이미지가 hero 섹션을 꽉 채우도록 설정 */
+		    background-position: center; /* 배경 이미지를 가운데로 정렬 */
+		    color: white; /* 텍스트 색상을 흰색으로 설정 (배경이 어두울 경우 잘 보입니다) */
+		    text-align: center; /* 텍스트를 가운데 정렬 */
+		    padding: 100px 0; /* hero 섹션에 상하 여백을 줍니다 */
+		    position: relative; /* hero-content의 absolute 포지셔닝을 위한 기준 */
+		}
+		
+		.hero-content {
+		    position: absolute; /* 텍스트를 hero 섹션 위에 겹치도록 설정 */
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%, -50%); /* 가운데 정렬 */
+		    width: 80%; /* 텍스트 영역의 너비 조정 */
+		}
+		
+		.hero-content h1 {
+		    font-size: 2.5em; /* 제목 글꼴 크기 조정 */
+		    margin-bottom: 20px;
+		}
+		
+		.hero-content p {
+		    font-size: 1.2em; /* 부제목 글꼴 크기 조정 */
+		    margin-bottom: 30px;
+		}
+        
+        .hero_btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #e63946;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .hero_btn:hover {
+            background-color: #c1121f;
+        }
+        
+        .featured-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #1d3557;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+      
+      /* 확대 효과 (2배 확대) */
+	  .hover-zoom {
+	    transition: transform 0.3s ease;
+	  }
+	
+	  .hover-zoom:hover {
+	    transform: scale(2);
+	    z-index: 10;
+	    position: relative;
+	  }
+	
+	  /* 이미지 간격 최소화 */
+	  .film-strip img {
+	    width: 150px;
+	    height: 100px;
+	    object-fit: cover;
+	    margin-right: 4px;
+	  }
+	
+	  .film-strip {
+	    gap: 4px;
+	    justify-content: center; /* 이미지를 가로로 가운데 정렬 */
+	    display: flex;
+	    flex-wrap: wrap;
+	  }
+
+	/* 후기 이미지  */
+	  .review-img {
+        height: 250px;        /* 원하는 고정 높이 */
+        object-fit: cover;    /* 비율 무시하고 꽉 채우되 중심 유지 */
+        width: 100%;          /* 가로는 카드 폭에 맞춤 */
+    }
+
+ 
+      
+        
+        footer {
+            background-color: #1d3557;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 50px;
+            height: 2px;
+            background-color: #e63946;
+        }
+        .footer-column {
+		    display: flex;
+		    flex-direction: column;
+		    align-items: flex-start; /* ← 좌측 정렬 명시 */
+		}
+		
+		.footer-column ul {
+		    padding-left: 0; /* 기본 ul 들여쓰기 제거 */
+		    margin: 0;
+		}
+		
+		.footer-column ul li {
+		    list-style: none;
+		    margin-bottom: 10px;
+		}
+		        
+        .footer-column ul li a {
+            color: #a8dadc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #fff;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 992px) {
+            .food-grid, .community-cards, .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .food-grid, .community-cards, .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+        }
