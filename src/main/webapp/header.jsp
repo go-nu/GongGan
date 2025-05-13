@@ -16,7 +16,7 @@
                         <!-- 로그인세션 이름: sessionId -->
                         <% if (session.getAttribute("id") != null) { %>
                             <li><a href="logout.jsp">로그아웃</a></li>
-                            <li><a href="mypage.jsp">마이페이지</a></li>
+                            <li><a href="MyPage.do">마이페이지</a></li>
                         <% } else { %>
                             <li><a href="login.jsp">로그인</a></li>
                             <li><a href="signin.jsp">회원가입</a></li>

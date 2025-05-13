@@ -7,8 +7,6 @@ import java.sql.DriverManager;
 public class DBconn {
 	
 	public static Connection getConnection() throws SQLException, ClassNotFoundException  {		
-
-		
 		Connection conn = null;		
 	
 		String url = "jdbc:mysql://localhost:3306/fs_semi";
@@ -19,5 +17,5 @@ public class DBconn {
 		conn = DriverManager.getConnection(url, user, password);		
 		
 		return conn;
-		 }
+	}
 }

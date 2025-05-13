@@ -8,13 +8,6 @@
     password="1234" />
 <%
     Connection conn = null;
-
-<<<<<<< HEAD
-   try {
-      String url = "jdbc:mysql://localhost:3306/fs_semi?serverTimezone=UTC";
-      String user = "root";
-      String password = "1234";
-=======
     try {
         // 데이터베이스 연결
         String url = "jdbc:mysql://localhost:3306/fs_semi?serverTimezone=UTC";
@@ -24,7 +17,6 @@
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection(url, user, password);
         request.setAttribute("conn", conn);
->>>>>>> branch 'main' of https://github.com/go-nu/fullstackProjectM.git
 
     } catch (SQLException | ClassNotFoundException ex) {
         out.println("데이터베이스 연결 실패:<br>");

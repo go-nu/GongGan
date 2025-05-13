@@ -31,7 +31,7 @@
 
         <script>
             alert("로그인에 성공하였습니다.");
-            location.href = "index.jsp"; // 로그인 성공 후 이동할 페이지
+            location.href = "index.jsp";
             conn.close();
         </script>
     </c:when>
