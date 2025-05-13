@@ -31,7 +31,7 @@
                     	<li><a href="food.jsp">한식 (K-FOOD)</a></li>
                     	<li><a href="beauty.jsp">뷰티 (K-BEAUTY)</a></li>
                     	<li><a href="location.jsp">관광지 (LOCATION)</a></li>
-                    	<li><a href="logout.jsp">로그인</a></li>
+                    	<li><a href="login.jsp">로그인</a></li>
                         <li><a href="signin.jsp">회원가입</a></li>
                     	<% } %>
                     	
