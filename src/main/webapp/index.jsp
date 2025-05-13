@@ -13,10 +13,36 @@
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./resources/css/index_style.css">
+	<style>
+	.floating-edit-btn {
+		position: fixed;
+		bottom: 30px;
+		right: 30px;
+		z-index: 999;
+		background-color: #007bff;
+		color: white;
+		padding: 12px 18px;
+		border-radius: 30px;
+		text-decoration: none;
+		font-weight: bold;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		transition: background-color 0.3s;
+	}
+	
+	.floating-edit-btn:hover {
+		background-color: #0056b3;
+	}
+	</style>
 </head>
 <body>
     <%@ include file="header.jsp" %>
-    
+    <%
+	if (request.isUserInRole("admin")) {
+	%>
+	    <a href="editPage.jsp?page=index.jsp" class="floating-edit-btn">현재 페이지 수정</a>
+	<%
+	}
+	%>
 <!-- 슬라이드 -->
 	<section class="hero">
 		<div id="colorCarousel" class="carousel slide" data-bs-ride="carousel">
