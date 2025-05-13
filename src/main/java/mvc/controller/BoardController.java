@@ -3,13 +3,12 @@ package mvc.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 import mvc.model.BoardDAO;
 import mvc.model.BoardDTO;
 
@@ -27,10 +26,15 @@ public class BoardController extends HttpServlet {
 	    String contextPath = request.getContextPath();
 	    String command = RequestURI.substring(contextPath.length());
 
-	    response.setContentType("text/html; charset=utf-8");
+	    response.setContentType("text/html; charset=UTF-8");
 	    request.setCharacterEncoding("utf-8");
 
 	    if (command.equals("/BoardListAction.do")) { // 등록된 글 목록 페이지 출력하기
+	        // 🔽 여기에 현재 URL을 세션에 저장하는 코드 추가
+	        HttpSession session = request.getSession();
+	        String loginId = (String) session.getAttribute("id");
+	       
+	        // 로그인된 경우 정상 흐름
 	        requestBoardList(request);
 	        RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
 	        rd.forward(request, response);

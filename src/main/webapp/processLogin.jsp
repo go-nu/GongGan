@@ -28,10 +28,15 @@
         <c:set scope="session" var="email" value="${user.email}" />
         <c:set scope="session" var="phone" value="${user.phone}" />
         <c:set scope="session" var="address" value="${user.address}" />
-
+		<%
+		    String redirectAfterLogin = (String) session.getAttribute("redirectAfterLogin");
+		    if (redirectAfterLogin == null || redirectAfterLogin.contains("login.jsp")) {
+		        redirectAfterLogin = "index.jsp"; // fallback
+		    }
+		%>
         <script>
             alert("로그인에 성공하였습니다.");
-            location.href = "index.jsp";
+            location.href = "<%= redirectAfterLogin %>"
             conn.close();
         </script>
     </c:when>

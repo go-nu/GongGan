@@ -13,6 +13,14 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
+
+<!-- 로그인 후 이전 페이지로 이동 -->
+<%
+    String redirect = request.getParameter("redirect");
+    if (redirect != null && !redirect.contains("login.jsp")) {
+        session.setAttribute("redirectAfterLogin", redirect);
+    }
+%>
 <section class="hero">
 	<div class="container">
 		<div class="row align-items-md-stretch   text-center">
