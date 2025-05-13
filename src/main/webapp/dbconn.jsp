@@ -8,7 +8,7 @@
     password="1234" />
 <%
     Connection conn = null;
-
+    
     try {
         // 데이터베이스 연결
         String url = "jdbc:mysql://localhost:3306/fs_semi?serverTimezone=UTC";

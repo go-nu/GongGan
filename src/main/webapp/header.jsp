@@ -24,7 +24,7 @@
                     	<li><a href="beauty.jsp">뷰티 (K-BEAUTY)</a></li>
                     	<li><a href="location.jsp">관광지 (LOCATION)</a></li>
                     	<li><a href="logout.jsp">로그아웃</a></li>
-                        <li><a href="mypage.jsp">마이페이지</a></li>
+                        <li><a href="MyPage.do">마이페이지</a></li>
                         
                     	<!-- 일반 유저(비로그인)일 때 헤더 메뉴 -->
                     	<%} else {%>
@@ -34,7 +34,6 @@
                     	<li><a href="login.jsp">로그인</a></li>
                         <li><a href="signin.jsp">회원가입</a></li>
                     	<% } %>
-                    	
                 </nav>
             </div>
         </div>

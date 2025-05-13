@@ -67,7 +67,7 @@
 								    pageContext.setAttribute("sessionId", sessionId);
 								%>
 	                            <c:if test="${sessionId == board.id}">
-	                                <a href="./BoardUpdateAction.do?num=${board.num}&pageNum=${page}" class="btn btn-outline-primary btn-sm">수정</a>
+	                                <a href="./BoardUpdateForm.do?num=${board.num}&pageNum=${page}" class="btn btn-outline-primary btn-sm">수정</a>
 	                                <a href="./BoardDeleteAction.do?num=${board.num}&pageNum=${page}" 
 	                                   class="btn btn-outline-danger btn-sm" 
 	                                   onclick="return confirmDelete()">삭제</a>
