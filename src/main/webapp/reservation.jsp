@@ -1,7 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import = "java.util.*" %>
+<%@ page import="mvc.model.BoardDTO"%>
+<%@ page import = "java.util.*, java.text.*, java.sql.*, java.util.Date.*" %>
+<%@ include file="dbconn.jsp" %>
+<%@ include file="header.jsp"%>
+<%
+    String sessionId = (String) session.getAttribute("id");
+    String act_id = request.getParameter("act_id");
+
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+
+    // 예약 요청 처리
+    if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("name") != null) {
+        if (sessionId == null) {
+            out.println("<script>alert('로그인이 필요합니다.'); location.href='login.jsp';</script>");
+            return;
+        }
+
+        String rsv_name = request.getParameter("name");
+        int count = Integer.parseInt(request.getParameter("people"));
+
+        if (conn == null) {
+            out.println("<script>alert('DB 연결 실패'); history.back();</script>");
+            return;
+        }
+        
+        // 현재 예약 수와 최대 수 비교
+        int totalReserved = 0;
+        int maxCount = 0;
+
+        String countSql = "SELECT IFNULL(SUM(count), 0) FROM reservation WHERE act_id = ?";
+        pstmt = conn.prepareStatement(countSql);
+        pstmt.setString(1, act_id);
+        rs = pstmt.executeQuery();
+        if (rs.next()) totalReserved = rs.getInt(1);
+        rs.close(); pstmt.close();
+
+        String maxSql = "SELECT max_count FROM activity WHERE act_id = ?";
+        pstmt = conn.prepareStatement(maxSql);
+        pstmt.setString(1, act_id);
+        rs = pstmt.executeQuery();
+        if (rs.next()) maxCount = rs.getInt(1);
+        rs.close(); pstmt.close();
+
+        if (totalReserved + count > maxCount) {
+            out.println("<script>alert('정원을 초과하였습니다.'); history.back();</script>");
+        } else {
+            // 예약번호 생성 (예: RSV20250513AB12)
+            String datePart = new SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
+            String randPart = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+            String rsvNum = "RSV" + datePart + randPart;
+
+            String insertSql = "INSERT INTO reservation (rsv_num, id, rsv_name, act_id, count) VALUES (?, ?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(insertSql);
+            pstmt.setString(1, rsvNum);
+            pstmt.setString(2, sessionId);
+            pstmt.setString(3, rsv_name);
+            pstmt.setString(4, act_id);
+            pstmt.setInt(5, count);
+            pstmt.executeUpdate();
+            pstmt.close();
+
+            out.println("<script>alert('예약이 완료되었습니다.'); location.href='mypage.jsp';</script>");
+        }
+
+        if (conn != null) conn.close();
+        return;
+    }
+%>
 <html>
 <head>
 <title>예약 상세 페이지</title>
@@ -14,16 +82,12 @@
 </head>
 
 <body>
-<%@ include file="header.jsp"%>
-<%@ include file="dbconn.jsp" %>
+
 <div class="container py-5 mt-5">
 
 	<!-- 예약 정보 -->
 	<div class="reserve-section mt-5 mb-4 px-5">
 		<%
-			String act_id = request.getParameter("act_id");
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
 			String sql = "SELECT * FROM activity WHERE act_id = ?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -31,6 +95,43 @@
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+				
+			String actDateStr = rs.getString("act_date");
+			String formattedActDate = "";
+			try {
+				SimpleDateFormat inputFormat = new SimpleDateFormat("yy/M/d HH:mm");
+				java.util.Date actDate = inputFormat.parse(actDateStr);
+
+				SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				formattedActDate = outputFormat.format(actDate);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			String deadline = "";
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yy/M/d HH:mm");
+				java.util.Date actDate = sdf.parse(actDateStr);
+				java.util.Calendar cal = java.util.Calendar.getInstance();
+				cal.setTime(actDate);
+				cal.add(java.util.Calendar.DATE, -1);
+				SimpleDateFormat dateOnlyFormat = new SimpleDateFormat("yyyy-MM-dd");
+				deadline = dateOnlyFormat.format(cal.getTime());  // 날짜만 출력 (예: 2025-05-08)
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			int currentCount = 0;
+			String countSql = "SELECT SUM(count) FROM reservation WHERE act_id = ?";
+			PreparedStatement countPstmt = conn.prepareStatement(countSql);
+			countPstmt.setString(1, act_id);
+			ResultSet countRs = countPstmt.executeQuery();
+			if (countRs.next()) {
+				currentCount = countRs.getInt(1);
+			}
+			if (countRs != null) countRs.close();
+			if (countPstmt != null) countPstmt.close();
+			
 		%>
 		<!-- 왼쪽 이미지 -->
 		<div class="left-image mb-4 mb-md-0">
@@ -40,9 +141,9 @@
 		<!-- 오른쪽 정보 -->
 		<div class="right-info">
 			<h3 class="pb-2"><b><%=rs.getString("title") %></b><span style="font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;<%=rs.getString("act_id") %></span></h3>
-			<p><strong>체험일자 :</strong> <%=rs.getString("act_date") %></p>
-			<p><strong>마감일자 :</strong> 2025-05-10 (D-3)</p>
-			<p><strong>현재정원 :</strong> 2명 / <%=rs.getInt("max_count") %>명</p>
+			<p><strong>체험일자 :</strong> <%=formattedActDate%></p>
+			<p><strong>마감일자 :</strong> <%=deadline%> 23:59</p>
+			<p><strong>현재정원 :</strong> <%=currentCount%>명 / <%=rs.getInt("max_count") %>명</p>
 			<p><strong>장소 :</strong> <%=rs.getString("address") %></p>
 			<p><strong>설명</strong></p>
 			<p><%=rs.getString("note") %></p>
@@ -57,7 +158,7 @@
 			<!-- 예약하기 섹션 -->
 			<div class="mb-3">
 				<div class="p-4 border">
-					<form action="#" method="post">
+					<form method="post" action="reservation.jsp?act_id=<%=act_id%>">
 						<div class="g-3">
 							<div class="col-md-12">
 								<label for="name" class="form-label">예약자명</label>
@@ -253,7 +354,13 @@
 <%@ include file="footer.jsp"%>
 </body>
 <script>
+	const sessionId = '<%= sessionId != null ? sessionId : "null" %>';
+	// 모달 창
 	function openConfirmModal() {
+		if (!sessionId || sessionId === "null") {
+			alert("예약을 하시려면 먼저 로그인해주세요.");
+			return;
+		}
 		const name = document.getElementById("name").value;
 		const phone = document.getElementById("phone").value;
 		const people = document.getElementById("people").value;
