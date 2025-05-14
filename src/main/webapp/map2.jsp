@@ -41,7 +41,7 @@
 	}
 </style>
 <!-- 메인 컨테이너 -->
-<div class="container mt-5 py-5 d-flex flex-column align-items-center">
+<div class="container py-2 d-flex flex-column align-items-center">
 	<div class="row justify-content-center w-100">
 		<!-- 왼쪽: 목록 -->
 		<div class="col-md-3">
@@ -56,14 +56,11 @@
 				<div class="d-flex gap-2 justify-content-end mb-3" style="background-color: transparent;">
 					<select id="categorySelect" class="form-select form-select-sm" style="width: 200px; height: 32px;">
 					  	<option value="전체">전체</option>
-					  	<option value="올리브영">올리브영</option>
-					  	<option value="다이소">다이소</option>
+					  	<option value="생일카페">생일카페</option>
 					</select>
 					<select id="legionSelect" class="form-select form-select-sm" style="width: 200px; height: 32px;">
-					  	<option value="강남">강남</option>
-					  	<option value="성수">성수</option>
 					  	<option value="홍대">홍대</option>
-					  	<option value="DDP">DDP</option>
+					  	<option value="합정">합정</option>
 					</select>
 					
 					<!-- 검색 버튼 -->
@@ -103,55 +100,66 @@ const storeData = {
 			{ name: '다이소 신논현역점', lat: 37.5043512, lng: 127.0250471, address: '서울시 강남구 역삼동' }
 		]
 	},
-		  '성수': {
-		    '올리브영': [
-		      { name: '올리브영 성수점', lat: 37.545293, lng: 127.0544791, address: '서울시 성동구 성수동2가' },
-		      { name: '올리브영N 성수', lat: 37.5441151, lng: 127.054556, address: '서울시 성동구 성수동2가' },
-		      { name: '올리브영 성수연방점', lat: 37.5416089, lng: 127.056905, address: '서울시 성동구 성수동2가' },
-		      { name: '올리브영 뚝섬역점', lat: 37.5477141, lng: 127.0452712, address: '서울시 성동구 성수동1가' },
-		      { name: '올리브영 서울숲역점', lat: 37.5418696, lng: 127.0449555, address: '서울시 성동구 성수동1가' },
-		      { name: '올리브영 건대커먼그라운드점', lat: 37.5411513, lng: 127.0659498, address: '서울시 광진구 자양동' }
-		      
-		    ],
-		    '다이소': [
-		      { name: '다이소 뚝섬역점', lat: 37.5477545, lng: 127.0451425, address: '서울시 성동구 성수동1가' },
-		      { name: '다이소 건대입구점', lat: 37.5408751	, lng: 127.0684635, address: '서울시 광진구 화양동' }
-		    ]
-		  },
-		  '홍대': {
-		    '올리브영': [
-		      { name: '올리브영 홍대정문점', lat: 37.5531465, lng: 126.9240771, address: '서울시 마포구 서교동' },
-		      { name: '올리브영 홍대사거리점', lat: 37.5548763, lng: 126.9220762, address: '서울시 마포구 동교동' },
-		      { name: '올리브영 홍대타운점', lat: 37.5565733, lng: 126.9243823, address: '서울시 마포구 동교동' },
-		      { name: '올리브영 상수역점', lat: 37.5489633, lng: 126.9226304, address: '서울시 마포구 상수동' },
-		      { name: '올리브영 광흥창역점', lat: 37.5498134, lng: 126.9314523, address: '서울시 마포구 상수동' }
-		    ],
-		    '다이소': [
-		      { name: '다이소 홍대2호점', lat: 37.5578486, lng: 126.9255463, address: '서울시 마포구 동교동' },
-		      { name: '다이소 홍대입구점', lat: 37.5544355, lng: 126.922117, address: '서울시 마포구 동교동' },
-		      { name: '다이소 합정동점', lat: 37.5483249, lng: 126.9172999, address: '서울시 마포구 동교동' },
-		      { name: '다이소 연희동점', lat: 37.5657777, lng: 126.9298108, address: '서울시 서대문구 연희동' },
-		      { name: '다이소 신촌명물거리점', lat: 37.55825, lng: 126.9380507, address: '서울시 서대문구 창천동' },
-		      { name: '다이소 신촌본점', lat: 37.5553011, lng: 126.9355299, address: '서울시 마포구 노고산동' }
-		    ]
-		  },
-		  'DDP': {
-		    '올리브영': [
-		      { name: '올리브영 동대문역사문화공원역점', lat: 37.5670961, lng: 127.0080856, address: '서울시 중구 을지로6가' },
-		      { name: '올리브영 현대시티아울렛동대문점', lat: 37.5689151, lng: 127.0076901, address: '서울시 중구 을지로6가' },
-		      { name: '올리브영 두타점', lat: 37.5688137, lng: 127.0087526, address: '서울시 중구 을지로6가' },
-		      { name: '올리브영 던던동대문점', lat: 37.5688137, lng: 127.0087526, address: '서울시 중구 을지로6가' },
-		      { name: '올리브영 신당역점', lat: 37.5656991, lng: 127.0164491, address: '서울시 중구 흥인동' },
-		      { name: '올리브영 제일제당센터점', lat: 37.5638908, lng: 127.0034354, address: '서울시 중구 쌍림동' }
-		    ],
-		    '다이소': [
-		      { name: '다이소 동대문점', lat: 37.5702861, lng: 127.0099717, address: '서울시 종로구 창신동' },
-		      { name: '다이소 현대시티아울렛동대문점', lat: 37.5689569, lng: 127.0078371, address: '서울시 중구 을지로6가' },
-		      { name: '다이소 동묘점', lat: 37.573444, lng: 127.0161243, address: '서울시 종로구 숭인동' },
-		      { name: '다이소 롯데던던동대문점', lat: 37.565761, lng: 127.0069912, address: '서울시 중구 을지로6가' }
-		    ]
-		  }
-		};
+  	'성수': {
+    	'올리브영': [	
+      		{ name: '올리브영 성수점', lat: 37.545293, lng: 127.0544791, address: '서울시 성동구 성수동2가' },
+      		{ name: '올리브영N 성수', lat: 37.5441151, lng: 127.054556, address: '서울시 성동구 성수동2가' },
+      		{ name: '올리브영 성수연방점', lat: 37.5416089, lng: 127.056905, address: '서울시 성동구 성수동2가' },
+      		{ name: '올리브영 뚝섬역점', lat: 37.5477141, lng: 127.0452712, address: '서울시 성동구 성수동1가' },
+      		{ name: '올리브영 서울숲역점', lat: 37.5418696, lng: 127.0449555, address: '서울시 성동구 성수동1가' },
+      		{ name: '올리브영 건대커먼그라운드점', lat: 37.5411513, lng: 127.0659498, address: '서울시 광진구 자양동' }      
+		],
+		'다이소': [
+      		{ name: '다이소 뚝섬역점', lat: 37.5477545, lng: 127.0451425, address: '서울시 성동구 성수동1가' },
+      		{ name: '다이소 건대입구점', lat: 37.5408751	, lng: 127.0684635, address: '서울시 광진구 화양동' }
+   		]
+  	},
+  	'홍대': {
+    	'올리브영': [
+      		{ name: '올리브영 홍대정문점', lat: 37.5531465, lng: 126.9240771, address: '서울시 마포구 서교동' },
+      		{ name: '올리브영 홍대사거리점', lat: 37.5548763, lng: 126.9220762, address: '서울시 마포구 동교동' },
+      		{ name: '올리브영 홍대타운점', lat: 37.5565733, lng: 126.9243823, address: '서울시 마포구 동교동' },
+      		{ name: '올리브영 상수역점', lat: 37.5489633, lng: 126.9226304, address: '서울시 마포구 상수동' },
+      		{ name: '올리브영 광흥창역점', lat: 37.5498134, lng: 126.9314523, address: '서울시 마포구 상수동' }
+    	],
+    	'다이소': [
+	      	{ name: '다이소 홍대2호점', lat: 37.5578486, lng: 126.9255463, address: '서울시 마포구 동교동' },
+      		{ name: '다이소 홍대입구점', lat: 37.5544355, lng: 126.922117, address: '서울시 마포구 동교동' },
+      		{ name: '다이소 합정동점', lat: 37.5483249, lng: 126.9172999, address: '서울시 마포구 동교동' },
+      		{ name: '다이소 연희동점', lat: 37.5657777, lng: 126.9298108, address: '서울시 서대문구 연희동' },
+      		{ name: '다이소 신촌명물거리점', lat: 37.55825, lng: 126.9380507, address: '서울시 서대문구 창천동' },
+      		{ name: '다이소 신촌본점', lat: 37.5553011, lng: 126.9355299, address: '서울시 마포구 노고산동' }
+    	],
+    	'생일카페': [
+    		{ name: '위밋데얼', lat: 37.552881, lng: 126.921116, address: '블랙핑크 생일 카페'},
+    		{ name: '카페 몽글 하늘점', lat: 37.555150, lng: 126.927174, address: 'BTS 생일 카페'},
+    		{ name: '요고 프로즌요거트 홍대점', lat: 37.555348, lng: 126.928283, address: '데이식스 생일카페'},
+    	]
+  	},
+  	'DDP': {
+	    '올리브영': [
+	      	{ name: '올리브영 동대문역사문화공원역점', lat: 37.5670961, lng: 127.0080856, address: '서울시 중구 을지로6가' },
+      		{ name: '올리브영 현대시티아울렛동대문점', lat: 37.5689151, lng: 127.0076901, address: '서울시 중구 을지로6가' },
+      		{ name: '올리브영 두타점', lat: 37.5688137, lng: 127.0087526, address: '서울시 중구 을지로6가' },
+      		{ name: '올리브영 던던동대문점', lat: 37.5688137, lng: 127.0087526, address: '서울시 중구 을지로6가' },
+      		{ name: '올리브영 신당역점', lat: 37.5656991, lng: 127.0164491, address: '서울시 중구 흥인동' },
+      		{ name: '올리브영 제일제당센터점', lat: 37.5638908, lng: 127.0034354, address: '서울시 중구 쌍림동' }
+    	],
+    	'다이소': [
+      		{ name: '다이소 동대문점', lat: 37.5702861, lng: 127.0099717, address: '서울시 종로구 창신동' },
+      		{ name: '다이소 현대시티아울렛동대문점', lat: 37.5689569, lng: 127.0078371, address: '서울시 중구 을지로6가' },
+      		{ name: '다이소 동묘점', lat: 37.573444, lng: 127.0161243, address: '서울시 종로구 숭인동' },
+      		{ name: '다이소 롯데던던동대문점', lat: 37.565761, lng: 127.0069912, address: '서울시 중구 을지로6가' }
+   		]
+	},
+	'합정': {
+		'생일카페': [
+			{ name: '피오니', lat: 37.550067, lng: 126.919724, address: '아이유 생일 카페'},
+			{ name: '파티세리로그', lat: 37.548224, lng: 126.918845, address: '세븐틴 생일 카페'},
+			{ name: '꽃뜨루', lat: 37.554870, lng: 126.910055, address: '트와이스 생일 카페'},
+		]
+	}
+};
 
 let map, markers = [];
 let currentOpenInfo = null;
@@ -161,7 +169,9 @@ function initMap(centerLatLng) {
 	if (!map) {
 	  	map = new naver.maps.Map('map', {
 	    	center: centerLatLng,
-	    	zoom: 15
+	    	zoom: 15,
+	    	minZoom: 15,
+	    	maxZoom: 16
 	  	});
 	} else {
 	  	map.setCenter(centerLatLng);
@@ -182,7 +192,7 @@ function addMarker(store, category) {
 	  	map,
 	  	title: store.name,
 	  	icon: {
-	    	url: category === '올리브영' ? './resources/img/oliveyoung.png' : './resources/img/daiso.png',
+	    	url: category === '올리브영' ? './resources/img/oliveyoung.png' : (category === '다이소' ? './resources/img/daiso.png' : './resources/img/free-icon-birthday-cake-2454297.png'),
 	    	size: new naver.maps.Size(30, 30),
 	    	scaledSize: new naver.maps.Size(30, 30),
 	    	anchor: new naver.maps.Point(15, 40)
@@ -224,7 +234,7 @@ function renderStores(region, category) {
 	oliveList.innerHTML = '';
 	clearMarkers();
 	
-	const categoriesToShow = category === '전체' ? ['올리브영', '다이소'] : [category];
+	const categoriesToShow = category === '전체' ? ['생일카페'] : [category];
 	const allStores = [];
 
 	categoriesToShow.forEach(cat => {
@@ -275,8 +285,9 @@ function renderStores(region, category) {
 	  	const center = new naver.maps.LatLng(avgLat, avgLng);
 	  	initMap(center);
 	} else {
-		oliveList.innerHTML = '<li class="list-group-item">지점이 없습니다.</li>';
+  		oliveList.innerHTML = '<li class="list-group-item">지점이 없습니다.</li>';
 	}
+
 }
 
 //검색 버튼 클릭 시 매장 렌더링
@@ -289,10 +300,10 @@ document.getElementById('searchBtn').addEventListener('click', () => {
 //초기 지도 및 목록 로딩
 window.onload = function () {
 	document.getElementById('categorySelect').value = '전체';
-	document.getElementById('legionSelect').value = '강남';
+	document.getElementById('legionSelect').value = '홍대';
 	const defaultCenter = new naver.maps.LatLng(37.5008693, 127.0256886);
 	initMap(defaultCenter);
-	renderStores('강남', '전체');
+	renderStores('홍대', '전체');
 };
 </script>
 

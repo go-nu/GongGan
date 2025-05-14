@@ -81,6 +81,7 @@
 <section class="class-section">
   <div class="container text-center py-5">
     <h4 class="text-muted">하단</h4>
+    <%@ include file="map.jsp" %>
   </div>
 </section>
 

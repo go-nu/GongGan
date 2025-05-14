@@ -9,7 +9,7 @@
     <title>[사이트 이름]</title>
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./resources/css/food_style.css">
+    <link rel="stylesheet" href="./resources/css/location_style.css">
 </head>
 <body>
     <%@ include file="header.jsp" %>
@@ -28,62 +28,17 @@
 		  	</div>
 	  	</div>
     </section>
+    
 <!-- 메인 카테고리 -->
     <section class="featured-section">
         <div class="container">
             <div class="section-title">
-                <h2>메인 카테고리</h2>
+                <h2>이번주 생일 카페</h2>
             </div>
-            <div class="category-grid">
-                <%-- 여기에 서버 측 데이터로 반복 출력 가능 --%>
-                <div class="category-card">
-                    <img src="./resources/img/category_f.JPG" class="category-image">
-                    <div class="category-info">
-                        <h3>K-FOOD</h3>
-                        <p>한국 음식(한식)에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-	                            <span class="star">★ ★ ★ ★ ★</span>
-	                            <span>(127 리뷰)</span>
-	                        </div> -->
-                        <div>
-                            <span class="tag">한식 레시피 나눔</span>
-                            <span class="tag">맛집 공유</span>
-                            <span class="tag">원데이 클래스 예약</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-card">
-                	<img src="./resources/img/category_b.jpg" class="category-image">
-                    <div class="category-info">
-                        <h3>K-BEUATY</h3>
-                        <p>한국의 화장품에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-                            	<span class="star">★ ★ ★ ★ ★</span>
-                            	<span>(98 리뷰)</span>
-                        	</div> -->
-                        <div>
-                            <span class="tag">화장품 정보 공유</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="category-card">
-                    <img src="./resources/img/category_l.jpg" class="category-image">
-                    <div class="category-info">
-                        <h3>TOURIST ATTRACTION</h3>
-                        <p>한국 관광지에 대한 정보 나눔</p>
-<!--                     	<div class="rating">
-	                            <span class="star">★ ★ ★ ★ ★</span>
-	                            <span>(145 리뷰)</span>
-	                        </div> -->
-                        <div>
-                            <span class="tag">내 스타가 다녀간 곳</span>
-                            <span class="tag">전통 관광지</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <%@ include file="map2.jsp" %>
         </div>
     </section>
+    
 <!-- 초록칸 -->
     <section class="about-section">
         <div class="container">
