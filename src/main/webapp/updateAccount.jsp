@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[사이트 이름]</title>
+<title>내 정보 수정</title>
 <script src="./resources/js/bootstrap.bundle.min.js"></script>
 <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="./resources/css/index_style.css">
@@ -122,48 +122,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- 내가 작성한 글/댓글 -->
-	<section class="about-section">
-		<div class="container">
-			<div class="section-title">
-				<h2>내가 작성한 글/댓글</h2>
-			</div>
-		</div>
-	</section>
-
-	<!-- 내가 신청한 체험 프로그램 -->
-	<section class="community-section">
-		<div class="container">
-			<div class="section-title">
-				<h2>내가 신청한 프로그램</h2>
-			</div>
-			<div class="community-cards">
-				<div class="community-card">
-					<div class="community-icon">👨‍👩‍👧‍👦</div>
-					<h3>정보 공유</h3>
-					<p>
-						나만의 특별한 경험과 유익한 정보를 <br>다른 이들과 나눠보아요
-					</p>
-				</div>
-				<div class="community-card">
-					<div class="community-icon">🗺</div>
-					<h3>장소 찾기</h3>
-					<p>
-						지도를 보며 체험 장소를 찾아보거나 <br>주변 맛집을 찾아보아요
-					</p>
-				</div>
-				<div class="community-card">
-					<div class="community-icon">✍</div>
-					<h3>체험 클래스</h3>
-					<p>
-						다양한 원데이 클래스들을 골라 <br>체험해 보아요
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
 
 	<%@ include file="footer.jsp"%>
 </body>

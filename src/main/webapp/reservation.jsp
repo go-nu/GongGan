@@ -14,8 +14,15 @@
 
     // 예약 요청 처리
     if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("name") != null) {
+    	// 로그인 체크
+    	if (sessionId == null) {
+    	    out.println("<script>alert('로그인이 필요합니다.'); location.href='login.jsp?returnURL=" + request.getRequestURI() + "';</script>");
+    	    return;
+    	}
+    	
         String rsv_name = request.getParameter("name");
         int count = Integer.parseInt(request.getParameter("people"));
+        String phone=request.getParameter("phone");
 
         if (conn == null) {
             out.println("<script>alert('DB 연결 실패'); history.back();</script>");
@@ -48,13 +55,14 @@
             String randPart = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
             String rsvNum = "RSV" + datePart + randPart;
 
-            String insertSql = "INSERT INTO reservation (rsv_num, id, rsv_name, act_id, count) VALUES (?, ?, ?, ?, ?)";
+            String insertSql = "INSERT INTO reservation (rsv_num, id, rsv_name, phone, count, act_id) VALUES (?, ?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(insertSql);
             pstmt.setString(1, rsvNum);
             pstmt.setString(2, sessionId);
             pstmt.setString(3, rsv_name);
-            pstmt.setString(4, act_id);
+            pstmt.setString(4, phone);
             pstmt.setInt(5, count);
+            pstmt.setString(6, act_id);
             pstmt.executeUpdate();
             pstmt.close();
 
@@ -353,7 +361,7 @@
 	// 모달 창
 	function openConfirmModal() {
 		if (!sessionId || sessionId === "null") {
-			alert("예약을 하시려면 먼저 로그인해주세요.");
+			alert("예약을 하려면 먼저 로그인해주세요.");
 			return;
 		}
 		const name = document.getElementById("name").value;
