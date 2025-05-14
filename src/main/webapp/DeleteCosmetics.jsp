@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="dto.Cosmetics" %>
+<%@ page import="mvc.model.CosmeticsDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +20,7 @@
       <h3 class="mb-4 text-start">상품 삭제 확인</h3>
 
       <%
-        Cosmetics cosmetic = (Cosmetics) request.getAttribute("cosmetic");
+      CosmeticsDTO cosmetic = (CosmeticsDTO) request.getAttribute("cosmetic");
         if (cosmetic != null) {
       %>
 
