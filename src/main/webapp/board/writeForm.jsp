@@ -41,7 +41,7 @@
 
                     <!-- 사용자에게 보여줄 ID -->
                     <div class="mb-3 row">
-                        <label class="col-sm-2 col-form-label">아이디</label>
+                        <label class="col-sm-2 col-form-label">작성자</label>
                         <div class="col-sm-4">
                             <input type="text" class="form-control" value="<%=id%>" readonly>
                         </div>
