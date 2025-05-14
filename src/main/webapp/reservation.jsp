@@ -14,11 +14,6 @@
 
     // 예약 요청 처리
     if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("name") != null) {
-        if (sessionId == null) {
-            out.println("<script>alert('로그인이 필요합니다.'); location.href='login.jsp';</script>");
-            return;
-        }
-
         String rsv_name = request.getParameter("name");
         int count = Integer.parseInt(request.getParameter("people"));
 
@@ -63,7 +58,7 @@
             pstmt.executeUpdate();
             pstmt.close();
 
-            out.println("<script>alert('예약이 완료되었습니다.'); location.href='mypage.jsp';</script>");
+            out.println("<script>alert('예약이 완료되었습니다.'); history.back(); </script>");
         }
 
         if (conn != null) conn.close();

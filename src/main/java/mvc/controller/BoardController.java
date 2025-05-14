@@ -5,8 +5,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
-
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -19,6 +17,7 @@ import mvc.model.CommentDAO;
 import mvc.model.CommentDTO;
 
 public class BoardController extends HttpServlet {
+
 	   private static final long serialVersionUID = 1L;
 	   static final int LISTCOUNT = 5; 
 
@@ -35,10 +34,20 @@ public class BoardController extends HttpServlet {
 		      response.setContentType("text/html; charset=UTF-8");
 		      request.setCharacterEncoding("UTF-8");
 		   
-		      if (command.equals("/BoardListAction.do")) {//등록된 글 목록 페이지 출력하기
-		         requestBoardList(request);
-		         RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
-		         rd.forward(request, response);
+          if (command.equals("/BoardListAction.do")) { // 등록된 글 목록 페이지 출력하기
+              // 🔽 여기에 현재 URL을 세션에 저장하는 코드 추가
+              HttpSession session = request.getSession();
+              String loginId = (String) session.getAttribute("id");
+
+              // 로그인된 경우 정상 흐름
+              requestBoardList(request);
+              RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
+              rd.forward(request, response);
+          }else if (command.equals("/MyPage.do")) {
+              requestLoginName(request);       // 로그인한 사용자 이름 가져오기
+              requestMyBoard(request);         // 내가 쓴 게시글 목록 가져오기
+              RequestDispatcher rd = request.getRequestDispatcher("./mypage.jsp");
+              rd.forward(request, response);
 		      } else if (command.equals("/BoardWriteForm.do")) { //글 등록 페이지 출력
 		            requestLoginName(request);
 		            RequestDispatcher rd = request.getRequestDispatcher("./board/writeForm.jsp");
@@ -77,24 +86,23 @@ public class BoardController extends HttpServlet {
 		    	            RequestDispatcher rd = request.getRequestDispatcher("./board/view.jsp");
 		    	            rd.forward(request, response);
 		    	        }
+                  // 정상적으로 게시글 정보가 있으면 뷰 페이지로 포워딩
+                  RequestDispatcher rd = request.getRequestDispatcher("/BoardView.do");
+                  rd.forward(request, response);
 		    	    } catch (Exception e) {
 		    	        System.out.println("BoardViewAction.do 처리 중 오류: " + e);
 		    	        e.printStackTrace();
 		    	        response.sendRedirect("BoardListAction.do");
 		    	    }              
 		      } else if (command.equals("/BoardView.do")) {  //글 상세 페이지 출력
-					/*
-					 * // 요청 속성에서 게시글 정보 확인 BoardDTO board = (BoardDTO)
-					 * request.getAttribute("board"); if (board == null) {
-					 * System.out.println("BoardView.do - board 객체가 null입니다");
-					 * response.sendRedirect("BoardListAction.do"); return; }
-					 * 
-					 * // 댓글 정보 로드 (필요한 경우) loadComments(request, board.getNum());
-					 * 
-					 * RequestDispatcher rd = request.getRequestDispatcher("./board/view.jsp");
-					 * rd.forward(request, response);
-					 */ 
-		    	  	response.sendRedirect("BoardListAction.do");
+              BoardDTO board = (BoardDTO) request.getAttribute("board");
+              if (board == null) {
+                  System.out.println("BoardView.do - board 객체가 null입니다");
+                  response.sendRedirect("BoardListAction.do");
+                  return;
+              }
+              RequestDispatcher rd = request.getRequestDispatcher("./board/view.jsp");
+              rd.forward(request, response);
 		      } else if (command.equals("/BoardUpdateForm.do")) { // 글 수정 폼 출력 250512 수정
 		    	    requestBoardView(request, response); // 기존 게시글 정보 가져오기 
 		    	    requestLoginName(request); // 로그인 사용자 정보 가져오기
@@ -150,8 +158,7 @@ public class BoardController extends HttpServlet {
 		   // 페이지네이션을 위한 검색 파라미터 보존
 		      request.setAttribute("items", items);
 		      request.setAttribute("text", text);
-		      
-		      
+
 		      int total_page;
 		      
 		      if (total_record % limit == 0){     
@@ -164,8 +171,8 @@ public class BoardController extends HttpServlet {
 		         total_page =  total_page + 1; 
 		      }      
 		   
-		         request.setAttribute("currentPage", pageNum);        
-		         request.setAttribute("totalPage", total_page);   
+		      request.setAttribute("currentPage", pageNum);        
+		      request.setAttribute("totalPage", total_page);   
 		      request.setAttribute("totalPosts",total_record); 
 		      request.setAttribute("boardList", boardlist);        
 		      
@@ -178,6 +185,40 @@ public class BoardController extends HttpServlet {
 		      request.setAttribute("endPage", endPage);
 		      
 		   }
+      // 등록된 글 목록 가져오기 (마이페이지)
+      public void requestMyBoard(HttpServletRequest request) {
+
+          BoardDAO dao = BoardDAO.getInstance();
+          ArrayList<BoardDTO> boardlist = new ArrayList<>();
+
+          int pageNum = 1;
+          int limit = LISTCOUNT;
+
+          if (request.getParameter("pageNum") != null)
+              pageNum = Integer.parseInt(request.getParameter("pageNum"));
+
+          String id = (String) request.getSession().getAttribute("id");
+
+
+          // 사용자별 게시글 수 가져오기 (수정 필요)
+          int total_record = dao.getMyListCount(id);
+          boardlist = dao.getMyBoard(pageNum, limit, id);
+          request.setAttribute("id", id);
+
+          int total_page = (total_record + limit - 1) / limit;
+
+          request.setAttribute("currentPage", pageNum);
+          request.setAttribute("totalPage", total_page);
+          request.setAttribute("totalPosts", total_record);
+          request.setAttribute("boardList", boardlist);
+
+          int startPage = ((pageNum - 1) / 10) * 10 + 1;
+          int endPage = startPage + 9;
+          if (endPage > total_page) endPage = total_page;
+
+          request.setAttribute("startPage", startPage);
+          request.setAttribute("endPage", endPage);
+      }
 		   //인증된 사용자명 가져오기
 		   public void requestLoginName(HttpServletRequest request){
 		       
@@ -197,12 +238,12 @@ public class BoardController extends HttpServlet {
 		      
 		      BoardDTO board = new BoardDTO();
 		      board.setId(request.getParameter("id"));
-
 		      board.setSubject(request.getParameter("subject"));
 		      board.setContent(request.getParameter("content"));   
 		      
 		      System.out.println(request.getParameter("subject"));
 		      System.out.println(request.getParameter("content"));
+         
 		      java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy/MM/dd(HH:mm:ss)");
 		      String regist_day = formatter.format(new java.util.Date()); 
 		      
@@ -390,6 +431,6 @@ public class BoardController extends HttpServlet {
 		           out.println("</script>");
 		       }
 		   }
-	   
+
 }
 
