@@ -4,6 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="mvc.model.BoardDTO"%>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.ParseException" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,7 +18,6 @@
     <link rel="stylesheet" href="./resources/css/food_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   	<script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
-	<script src="./resources/js/swiper-init.js"></script>
 </head>
 <body>
     <%@ include file="header.jsp" %>
@@ -90,8 +92,8 @@
     <section class="about-section">
         <div class="container">
          	<div class="section-title">
-	      		<h2>이번 주 활동</h2>
-	      		<p>25/5/5 ~ 25/5/12 활동</p>
+	      		<h2>다음 주 체험활동</h2>
+	      		<!-- <p>25/5/5 ~ 25/5/12 활동</p> -->
 	    	</div>
 	    	
     		<!-- Swiper Carousel -->
@@ -100,41 +102,93 @@
 					<%
 						PreparedStatement pstmt = null;
 						ResultSet rs = null;
-						String sql = "select * from activity";
+						String sql = "SELECT * FROM activity ORDER BY STR_TO_DATE(act_date, '%Y/%c/%e %H:%i') ASC limit 4";
 						
 						pstmt = conn.prepareStatement(sql);
 						rs = pstmt.executeQuery();
+						
+					    SimpleDateFormat sdf = new SimpleDateFormat("yy/M/d HH:mm");
+					    Date now = new Date();
+					    // 자정 기준 시간으로 설정
+					    Calendar cal = Calendar.getInstance();
+					    cal.setTime(now);
+					    cal.set(Calendar.HOUR_OF_DAY, 0);
+					    cal.set(Calendar.MINUTE, 0);
+					    cal.set(Calendar.SECOND, 0);
+					    cal.set(Calendar.MILLISECOND, 0);
+					    now = cal.getTime();
+					    
+					 	// 오늘 기준 시간 정리
+                       	Calendar nowCal = Calendar.getInstance();
+                        nowCal.set(Calendar.HOUR_OF_DAY, 0);
+                        nowCal.set(Calendar.MINUTE, 0);
+                        nowCal.set(Calendar.SECOND, 0);
+                        nowCal.set(Calendar.MILLISECOND, 0);
+                        
+                        // 이번 주 일요일
+                        Calendar startCal = (Calendar) nowCal.clone();
+                        startCal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+                        // 다음 주 일요일 = 이번 주 일요일 + 7일
+                        startCal.add(Calendar.DATE, 7);
+                        Date startDate = startCal.getTime();
+
+                        // 다음 주 토요일 = 다음 주 일요일 + 6일
+                        Calendar endCal = (Calendar) startCal.clone();
+                        endCal.add(Calendar.DATE, 6);
+                        Date endDate = endCal.getTime();
+					    
+					    SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+					    String isoDateStr = ""; // try-catch 외부에서 미리 선언
+					    
+					    // D-day가 0 이하일 때 화면에 보이지 않음
 						while(rs.next()) {
-							
-					%>
-	        		<div class="swiper-slide">
-	        			<a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" style="text-decoration: none; color: inherit;">
-			          		<div class="class-card">
-		            			<div class="class-top">
-		            				<img src="./resources/img/<%=rs.getString("img") %>" style="width:200px; height:200px;">
-		            			</div>
-	            				<h3><%=rs.getString("title") %></h3>
-		            			<p class="mb-1"><%=rs.getString("act_date") %></p>
-								<span class="badge d-day-badge ms-3" data-dday='<%=rs.getString("act_date")%>'></span>	
-		          			</div>
-	          			</a>
-        			</div>
+							try {
+							    String actDateStr = rs.getString("act_date");
+							    Date actDate = sdf.parse(actDateStr);
+							    // 자정 기준으로 변환
+	                            Calendar actCal = Calendar.getInstance();
+	                            actCal.setTime(actDate);
+	                            actCal.set(Calendar.HOUR_OF_DAY, 0);
+	                            actCal.set(Calendar.MINUTE, 0);
+	                            actCal.set(Calendar.SECOND, 0);
+	                            actCal.set(Calendar.MILLISECOND, 0);
+	                            actDate = actCal.getTime();
+
+							    long diff = actDate.getTime() - now.getTime();
+							    long days = (long) Math.ceil((double) diff / (24 * 60 * 60 * 1000));
+
+							 	// 다음 주 범위 안에 없으면 건너뜀
+                                if (actDate.before(startDate) || actDate.after(endDate)) continue;
+
+							    isoDateStr = isoFormat.format(actDate);
+								%>
+				        		<div class="swiper-slide">
+				        			<a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" style="text-decoration: none; color: inherit;">
+						          		<div class="class-card">
+					            			<div class="class-top">
+					            				<img src="./resources/img/<%=rs.getString("img") %>" style="width: 200px; height: 200px;">
+					            			</div>
+				            				<h3><%=rs.getString("title") %></h3>
+					            			<p class="mb-1"><%=rs.getString("act_date") %></p>
+											<span class="badge d-day-badge ms-3" 
+												data-dday="<%= isoDateStr %>"></span>									
+					          			</div>
+				          			</a>
+			        			</div>
         			<%
+							} catch (ParseException e) {
+							    continue; // 날짜 파싱 실패한 항목은 무시
+							}
 						}
-						if (rs != null) 
-							rs.close();
-						if (pstmt != null)
-							pstmt.close();
-						if (conn != null)
-							conn.close();
         			%>
 	      		</div>
-	
+
 				<!-- 화살표 -->
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-button-next"></div>
 		    </div>
-		    <a href="foodActivity.jsp"  class="text-end mt-3">전체 활동 보기 &raquo;</a>
+		    <a href="foodActivity.jsp"  class="text-end mt-5">전체 활동 보기 &raquo;</a>
         </div>
     </section>
     
