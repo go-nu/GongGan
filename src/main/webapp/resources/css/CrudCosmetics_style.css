@@ -63,6 +63,7 @@
         }
         
         
+        
         /* 배경 이미지 섹션 */
 		.bg-image {
 			position: relative; 
@@ -88,156 +89,70 @@
 		}
 		
 		.container.pt-5.pb-5 > form {
-  display: grid;
-  grid-template-columns: 1fr 300px; /* 왼쪽 남은 공간, 오른쪽 300px (이미지 + 파일 선택) */
-  gap: 20px; /* 컬럼 사이 간격 */
-}
-
-.form-left-side {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* 각 form-row-custom 사이 간격 */
-}
-
-.form-row-custom {
-  display: flex;
-  gap: 10px; /* 내부 요소 간 간격 */
-  align-items: center;
-}
-
-.form-col {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.form-col > label {
-  margin-bottom: 5px;
-}
-
-.preview-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* 오른쪽 정렬 */
-}
-
-#imagePreviewContainer {
-  width: 300px;
-  height: 300px;
-  border: 1px solid #000;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 5px; /* 이미지와 파일 선택 창 사이 간격 */
-}
-
-#imagePreview {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-.preview-container > label {
-  width: 300px; /* 파일 선택 레이블 너비 고정 */
-  text-align: left; /* 텍스트 왼쪽 정렬 */
-}
-
-.preview-container > input[type="file"] {
-  width: 300px; /* 파일 선택 input 너비 고정 */
-}
-
-.text-end {
-  grid-column: 1 / 3; /* 버튼을 아래쪽 전체 너비로 확장 */
-  text-align: end;
-  margin-top: 20px;
-}
-
-        footer {
-            background-color: #1d3557;
-            color: white;
-            padding: 50px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-column h3 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -10px;
-            width: 50px;
-            height: 2px;
-            background-color: #e63946;
-        }
-        .footer-column {
-		    display: flex;
-		    flex-direction: column;
-		    align-items: flex-start; /* ← 좌측 정렬 명시 */
+		  display: grid;
+		  grid-template-columns: 1fr 300px; /* 왼쪽 남은 공간, 오른쪽 300px (이미지 + 파일 선택) */
+		  gap: 20px; /* 컬럼 사이 간격 */
 		}
 		
-		.footer-column ul {
-		    padding-left: 0; /* 기본 ul 들여쓰기 제거 */
-		    margin: 0;
+		.form-left-side {
+		  display: flex;
+		  flex-direction: column;
+		  gap: 10px; /* 각 form-row-custom 사이 간격 */
 		}
 		
-		.footer-column ul li {
-		    list-style: none;
-		    margin-bottom: 10px;
+		.form-row-custom {
+		  display: flex;
+		  gap: 10px; /* 내부 요소 간 간격 */
+		  align-items: center;
 		}
-		        
-        .footer-column ul li a {
-            color: #a8dadc;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-column ul li a:hover {
-            color: #fff;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        @media (max-width: 992px) {
-            .food-grid, .community-cards, .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .about-content {
-                flex-direction: column;
-            }
-            
-            .about-image {
-                width: 100%;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .food-grid, .community-cards, .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            nav ul {
-                display: none;
-            }
-            
-            .hero-content h1 {
-                font-size: 36px;
-            }
-        }
+		
+		.form-col {
+		  display: flex;
+		  flex-direction: column;
+		  flex: 1;
+		}
+		
+		.form-col > label {
+		  margin-bottom: 5px;
+		}
+		
+		.preview-container {
+		  display: flex;
+		  flex-direction: column;
+		  align-items: flex-end; /* 오른쪽 정렬 */
+		}
+		
+		#imagePreviewContainer {
+		  width: 300px;
+		  height: 300px;
+		  border: 1px solid #000;
+		  overflow: hidden;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  margin-bottom: 5px; /* 이미지와 파일 선택 창 사이 간격 */
+		}
+		
+		#imagePreview {
+		  max-width: 100%;
+		  max-height: 100%;
+		  object-fit: contain;
+		  display: block;
+		}
+		
+		.preview-container > label {
+		  width: 300px; /* 파일 선택 레이블 너비 고정 */
+		  text-align: left; /* 텍스트 왼쪽 정렬 */
+		}
+		
+		.preview-container > input[type="file"] {
+		  width: 300px; /* 파일 선택 input 너비 고정 */
+		}
+		
+		.text-end {
+		  grid-column: 1 / 3; /* 버튼을 아래쪽 전체 너비로 확장 */
+		  text-align: end;
+		  margin-top: 20px;
+		}
+		
+		
