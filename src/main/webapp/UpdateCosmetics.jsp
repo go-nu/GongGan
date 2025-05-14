@@ -21,13 +21,13 @@
       <h3 class="mb-4 text-start">상품 수정</h3>
 
       <%
-      CosmeticsDTO cosmetic = (CosmeticsDTO) request.getAttribute("cosmetic");
+        CosmeticsDTO cosmetic = (CosmeticsDTO) request.getAttribute("cosmetic");
         if (cosmetic != null) {
       %>
 
       <form action="cosmetics?action=update" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         <input type="hidden" name="id" value="<%= cosmetic.getId() %>">
-        <input type="hidden" name="image_file" value="<%= cosmetic.getImage_file() %>"> <!-- 기존 이미지 유지용 -->
+        <input type="hidden" name="image_file" value="<%= cosmetic.getImage_file() %>">
 
         <div class="form-left-side">
           <div class="form-row-custom">
@@ -41,6 +41,7 @@
             </div>
           </div>
 
+        
           <div class="form-row-custom">
             <div class="form-col">
               <label for="price" class="form-label">가격</label>
@@ -58,6 +59,7 @@
             </div>
           </div>
 
+          
           <div class="form-row-custom">
             <div class="form-col">
               <label for="main_ingredient" class="form-label">주요 성분</label>
@@ -68,14 +70,22 @@
               <input type="text" class="form-control" name="effect" id="effect" value="<%= cosmetic.getEffect() %>" required>
             </div>
           </div>
+
+       
+          <div class="form-row-custom">
+            <div class="form-col">
+              <label for="image_file" class="form-label">새 이미지 (선택)</label>
+              <input type="file" class="form-control" name="image_file_upload" id="image_file" accept="image/*" onchange="previewLocalImage(this);">
+            </div>
+            <div class="form-col"></div>
+          </div>
         </div>
 
+        <!-- 오른쪽 미리보기 박스 -->
         <div class="preview-container">
           <div id="imagePreviewContainer">
-            <img id="imagePreview" src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" alt="미리보기" style="display: block; max-width: 300px;">
+            <img id="imagePreview" src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" alt="미리보기">
           </div>
-          <label for="image_file" class="form-label">새 이미지 (선택)</label>
-          <input type="file" class="form-control" name="image_file_upload" id="image_file" accept="image/*" onchange="previewLocalImage(this);">
         </div>
 
         <div class="text-end">
@@ -84,13 +94,9 @@
         </div>
       </form>
 
-      <%
-        } else {
-      %>
+      <% } else { %>
         <div class="alert alert-warning">수정할 제품 정보를 불러오지 못했습니다.</div>
-      <%
-        }
-      %>
+      <% } %>
     </div>
   </div>
 </section>
