@@ -71,14 +71,14 @@
 </section>
 
 <!--  중단 -->
-<section class="about-section">
+<section class="about-section" id="storeMap">
   	<div class="container text-center py-5">
     	<%@ include file="map.jsp" %>
     </div>
 </section>
 
 <!-- 하단 -->
-<section class="class-section">
+<section class="class-section" id="beautyBoard">
   <div class="container text-center py-5">
     <h4 class="text-muted">하단</h4>
     <!-- 게시판 미리 보기 -->

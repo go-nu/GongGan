@@ -17,22 +17,22 @@
                 <div class="footer-column">
                     <h3>FOOD</h3>
                     <ul>
-                        <li><a href="#">음식 게시판</a></li>
+                        <li><a href="food.jsp#foodBoard">음식 게시판</a></li>
                         <li><a href="foodActivity.jsp">체험활동 신청</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>BEAUTY</h3>
                     <ul>
-                        <li><a href="beautyCategory.jsp">화장품 게시판</a></li>
-                        <li><a href="#">주변 매장 찾기</a></li>
+                        <li><a href="cosmetics?action=list#beautyBoard">화장품 게시판</a></li>
+                        <li><a href="cosmetics?action=list#storeMap">주변 매장 찾기</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>LOCATION</h3>
                     <ul>
-                        <li><a href="#">관광지 게시판</a></li>
-                        <li><a href="#">관광지 모아보기</a></li>
+                        <li><a href="location.jsp#lBoard">관광지 게시판</a></li>
+                        <li><a href="location.jsp#lCity">관광지 모아보기</a></li>
                     </ul>
                 </div>
             </div>

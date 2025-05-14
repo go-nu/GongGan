@@ -39,7 +39,7 @@
     </section>
     
 <!-- 메인 카테고리 -->
-    <section class="featured-section">
+    <section class="featured-section" id="foodBoard">
         <div class="container">
             <div class="section-title">
                 <h2>K-FOOD 게시판</h2>

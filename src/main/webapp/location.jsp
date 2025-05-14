@@ -40,7 +40,7 @@
     </section>
     
 <!-- 초록칸 -->
-    <section class="about-section">
+    <section class="about-section" id="lCity">
         <div class="container">
          	<div class="section-title">
 	      		<h2>한국의 매력 도시</h2>
@@ -101,7 +101,7 @@
     </section>
     
 <!-- 사이트 설명 -->
-    <section class="community-section">
+    <section class="community-section" id="lBoard">
         <div class="container">
             <div class="section-title">
                 <h2>게시판</h2>

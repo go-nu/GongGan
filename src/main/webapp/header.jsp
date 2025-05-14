@@ -52,3 +52,46 @@
             </div>
         </div>
     </header>
+    
+    <!-- header.jsp 또는 menu.jsp 하단부 -->
+<button id="topBtn" onclick="scrollToTop()">▲ TOP</button>
+
+<script>
+window.onscroll = function () {
+  const topBtn = document.getElementById("topBtn");
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    topBtn.style.display = "block";
+  }
+};
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+<style>
+#topBtn {
+  position: fixed;
+  bottom: 80px;
+  right: 40px;
+  z-index: 999;
+  border: none;
+  outline: none;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  padding: 16px 12px;
+  border-radius: 50%;
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  opacity: 0.7;  /* 🔹 처음엔 옅게 */
+  transition: all 0.3s ease;  /* 🔹 전체 부드러운 변화 */
+}
+
+#topBtn:hover {
+  opacity: 1;  /* 🔹 진하게 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+</style>
+    
