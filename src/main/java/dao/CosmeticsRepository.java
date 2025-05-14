@@ -1,212 +1,187 @@
 package dao;
 
 import dto.Cosmetics;
-
+import mvc.database.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CosmeticsRepository {
+    private static CosmeticsRepository instance;
 
-    private static CosmeticsRepository instance = new CosmeticsRepository();  // Singleton pattern
+    private CosmeticsRepository() {
+        // DB 연결 처리 없이, 이제 DBConnection을 통해 연결을 사용합니다.
+    }
+
     public static CosmeticsRepository getInstance() {
+        if (instance == null) {
+            instance = new CosmeticsRepository();
+        }
         return instance;
     }
 
-    // DB 연결을 위한 메서드 (중복 제거)
-    private Connection getConnection() throws SQLException {
+ // DB 연결 메서드에서 예외 발생 시 로그 추가
+    private Connection getConnection() throws SQLException, ClassNotFoundException {
+        Connection conn = DBConnection.getConnection();
+        if (conn != null) {
+            System.out.println("DB 연결 성공");
+        } else {
+            System.out.println("DB 연결 실패");
+        }
+        return conn;
+    }
+
+ // 1. CREATE: 새 화장품 추가
+    public boolean addCosmetic(Cosmetics cosmetic) {
+    	String name = (cosmetic.getName() != null) ? cosmetic.getName() : "";
+    	String brand = (cosmetic.getBrand() != null) ? cosmetic.getBrand() : "";
+    	int price = (cosmetic.getPrice() > 0) ? cosmetic.getPrice() : 0;  // 적절한 기본값 설정
     	
-		 try {
-	         // 명시적으로 MySQL 드라이버 로드
-	         Class.forName("com.mysql.cj.jdbc.Driver");  // 최신 MySQL JDBC 드라이버 로드
-	     } catch (ClassNotFoundException e) {
-	         e.printStackTrace();
-	         throw new SQLException("MySQL JDBC 드라이버를 로드할 수 없습니다.");
-	     }
-		 
-        String url = "jdbc:mysql://localhost:3306/fs_semi?serverTimezone=UTC";
-        String user = "root";
-        String password = "1234";
-        return DriverManager.getConnection(url, user, password);
-    }
+    	
+        String sql = "INSERT INTO cosmetics ( name, brand, price, main_ingredient, effect, category, image_file, likes) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cosmetic.getName());
+            stmt.setString(2, cosmetic.getBrand());
+            stmt.setInt(3, cosmetic.getPrice());
+            stmt.setString(4, cosmetic.getMain_ingredient());
+            stmt.setString(5, cosmetic.getEffect());
+            stmt.setString(6, cosmetic.getCategory());
+            stmt.setString(7, cosmetic.getImage_file());
+            // 좋아요(likes) 값은 항상 0으로 설정
+            stmt.setInt(8, 0); 
+            
+            
+         // 디버깅용: 실행할 SQL 쿼리 출력
+            System.out.println("Executing SQL: " + stmt.toString());  // 디버깅용 로그
 
-    // 화장품 정보 가져오기 (전체 화장품 목록)
-    public ArrayList<Cosmetics> getAllCosmetics() {
-        ArrayList<Cosmetics> cosmeticsList = new ArrayList<>();
-        String sql = "SELECT id, name, brand, price, main_ingredient, effect, category, image_file, likes FROM cosmetics"; // SQL 쿼리
-
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                Cosmetics cosmetics = new Cosmetics();
-                cosmetics.setId(rs.getInt("id"));
-                cosmetics.setName(rs.getString("name"));
-                cosmetics.setBrand(rs.getString("brand"));
-                cosmetics.setPrice(rs.getInt("price"));
-                cosmetics.setMain_ingredient(rs.getString("main_ingredient"));
-                cosmetics.setEffect(rs.getString("effect"));
-                cosmetics.setCategory(rs.getString("category"));
-                cosmetics.setImage_file(rs.getString("image_file"));
-                cosmetics.setLikes(rs.getInt("likes"));
-                cosmeticsList.add(cosmetics);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        
-        return cosmeticsList;
-    }
-    
-    // 카테고리별 화장품 리스트 가져오기
-    public ArrayList<Cosmetics> getCosmeticsByCategory(String category) {
-        ArrayList<Cosmetics> cosmeticsList = new ArrayList<>();
-        String sql = "SELECT id, name, brand, price, main_ingredient, effect, category, image_file, likes FROM cosmetics WHERE category = ?";
-
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, category);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Cosmetics cosmetics = new Cosmetics();
-                cosmetics.setId(rs.getInt("id"));
-                cosmetics.setName(rs.getString("name"));
-                cosmetics.setBrand(rs.getString("brand"));
-                cosmetics.setPrice(rs.getInt("price"));
-                cosmetics.setMain_ingredient(rs.getString("main_ingredient"));
-                cosmetics.setEffect(rs.getString("effect"));
-                cosmetics.setCategory(rs.getString("category"));
-                cosmetics.setImage_file(rs.getString("image_file"));
-                cosmetics.setLikes(rs.getInt("likes"));
-                cosmeticsList.add(cosmetics);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-   
-        return cosmeticsList;
-    }
-
-    // 화장품 id로 화장품 정보 가져오기
-    public Cosmetics getCosmeticsById(int id) {
-        Cosmetics cosmetics = null;
-        String sql = "SELECT id, name, brand, price, main_ingredient, effect, category, image_file, likes FROM cosmetics WHERE id = ?";  // SQL 쿼리
-
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                cosmetics = new Cosmetics();
-                cosmetics.setId(rs.getInt("id"));
-                cosmetics.setName(rs.getString("name"));
-                cosmetics.setBrand(rs.getString("brand"));
-                cosmetics.setPrice(rs.getInt("price"));
-                cosmetics.setMain_ingredient(rs.getString("main_ingredient"));
-                cosmetics.setEffect(rs.getString("effect"));
-                cosmetics.setCategory(rs.getString("category"));
-                cosmetics.setImage_file(rs.getString("image_file"));
-                cosmetics.setLikes(rs.getInt("likes"));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return cosmetics;
-    }
-
-   
-    // 화장품 추가 메서드
-    public void addCosmetics(Cosmetics cosmetics) {
-        String sql = "INSERT INTO cosmetics (name, brand, price, main_ingredient, effect, category, image_file) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, cosmetics.getName());
-            pstmt.setString(2, cosmetics.getBrand());
-            pstmt.setInt(3, cosmetics.getPrice());
-            pstmt.setString(4, cosmetics.getMain_ingredient());
-            pstmt.setString(5, cosmetics.getEffect());
-            pstmt.setString(6, cosmetics.getCategory());
-            pstmt.setString(7, cosmetics.getImage_file());
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    // 화장품 삭제 메서드     
-    public void deleteCosmetic(int id) {
-        String sql = "DELETE FROM cosmetics WHERE id = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
+            // 쿼리 실행
+            int rowsAffected = stmt.executeUpdate();
+            
+            // 디버깅용: 실행된 쿼리 결과 (몇 개의 행이 영향을 받았는지 출력)
+            System.out.println("Rows affected: " + rowsAffected);  // 실행된 쿼리 결과 확인
+            
+           
+            
+            return rowsAffected > 0; 
+           
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-	 // 화장품 정보 수정 메서드
-	 public void updateCosmetic(Cosmetics cosmetic) {
-	     String sql = "UPDATE cosmetics SET name = ?, brand = ?, price = ?, main_ingredient = ?, effect = ?, category = ?, image_file = ? WHERE id = ?";
-	
-	     try (Connection conn = getConnection();
-	          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-	
-	         pstmt.setString(1, cosmetic.getName());
-	         pstmt.setString(2, cosmetic.getBrand());
-	         pstmt.setInt(3, cosmetic.getPrice());
-	         pstmt.setString(4, cosmetic.getMain_ingredient());
-	         pstmt.setString(5, cosmetic.getEffect());
-	         pstmt.setString(6, cosmetic.getCategory());
-	         pstmt.setString(7, cosmetic.getImage_file());
-	         pstmt.setInt(8, cosmetic.getId());
-	
-	         pstmt.executeUpdate();
-	     } catch (SQLException ex) {
-	         ex.printStackTrace();
-	     }
-	 }
-	 
-	// 특정 카테고리에서 id를 제외한 관련 상품 가져오기
-	 public ArrayList<Cosmetics> getRelatedCosmetics(String category, int excludeId, int limit) {
-	    ArrayList<Cosmetics> relatedList = new ArrayList<>();
-	    String sql = "SELECT * FROM cosmetics WHERE category = ? AND id != ? LIMIT ?";
+    // 2. READ: 특정 카테고리 화장품 목록 불러오기
+    public List<Cosmetics> getCosmeticsByCategory(String category) {
+        List<Cosmetics> cosmeticsList = new ArrayList<>();
+        String sql = "SELECT * FROM cosmetics WHERE category = ?";
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, category);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Cosmetics cosmetic = new Cosmetics(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("brand"),
+                        rs.getInt("price"),
+                        rs.getString("main_ingredient"),
+                        rs.getString("effect"),
+                        rs.getString("category"),
+                        rs.getString("image_file"),
+                        rs.getInt("likes")
+                );
+                cosmeticsList.add(cosmetic);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return cosmeticsList;
+    }
 
-	    try (Connection conn = getConnection();
-	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    // 3. READ: 특정 ID로 화장품 찾기
+    public Cosmetics getCosmeticById(int id) {
+        String sql = "SELECT * FROM cosmetics WHERE id = ?";
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Cosmetics(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("brand"),
+                        rs.getInt("price"),
+                        rs.getString("main_ingredient"),
+                        rs.getString("effect"),
+                        rs.getString("category"),
+                        rs.getString("image_file"),
+                        rs.getInt("likes")
+                );
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	        pstmt.setString(1, category);
-	        pstmt.setInt(2, excludeId);
-	        pstmt.setInt(3, limit);
-	        ResultSet rs = pstmt.executeQuery();
+    // 4. UPDATE: 화장품 정보 수정
+    public boolean updateCosmetic(Cosmetics cosmetic) {
+        String sql = "UPDATE cosmetics SET name = ?, brand = ?, price = ?, main_ingredient = ?, effect = ?, category = ?, image_file = ?, likes = ? WHERE id = ?";
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cosmetic.getName());
+            stmt.setString(2, cosmetic.getBrand());
+            stmt.setInt(3, cosmetic.getPrice());
+            stmt.setString(4, cosmetic.getMain_ingredient());
+            stmt.setString(5, cosmetic.getEffect());
+            stmt.setString(6, cosmetic.getCategory());
+            stmt.setString(7, cosmetic.getImage_file());
+            stmt.setInt(8, cosmetic.getLikes());
+            stmt.setInt(9, cosmetic.getId());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-	        while (rs.next()) {
-	            Cosmetics c = new Cosmetics();
-	            c.setId(rs.getInt("id"));
-	            c.setName(rs.getString("name"));
-	            c.setBrand(rs.getString("brand"));
-	            c.setPrice(rs.getInt("price"));
-	            c.setMain_ingredient(rs.getString("main_ingredient"));
-	            c.setEffect(rs.getString("effect"));
-	            c.setCategory(rs.getString("category"));
-	            c.setImage_file(rs.getString("image_file"));
-	            c.setLikes(rs.getInt("likes"));
-	            relatedList.add(c);
-	        }
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	    }
+    // 5. DELETE: 화장품 삭제
+    public boolean deleteCosmetic(int id) {
+        String sql = "DELETE FROM cosmetics WHERE id = ?";
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int result = stmt.executeUpdate();
+            return result > 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    // 6. 전체 화장품 목록 가져오기 (READ ALL)
+    public List<Cosmetics> getAllCosmetics() {
+        List<Cosmetics> cosmeticsList = new ArrayList<>();
+        String sql = "SELECT * FROM cosmetics";
 
-	    return relatedList;
-	}
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Cosmetics cosmetic = new Cosmetics(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("brand"),
+                        rs.getInt("price"),
+                        rs.getString("main_ingredient"),
+                        rs.getString("effect"),
+                        rs.getString("category"),
+                        rs.getString("image_file"),
+                        rs.getInt("likes")
+                );
+                cosmeticsList.add(cosmetic);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
+        return cosmeticsList;
+    }
 }

@@ -1,30 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="dto.Cosmetics" %>
-<%@ page import="dao.CosmeticsRepository" %>
-<%
-    String idParam = request.getParameter("id");
-    Cosmetics cosmetic = null;
-    if (idParam != null && !idParam.isEmpty()) {
-        try {
-            int id = Integer.parseInt(idParam);
-            CosmeticsRepository repo = CosmeticsRepository.getInstance();
-            cosmetic = repo.getCosmeticsById(id);
-        } catch (NumberFormatException e) {
-            // 유효하지 않은 ID 형식 처리
-        }
-    }
-%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>상품 삭제</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/CrudCosmetics_style.css">
-    <script src="<%= request.getContextPath() %>/resources/js/imagePreview.js"></script>
+  <meta charset="UTF-8">
+  <title>상품 삭제</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/CrudCosmetics_style.css">
 </head>
 <body>
+
 <%@ include file="header.jsp" %>
 
 <section class="white-space"></section>
@@ -32,11 +17,14 @@
 <section class="bg-image">
   <div class="overlay">
     <div class="container pt-5 pb-5">
-      <h2 class="mb-4 text-start">상품 삭제</h2>
+      <h3 class="mb-4 text-start">상품 삭제 확인</h3>
+
       <%
+        Cosmetics cosmetic = (Cosmetics) request.getAttribute("cosmetic");
         if (cosmetic != null) {
       %>
-      <form action="process_DeleteCosmetics.jsp" method="post">
+
+      <form action="cosmetics?action=delete" method="post">
         <input type="hidden" name="id" value="<%= cosmetic.getId() %>">
 
         <div class="form-left-side">
@@ -73,25 +61,25 @@
             </div>
           </div>
         </div>
-        <div class="preview-container">
+
+        <div class="preview-container mb-3">
           <div id="imagePreviewContainer">
-            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" class="img-fluid" style="max-width: 300px; object-fit: contain;">
           </div>
-          <label class="form-label">이미지 파일</label>
-          <input type="text" class="form-control" value="<%= cosmetic.getImage_file() %>" readonly>
-        </div>
-        <div class="text-end">
-          <button type="submit" class="btn btn-danger">삭제</button>
-          <a href="beautyList.jsp" class="btn btn-secondary">취소</a>
         </div>
 
+        <div class="text-end">
+          <button type="submit" class="btn btn-danger">삭제 확인</button>
+          <a href="cosmetics?action=adminlist" class="btn btn-secondary">취소</a>
+        </div>
       </form>
+
       <%
         } else {
       %>
-      <div class="alert alert-warning" role="alert">
-        해당 ID의 제품을 찾을 수 없습니다.
-      </div>
+        <div class="alert alert-warning" role="alert">
+          해당 ID의 상품 정보를 찾을 수 없습니다.
+        </div>
       <%
         }
       %>
@@ -99,9 +87,6 @@
   </div>
 </section>
 
-<section class="white-space"></section>
-
 <%@ include file="footer.jsp" %>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
