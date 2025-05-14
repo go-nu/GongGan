@@ -18,7 +18,6 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
-    <%@ include file="dbconn.jsp" %>
 
 	<!-- 슬라이드 -->
 	<section class="hero">
@@ -95,52 +94,7 @@
 	</div>
 
 <!-- 체험 활동 -->
-    <section class="about-section">
-        <div class="container">
-         	<div class="section-title">
-	      		<h2>내가 신청한 프로그램</h2>
-	    	</div>
-	    	
-    		<!-- Swiper Carousel -->
-	    	<div class="swiper classSwiper">
-	      		<div class="swiper-wrapper">
-					<%
-					    PreparedStatement pstmt = null;
-					    ResultSet rs = null;
-					
-					    String sql = "SELECT DISTINCT a.* FROM activity a JOIN reservation r ON a.act_id = r.act_id WHERE r.id = ?";
-					
-					    String userId = (String) session.getAttribute("id");					
-					    pstmt = conn.prepareStatement(sql);
-					    pstmt.setString(1, userId);
-					
-					    rs = pstmt.executeQuery();
-					    while(rs.next()) {
-					%>
-
-	        		<div class="swiper-slide">
-	        			<a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" style="text-decoration: none; color: inherit;">
-			          		<div class="class-card">
-		            			<div class="class-top">
-		            				<img src="./resources/img/<%=rs.getString("img") %>" style="">
-		            			</div>
-	            				<h3><%=rs.getString("title") %></h3>
-		            			<p class="mb-1"><%=rs.getString("act_date") %></p>
-								<span class="badge d-day-badge ms-3" data-dday='<%=rs.getString("act_date")%>'></span>	
-		          			</div>
-	          			</a>
-        			</div>
-        			<%
-					    }
-        			%>
-	      		</div>
-	
-				<!-- 화살표 -->
-				<div class="swiper-button-prev"></div>
-				<div class="swiper-button-next"></div>
-		    </div>
-        </div>
-    </section>
+	<%@ include file="myReservationList.jsp" %>	
 
 	<section class="community-section">
 		<div class="container">
