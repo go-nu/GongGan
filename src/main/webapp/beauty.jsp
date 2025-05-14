@@ -91,7 +91,42 @@
 	      		<h2>뷰티 게시판</h2>
 	      		<p> [게시판 들어갈 자리] </p>
 	    	</div>
-
+				<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
+					<div class="board-section">
+						<div class="container">
+							<table class="board-table">
+								<thead>
+									<tr>
+										<th class="post-number">번호</th>
+										<th class="post-title">제목</th>
+										<th class="post-author">글쓴이</th>
+										<th class="post-date">작성일</th>
+										<th class="post-views">조회수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:if test="${empty boardList}">
+										<tr>
+											<td colspan="5" style="text-align: center; padding: 50px 0;">등록된 게시글이 없습니다.</td>
+										</tr>
+									</c:if>
+									<c:forEach var="board" items="${boardList}">
+										<tr>
+											<td class="post-number">${board.num}</td>
+											<td class="post-title">
+												<a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
+													${board.subject}
+												</a>
+											</td>
+											<td class="post-author">${board.id}</td>
+											<td class="post-date">${board.regist_day}</td>
+											<td class="post-views">${board.hit}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
         </div>
     </section>
     

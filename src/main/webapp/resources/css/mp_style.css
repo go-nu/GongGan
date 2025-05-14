@@ -263,6 +263,8 @@ a {
     background-color: #1d3557;
     color: white;
 }
+/* 게시판 */
+
 
 .about-section {
     padding: 20px 0;
@@ -297,6 +299,57 @@ a {
     background-size: cover;
     background-position: center;
     border-radius: 8px;
+}
+
+.class-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.class-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.class-top {
+	display: inline-block;
+    font-size: 40px;
+    color: #e63946;
+    margin-bottom: 20px;
+}
+
+.class-top img {
+	width: 100%;
+	display: block;
+}
+
+.nav-tabs {
+	margin-bottom: 15px;
+}
+.board .tab-content .tab-pane p  {
+	margin-left: 20px;
+}
+.class-top span {
+	font-size: 12px;
+}
+
+.class-card .badge {
+	width: 40px;
+	height: 20px;
+}
+
+.class-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.class-card p {
+    color: #666;
+	line-height: 1.6;
 }
 
 .community-section {

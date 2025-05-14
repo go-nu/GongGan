@@ -13,9 +13,12 @@
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="./resources/css/mp_style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+	<script src="./resources/js/swiper-init.js"></script>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
+    <%@ include file="dbconn.jsp" %>
 
 	<!-- 슬라이드 -->
 	<section class="hero">
@@ -60,7 +63,7 @@
 								<tr>
 									<td class="post-number">${board.num}</td>
 									<td class="post-title">
-										<a href="MyBoardAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
+										<a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
 											${board.subject}
 										</a>
 									</td>
@@ -74,15 +77,15 @@
 					<div class="board-footer">
 						<ul class="pagination">
 							<c:if test="${pageNum > 1}">
-								<li><a href="MyBoardAction.do?pageNum=${pageNum - 1}">«</a></li>
+								<li><a href="BoardViewAction.do?pageNum=${pageNum - 1}">«</a></li>
 							</c:if>
 							<c:forEach var="i" begin="${startPage}" end="${endPage}">
 								<li <c:if test="${i == pageNum}">class="active"</c:if>>
-									<a href="MyBoardAction.do?pageNum=${i}">${i}</a>
+									<a href="BoardViewAction.do?pageNum=${i}">${i}</a>
 								</li>
 							</c:forEach>
 							<c:if test="${pageNum < total_page}">
-								<li><a href="MyBoardAction.do?pageNum=${pageNum + 1}">»</a></li>
+								<li><a href="BoardViewActio.do?pageNum=${pageNum + 1}">»</a></li>
 							</c:if>
 						</ul>
 					</div>
@@ -91,15 +94,53 @@
 		</div>
 	</div>
 
-	<!-- 내가 작성한 글/댓글 -->
-	<section class="about-section">
-		<div class="container">
-			<div class="section-title">
-				<h2>내가 신청한 프로그램</h2>
-			</div>
-			
-		</div>
-	</section>
+<!-- 체험 활동 -->
+    <section class="about-section">
+        <div class="container">
+         	<div class="section-title">
+	      		<h2>내가 신청한 프로그램</h2>
+	    	</div>
+	    	
+    		<!-- Swiper Carousel -->
+	    	<div class="swiper classSwiper">
+	      		<div class="swiper-wrapper">
+					<%
+					    PreparedStatement pstmt = null;
+					    ResultSet rs = null;
+					
+					    String sql = "SELECT DISTINCT a.* FROM activity a JOIN reservation r ON a.act_id = r.act_id WHERE r.id = ?";
+					
+					    String userId = (String) session.getAttribute("id");					
+					    pstmt = conn.prepareStatement(sql);
+					    pstmt.setString(1, userId);
+					
+					    rs = pstmt.executeQuery();
+					    while(rs.next()) {
+					%>
+
+	        		<div class="swiper-slide">
+	        			<a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" style="text-decoration: none; color: inherit;">
+			          		<div class="class-card">
+		            			<div class="class-top">
+		            				<img src="./resources/img/<%=rs.getString("img") %>" style="">
+		            			</div>
+	            				<h3><%=rs.getString("title") %></h3>
+		            			<p class="mb-1"><%=rs.getString("act_date") %></p>
+								<span class="badge d-day-badge ms-3" data-dday='<%=rs.getString("act_date")%>'></span>	
+		          			</div>
+	          			</a>
+        			</div>
+        			<%
+					    }
+        			%>
+	      		</div>
+	
+				<!-- 화살표 -->
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+		    </div>
+        </div>
+    </section>
 
 	<section class="community-section">
 		<div class="container">
@@ -113,6 +154,7 @@
 		</div>
 	</section>
 
+    <%@ include file="swiper.jsp" %>
 	<%@ include file="footer.jsp"%>
 </body>
 </html>

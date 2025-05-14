@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page session="true" %>
-<%@ page import = "java.util.*" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
+<%@ page import="mvc.model.BoardDTO"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -44,51 +45,45 @@
             <div class="my-4 board" style="min-height: 400px;">
 				<!-- 게시판 미리 보기 -->
 				<div class="px-2 ps-sm-5">
-					<ul class="nav nav-tabs" role="tablist">
-					  	<li class="nav-item" role="presentation">
-						    <a class="nav-link active" data-bs-toggle="tab" href="#home" aria-selected="true" role="tab">전체 게시판</a>
-					  	</li>
-					  	<li class="nav-item" role="presentation">
-						    <a class="nav-link" data-bs-toggle="tab" href="#c1" aria-selected="false" role="tab" tabindex="-1">맛집 공유</a>
-					  	</li>
-					  	<li class="nav-item" role="presentation">
-						    <a class="nav-link" data-bs-toggle="tab" href="#c2" aria-selected="false" role="tab" tabindex="-1">원데이 클래스</a>
-					  	</li>
-					  	<li class="nav-item" role="presentation">
-						    <a class="nav-link" data-bs-toggle="tab" href="#c3" aria-selected="false" role="tab" tabindex="-1">한식 레시피 공유</a>
-					  	</li>
-				  	  	<li class="nav-item ms-auto" role="presentation">
-			    			<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
-			  			</li>
-					</ul>
-					<div id="myTabContent" class="tab-content  min-vh-20 max-vw-60">
-						<div class="tab-pane fade active show mt-2" id="home" role="tabpanel">
-					    	<p><span class="badge bg-danger me-3">공지</span> 공지 제목</p>
-					    	<p><span class="badge bg-success me-3">인기</span> 인기글</p>
-					    	<p><span class="badge bg-success me-3">인기</span> 인기글</p>
-					    	<p><span class="badge bg-primary me-3">일반</span> 일반 제목1</p>
-					    	<p><span class="badge bg-primary me-3">일반</span> 일반 제목2</p>
-					    	<p><span class="badge bg-primary me-3">일반</span> 일반 제목3</p>
-					  	</div>
-					  	<div class="tab-pane fade mt-2" id="c1" role="tabpanel">
-					    	<p><span class="badge bg-danger me-3">공지</span> 공지 제목</p>
-					    	<p><span class="badge bg-success me-3">인기</span> 인기글</p>
-					    	<p><span class="badge bg-primary me-3">일반</span> 일반 제목1</p>
-				    	</div>
-					  	<div class="tab-pane fade mt-2" id="c2" role="tabpanel">
-					    	<p><span class="badge bg-danger me-3">공지</span> 공지 제목</p>
-					    	<p><span class="badge bg-success me-3">인기</span> 인기글</p>
-					    	<p><span class="badge bg-primary me-3">일반</span> 일반 제목1</p>
-					  	</div>
-					  	<div class="tab-pane fade mt-2" id="c3" role="tabpanel">
-					    	<p><span class="badge bg-danger me-3">공지</span> 공지 제목</p>
-					    	<p><span class="badge bg-success me-3">인기</span> 인기글</p>
-					    	<p><span class="badge bg-primary me-3">일반</span> 일반 제목1</p>
-				    	</div>
+					<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
+					<div class="board-section">
+						<div class="container">
+							<table class="board-table">
+								<thead>
+									<tr>
+										<th class="post-number">번호</th>
+										<th class="post-title">제목</th>
+										<th class="post-author">글쓴이</th>
+										<th class="post-date">작성일</th>
+										<th class="post-views">조회수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:if test="${empty boardList}">
+										<tr>
+											<td colspan="5" style="text-align: center; padding: 50px 0;">등록된 게시글이 없습니다.</td>
+										</tr>
+									</c:if>
+									<c:forEach var="board" items="${boardList}">
+										<tr>
+											<td class="post-number">${board.num}</td>
+											<td class="post-title">
+												<a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
+													${board.subject}
+												</a>
+											</td>
+											<td class="post-author">${board.id}</td>
+											<td class="post-date">${board.regist_day}</td>
+											<td class="post-views">${board.hit}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</div>
+			  	</div>
 			</div>
-        </div>
+		</div>
     </section>
     
 <!-- 체험 활동 -->
@@ -116,7 +111,7 @@
 	        			<a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" style="text-decoration: none; color: inherit;">
 			          		<div class="class-card">
 		            			<div class="class-top">
-		            				<img src="./resources/img/<%=rs.getString("img") %>">
+		            				<img src="./resources/img/<%=rs.getString("img") %>" style="width:200px; height:200px;">
 		            			</div>
 	            				<h3><%=rs.getString("title") %></h3>
 		            			<p class="mb-1"><%=rs.getString("act_date") %></p>

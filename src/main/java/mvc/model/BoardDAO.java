@@ -77,7 +77,96 @@ public class BoardDAO {
 
 		    return total_record;
 		}
+	   
+	   public int getMyListCount(String id) {
+		    Connection conn = null;
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    int total_record = 0;
 
+		    String sql;
+
+		    try {
+		        conn = DBConnection.getConnection();
+
+	            sql = "SELECT COUNT(*) FROM board WHERE id = ?";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setString(1, id);
+
+		        rs = pstmt.executeQuery();
+		        if (rs.next()) {
+		            total_record = rs.getInt(1);
+		        }
+
+		    } catch (Exception ex) {
+		        System.out.println("getMyListCount() : " + ex);
+		    } finally {
+		        try {
+		            if (rs != null) rs.close();
+		            if (pstmt != null) pstmt.close();
+		            if (conn != null) conn.close();
+		        } catch (Exception ex) {
+		            throw new RuntimeException(ex.getMessage());
+		        }
+		    }
+		    return total_record;
+		}
+
+	// 마이페이지 내가 쓴 글 목록 보기
+		public ArrayList<BoardDTO> getMyBoard(int page, int limit, String id) {
+			Connection conn = null;
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+
+		    int start = (page - 1) * limit;
+		    int index = start + 1;
+		    int total_record = getMyListCount(id);
+
+		    String sql;
+		    ArrayList<BoardDTO> list = new ArrayList<>();
+
+		    try {
+		        conn = DBConnection.getConnection();
+
+	        	sql = "SELECT * FROM board WHERE id = ? ORDER BY num DESC";
+	    		pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+	            pstmt.setString(1, id);
+	            
+	            rs = pstmt.executeQuery();
+	            
+	            while (rs.absolute(index)) {
+	            	BoardDTO board = new BoardDTO();
+	            	board.setNum(rs.getInt("num"));
+	            	board.setId(rs.getString("id"));
+	            	board.setSubject(rs.getString("subject"));
+	            	board.setContent(rs.getString("content"));
+	            	board.setRegist_day(rs.getString("regist_day"));
+	            	board.setHit(rs.getInt("hit"));
+	            	board.setIp(rs.getString("ip"));
+	            	board.setLiking(rs.getInt("liking"));
+	            	list.add(board);
+	            	
+	            	if (index < (start + limit) && index <= total_record)
+	            		index++;
+	            	else
+	            		break;
+	            }
+	            
+	            return list;
+		    } catch (Exception ex) {
+		    	System.out.println("getBoardList() : " + ex);
+		    } finally {
+		    	try {
+		    		if (rs != null) rs.close();
+		    		if (pstmt != null) pstmt.close();
+		    		if (conn != null) conn.close();
+		    	} catch (Exception ex) {
+		    		throw new RuntimeException(ex.getMessage());
+	        }	
+	    }	
+		    
+		    return null;
+		}
     
     //board 테이블의 레코드 가져오기
     // 입력받은 페이지와 검색조건에 따라 게시글 목록을 조회해 ArrayList로 반환

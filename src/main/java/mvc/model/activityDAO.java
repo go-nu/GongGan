@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import mvc.database.DBconn;
+import mvc.database.DBConnection;
 
 public class activityDAO {
 //	싱글톤
@@ -30,7 +30,7 @@ public class activityDAO {
 		
 		String sql = "select act_date from activity where where act_id=" + act_id;
 		try {
-			conn = DBconn.getConnection();
+			conn = DBConnection.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
