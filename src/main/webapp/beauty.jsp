@@ -73,7 +73,7 @@
 <!--  중단 -->
 <section class="about-section">
   	<div class="container text-center py-5">
-    <h4 class="text-muted">상단</h4>
+    	<%@ include file="map.jsp" %>
     </div>
 </section>
 
@@ -81,7 +81,47 @@
 <section class="class-section">
   <div class="container text-center py-5">
     <h4 class="text-muted">하단</h4>
-    <%@ include file="map.jsp" %>
+    <!-- 게시판 미리 보기 -->
+    <div class="my-4 board" style="min-height: 400px;">
+		<div class="px-2 ps-sm-5">
+			<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
+			<div class="board-section">
+				<div class="container">
+					<table class="board-table">
+						<thead>
+							<tr>
+								<th class="post-number">번호</th>
+								<th class="post-title">제목</th>
+								<th class="post-author">글쓴이</th>
+								<th class="post-date">작성일</th>
+								<th class="post-views">조회수</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:if test="${empty boardList}">
+								<tr>
+									<td colspan="5" style="text-align: center; padding: 50px 0;">등록된 게시글이 없습니다.</td>
+								</tr>
+							</c:if>
+							<c:forEach var="board" items="${boardList}">
+								<tr>
+									<td class="post-number">${board.num}</td>
+									<td class="post-title">
+										<a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
+											${board.subject}
+										</a>
+									</td>
+									<td class="post-author">${board.id}</td>
+									<td class="post-date">${board.regist_day}</td>
+									<td class="post-views">${board.hit}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+	  	</div>
+	</div>
   </div>
 </section>
 

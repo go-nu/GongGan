@@ -44,8 +44,8 @@
             <div class="section-title">
                 <h2>K-FOOD 게시판</h2>
             </div>
+            <!-- 게시판 미리 보기 -->
             <div class="my-4 board" style="min-height: 400px;">
-				<!-- 게시판 미리 보기 -->
 				<div class="px-2 ps-sm-5">
 					<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
 					<div class="board-section">

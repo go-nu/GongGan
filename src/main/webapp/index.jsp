@@ -13,7 +13,7 @@
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./resources/css/index_style.css">
-	<style>
+<style>
 	.floating-edit-btn {
 		position: fixed;
 		bottom: 30px;
@@ -32,7 +32,7 @@
 	.floating-edit-btn:hover {
 		background-color: #0056b3;
 	}
-	</style>
+</style>
 </head>
 <body>
     <%@ include file="header.jsp" %>

@@ -42,14 +42,60 @@
 <!-- 초록칸 -->
     <section class="about-section">
         <div class="container">
+         	<div class="section-title">
+	      		<h2>한국의 매력 도시</h2>
+	    	</div>
             <div class="about-content">
-                <div class="about-text">
-                    <h2>K-CULTURE</h2>
-                    <p>K-CULTURE 한류 문화에 대한 정보 글 간단히 + 그래프? 같은거 넣으면 좋을듯</p>
-                    <p>ㄹㅇㄹㅇ</p>
-                    <p>ㅇㅈㅇㅈ</p>
-                </div>
-                <div class="about-image"></div>
+				<div class="category-grid">
+	                <div class="category-card">
+	                    <img src="./resources/img/seoul.jpg" class="category-image">
+	                    <div class="category-info">
+	                        <h3>서울</h3>
+	                        <p>전통과 현대가 어우러진 <br>대한민국의 수도</p>
+	                        <div>
+	                            <span class="tag">경복궁</span>
+	                            <span class="tag">남산타워</span>
+	                            <span class="tag">홍대거리</span>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="category-card">
+	                	<img src="./resources/img/busan.jpg" class="category-image">
+	                    <div class="category-info">
+	                        <h3>부산</h3>
+	                        <p>바다와 도시가 만나는 <br>낭만적인 항구 도시</p>
+	                        <div>
+	                            <span class="tag">해운대</span>
+	                            <span class="tag">광안리</span>
+	                            <span class="tag">감천문화마을</span>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="category-card">
+	                    <img src="./resources/img/jeju.jpg" class="category-image">
+	                    <div class="category-info">
+	                        <h3>제주도</h3>
+	                        <p>자연이 살아 숨 쉬는 <br>힐링 아일랜드</p>
+	                        <div>
+	                            <span class="tag">성산일출봉</span>
+	                            <span class="tag">우도</span>
+	                            <span class="tag">한라산</span>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="category-card">
+	                    <img src="./resources/img/gyeongju.jpg" class="category-image">
+	                    <div class="category-info">
+	                        <h3>경주</h3>
+	                        <p>천년의 역사를 품은 <br>고대 왕국 신라의 도시</p>
+	                        <div>
+	                            <span class="tag">불국사</span>
+	                            <span class="tag">첨성대</span>
+	                            <span class="tag">월정교</span>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
             </div>
         </div>
     </section>
@@ -58,26 +104,49 @@
     <section class="community-section">
         <div class="container">
             <div class="section-title">
-                <h2>[사이트 이름] 사용법</h2>
-                <p>사용법 어쩌고 저쩌고</p>
+                <h2>게시판</h2>
             </div>
-            <div class="community-cards">
-                <div class="community-card">
-                    <div class="community-icon">👨‍👩‍👧‍👦</div>
-                    <h3>정보 공유</h3>
-                    <p>나만의 특별한 경험과 유익한 정보를 <br>다른 이들과 나눠보아요</p>
-                </div>
-                <div class="community-card">
-                    <div class="community-icon">🗺</div>
-                    <h3>장소 찾기</h3>
-                    <p>지도를 보며 체험 장소를 찾아보거나 <br>주변 맛집을 찾아보아요</p>
-                </div>
-                <div class="community-card">
-                    <div class="community-icon">✍</div>
-                    <h3>체험 클래스</h3>
-                    <p>다양한 원데이 클래스들을 골라 <br>체험해 보아요</p>
-                </div>
-            </div>
+            <!-- 게시판 미리 보기 -->
+            <div class="my-4 board" style="min-height: 400px;">
+				<div class="px-2 ps-sm-5">
+					<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
+					<div class="board-section">
+						<div class="container">
+							<table class="board-table">
+								<thead>
+									<tr>
+										<th class="post-number">번호</th>
+										<th class="post-title">제목</th>
+										<th class="post-author">글쓴이</th>
+										<th class="post-date">작성일</th>
+										<th class="post-views">조회수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:if test="${empty boardList}">
+										<tr>
+											<td colspan="5" style="text-align: center; padding: 50px 0;">등록된 게시글이 없습니다.</td>
+										</tr>
+									</c:if>
+									<c:forEach var="board" items="${boardList}">
+										<tr>
+											<td class="post-number">${board.num}</td>
+											<td class="post-title">
+												<a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
+													${board.subject}
+												</a>
+											</td>
+											<td class="post-author">${board.id}</td>
+											<td class="post-date">${board.regist_day}</td>
+											<td class="post-views">${board.hit}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+			  	</div>
+			</div>
         </div>
     </section>
     

@@ -278,7 +278,7 @@ nav ul li a:hover {
 
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
 }
 
@@ -302,6 +302,7 @@ nav ul li a:hover {
 
 .category-info {
     padding: 20px;
+    letter-spacing: .1em;
 }
 
 .category-info h3 {

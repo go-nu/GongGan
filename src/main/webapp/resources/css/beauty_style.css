@@ -21,26 +21,6 @@ a {
     padding: 0 20px;
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-}
-
-nav ul li {
-    margin-left: 25px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover {
-    color: #e63946;
-}
-
 .hero {
     background-position: center;
     height: 60vh;
@@ -251,6 +231,163 @@ nav ul li a:hover {
     color: #666;
 	line-height: 1.6;
 }
+
+/* 게시판 섹션 스타일 */
+.board-section {
+    padding: 8px 0 0 0;
+}
+
+.board-header {
+    margin-bottom: 30px;
+}
+
+.board-header h1 {
+    font-size: 32px;
+    color: #1d3557;
+    margin-bottom: 10px;
+}
+
+.board-header p {
+    color: #666;
+}
+
+.board-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.total-posts {
+    font-size: 16px;
+    color: #666;
+}
+
+.total-posts strong {
+    color: #e63946;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+}
+
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-left: none;
+    font-size: 14px;
+    width: 250px;
+}
+
+.search-btn {
+    padding: 8px 16px;
+    background-color: #1d3557;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+    background-color: #142a43;
+}
+
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.board-table th {
+    background-color: #f1faee;
+    color: #1d3557;
+    padding: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.board-table td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.board-table tr:last-child td {
+    border-bottom: none;
+}
+
+.board-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.post-number {
+    width: 8%;
+    text-align: center;
+}
+
+.post-title {
+    width: 55%;
+}
+
+.post-author {
+    width: 12%;
+}
+
+.post-date {
+    width: 10%;
+    text-align: center;
+}
+
+.post-views {
+    width: 10%;
+    text-align: center;
+}
+
+.title-link {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.title-link:hover {
+    color: #e63946;
+}
+
+.comment-count {
+    background-color: #e63946;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.new-badge {
+    background-color: #2a9d8f;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-weight: normal;
+}
+/* 게시판 미리보기 */
+
 
 @media (max-width: 992px) {
     .category-grid, .class-cards, .footer-content {
