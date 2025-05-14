@@ -17,6 +17,17 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
+	<!-- 화장풀 서블릿 URL 매핑 -->
+	<servlet>
+	    <servlet-name>CosmeticsServlet</servlet-name>
+	    <servlet-class>dao.CosmeticsRepository</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>CosmeticsServlet</servlet-name>
+	    <url-pattern>/Cosmetics</url-pattern>
+	</servlet-mapping>
+	
 	<!-- 기본 시작 페이지 설정 (필요 시 주석 해제) -->
 	<!-- <welcome-file-list> <welcome-file>index.jsp</welcome-file> </welcome-file-list> -->
 

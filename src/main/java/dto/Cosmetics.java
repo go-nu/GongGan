@@ -1,103 +1,57 @@
 package dto;
 
-import java.io.Serializable;
+public class Cosmetics {
+    private int id;
+    private String name;
+    private String brand;
+    private int price;
+    private String main_ingredient;
+    private String effect;
+    private String category;
+    private String image_file;
+    private int likes;
 
-public class Cosmetics implements Serializable {
+    // 기본 생성자
+    public Cosmetics() {}
 
-		private static final long serialVersionUID = -4274700572038677000L;
-		
-		private int id; 	        // 화장품ID
-		private String name; 	    // 화장품이름
-		private String brand; 	    // 화장품브랜드
-		private int price;          // 가격
-		private String main_ingredient; //메인성분
-		private String effect;      // 효과효능
-		private String category; 	// 카테고리
-		private String image_file; 	// 이미지파일
-		private int likes; 	        // 좋아요
-		
-		public Cosmetics() {
-		        super();
-		}
-		public Cosmetics(String name) {
-	        super();
-	        this.name = name;
-		}
-		
-		public int getId() {
-			return this.id;
-		}
+    // 전체 생성자
+    public Cosmetics(int id, String name, String brand, int price, String main_ingredient, String effect, String category, String image_file, int likes) {
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.price = price;
+        this.main_ingredient = main_ingredient;
+        this.effect = effect;
+        this.category = category;
+        this.image_file = image_file;
+        this.likes = likes;
+    }
 
-		public void setId(int id) {
-			this.id = id;
-		}
+    // Getter / Setter
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-		public String getName() {
-			return name;
-		}
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-		public void setName(String name) {
-			this.name = name;
-		}
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
 
-		public String getBrand() {
-			return brand;
-		}
+    public int getPrice() { return price; }
+    public void setPrice(int price) { this.price = price; }
 
-		public void setBrand(String brand) {
-			this.brand = brand;
-		}
+    public String getMain_ingredient() { return main_ingredient; }
+    public void setMain_ingredient(String main_ingredient) { this.main_ingredient = main_ingredient; }
 
-		public int getPrice() {
-			return price;
-		}
+    public String getEffect() { return effect; }
+    public void setEffect(String effect) { this.effect = effect; }
 
-		public void setPrice(int price) {
-			this.price = price;
-		}
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-		public String getMain_ingredient() {
-			return main_ingredient;
-		}
+    public String getImage_file() { return image_file; }
+    public void setImage_file(String image_file) { this.image_file = image_file; }
 
-		public void setMain_ingredient(String main_ingredient) {
-			this.main_ingredient = main_ingredient;
-		}
-
-		public String getEffect() {
-			return effect;
-		}
-
-		public void setEffect(String effect) {
-			this.effect = effect;
-		}
-
-		public String getCategory() {
-			return category;
-		}
-
-		public void setCategory(String category) {
-			this.category = category;
-		}
-
-		public String getImage_file() {
-			return image_file;
-		}
-
-		public void setImage_file(String image_file) {
-			this.image_file = image_file;
-		}
-
-		public int getLikes() {
-			return likes;
-		}
-
-		public void setLikes(int likes) {
-			this.likes = likes;
-		}
-
-		public static long getSerialversionuid() {
-			return serialVersionUID;
-		}
-		
+    public int getLikes() { return likes; }
+    public void setLikes(int likes) { this.likes = likes; }
 }
