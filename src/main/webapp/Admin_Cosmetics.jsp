@@ -9,17 +9,28 @@
 <title>관리자 상품 관리</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/beautyList_style.css">
+<link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/beauty_style.css">
 <script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
 </head>
 <body>
 <%@ include file="header.jsp" %>
 
-<section class="bg-image" style="padding-top: 100px;">
-  <div class="overlay">
-    <div class="container">
+	<!-- ✅ 메인 이미지 섹션 -->
+		<section class="hero">
+		  <div class="carousel-inner">
+		    <div class="carousel-item active">
+		      <img src="<%= request.getContextPath() %>/resources/img/BEAUTY05.jpg" class="d-block w-100" alt="관리자 상품 관리">
+		      <div class="fixed-caption">
+		        <h3>상품 관리</h3>
+		        <p>관리자 전용 상품 페이지</p>
+		      </div>
+		    </div>
+		  </div>
+		</section>
+    
+    <div class="container">	
 
-      <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
         <h2 class="ml-0">관리자 상품 목록</h2>
 
         <div class="d-flex align-items-center gap-2">
@@ -99,8 +110,6 @@
       </nav>
 
     </div> <!-- container 끝 -->
-  </div> <!-- overlay 끝 -->
-</section> <!-- section 끝 -->
 
 <%@ include file="footer.jsp" %>
 
