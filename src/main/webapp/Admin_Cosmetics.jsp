@@ -15,7 +15,7 @@
 <body>
 <%@ include file="header.jsp" %>
 
-	<!-- ✅ 메인 이미지 섹션 -->
+	<!--  메인 이미지 섹션 -->
 		<section class="hero">
 		  <div class="carousel-inner">
 		    <div class="carousel-item active">
@@ -31,7 +31,7 @@
     <div class="container">	
 
       <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
-        <h2 class="ml-0">관리자 상품 목록</h2>
+        <h2 class="ml-0" style="margin-top: 30px;">관리자 상품 목록</h2>
 
         <div class="d-flex align-items-center gap-2">
           <form method="get" action="Admin_Cosmetics.jsp" class="d-flex align-items-center gap-2 m-0">
@@ -90,8 +90,8 @@
         <% } %>
       </div>
 
-      <!-- ✅ 페이지네이션 -->
-      <nav aria-label="Page navigation" class="mt-4">
+      <!--  페이지네이션 -->
+      <nav aria-label="Page navigation" class="mt-4 mb-4">
         <ul class="pagination justify-content-center">
           <li class="page-item <%= (currentPage == 1) ? "disabled" : "" %>">
             <a class="page-link" href="Admin_Cosmetics.jsp?page=<%= currentPage - 1 %><%= categoryFilter != null ? "&category=" + categoryFilter : "" %>">이전</a>

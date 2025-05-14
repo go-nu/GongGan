@@ -20,7 +20,7 @@
       <h3 class="mb-4 text-start">상품 삭제 확인</h3>
 
       <%
-      CosmeticsDTO cosmetic = (CosmeticsDTO) request.getAttribute("cosmetic");
+        CosmeticsDTO cosmetic = (CosmeticsDTO) request.getAttribute("cosmetic");
         if (cosmetic != null) {
       %>
 
@@ -39,6 +39,7 @@
             </div>
           </div>
 
+         
           <div class="form-row-custom">
             <div class="form-col">
               <label class="form-label">가격</label>
@@ -50,6 +51,7 @@
             </div>
           </div>
 
+        
           <div class="form-row-custom">
             <div class="form-col">
               <label class="form-label">주요 성분</label>
@@ -60,11 +62,21 @@
               <input type="text" class="form-control" value="<%= cosmetic.getEffect() %>" readonly>
             </div>
           </div>
+
+          
+          <div class="form-row-custom">
+            <div class="form-col">
+              <label class="form-label">이미지 파일</label>
+              <input type="text" class="form-control" value="<%= cosmetic.getImage_file() %>" readonly>
+            </div>
+            <div class="form-col"></div>
+          </div>
         </div>
 
-        <div class="preview-container mb-3">
+        <!-- 우측 이미지 미리보기 -->
+        <div class="preview-container">
           <div id="imagePreviewContainer">
-            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" class="img-fluid" style="max-width: 300px; object-fit: contain;">
+            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" alt="미리보기" id="imagePreview">
           </div>
         </div>
 
@@ -74,15 +86,11 @@
         </div>
       </form>
 
-      <%
-        } else {
-      %>
+      <% } else { %>
         <div class="alert alert-warning" role="alert">
           해당 ID의 상품 정보를 찾을 수 없습니다.
         </div>
-      <%
-        }
-      %>
+      <% } %>
     </div>
   </div>
 </section>
