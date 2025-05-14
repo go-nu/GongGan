@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
-<%@ page import="dto.Cosmetics" %>
-<%@ page import="dao.CosmeticsRepository" %>
+<%@ page import="mvc.model.CosmeticsDTO" %>
+<%@ page import="mvc.model.CosmeticsDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +34,8 @@
           }
           
           // CosmeticsRepository에서 카테고리별 화장품 리스트 가져오기
-          CosmeticsRepository cosmeticsRepository = CosmeticsRepository.getInstance();
-          List<Cosmetics> cosmeticsList = cosmeticsRepository.getCosmeticsByCategory(category);
+          CosmeticsDAO cosmeticsRepository = CosmeticsDAO.getInstance();
+          List<CosmeticsDTO> cosmeticsList = cosmeticsRepository.getCosmeticsByCategory(category);
 
           int itemsPerPage = 16;
           int totalItems = cosmeticsList.size();
@@ -51,7 +51,7 @@
         <h3 class="mb-4 text-start"><%= category %></h3>
         <div class="row row-cols-1 row-cols-md-4 gy-5 gx-4">
           <% for (int i = startIndex; i < endIndex; i++) {
-              Cosmetics cosmetic = cosmeticsList.get(i);
+        	  CosmeticsDTO cosmetic = cosmeticsList.get(i);
           %>
 
         <!-- 카드 -->

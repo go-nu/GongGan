@@ -1,22 +1,22 @@
-package dao;
+package mvc.model;
 
-import dto.Cosmetics;
+import mvc.model.CosmeticsDTO;
 import mvc.database.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CosmeticsRepository {
-    private static CosmeticsRepository instance;
+public class CosmeticsDAO {
+    private static CosmeticsDAO instance;
 
-    private CosmeticsRepository() {
+    private CosmeticsDAO() {
         // DB 연결 처리 없이, 이제 DBConnection을 통해 연결을 사용합니다.
     }
 
-    public static CosmeticsRepository getInstance() {
+    public static CosmeticsDAO getInstance() {
         if (instance == null) {
-            instance = new CosmeticsRepository();
+            instance = new CosmeticsDAO();
         }
         return instance;
     }
@@ -33,7 +33,7 @@ public class CosmeticsRepository {
     }
 
  // 1. CREATE: 새 화장품 추가
-    public boolean addCosmetic(Cosmetics cosmetic) {
+    public boolean addCosmetic(CosmeticsDTO cosmetic) {
     	String name = (cosmetic.getName() != null) ? cosmetic.getName() : "";
     	String brand = (cosmetic.getBrand() != null) ? cosmetic.getBrand() : "";
     	int price = (cosmetic.getPrice() > 0) ? cosmetic.getPrice() : 0;  // 적절한 기본값 설정
@@ -73,14 +73,14 @@ public class CosmeticsRepository {
     }
 
     // 2. READ: 특정 카테고리 화장품 목록 불러오기
-    public List<Cosmetics> getCosmeticsByCategory(String category) {
-        List<Cosmetics> cosmeticsList = new ArrayList<>();
+    public List<CosmeticsDTO> getCosmeticsByCategory(String category) {
+        List<CosmeticsDTO> cosmeticsList = new ArrayList<>();
         String sql = "SELECT * FROM cosmetics WHERE category = ?";
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, category);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Cosmetics cosmetic = new Cosmetics(
+            	CosmeticsDTO cosmetic = new CosmeticsDTO(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("brand"),
@@ -100,13 +100,13 @@ public class CosmeticsRepository {
     }
 
     // 3. READ: 특정 ID로 화장품 찾기
-    public Cosmetics getCosmeticById(int id) {
+    public CosmeticsDTO getCosmeticById(int id) {
         String sql = "SELECT * FROM cosmetics WHERE id = ?";
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Cosmetics(
+                return new CosmeticsDTO(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("brand"),
@@ -125,7 +125,7 @@ public class CosmeticsRepository {
     }
 
     // 4. UPDATE: 화장품 정보 수정
-    public boolean updateCosmetic(Cosmetics cosmetic) {
+    public boolean updateCosmetic(CosmeticsDTO cosmetic) {
         String sql = "UPDATE cosmetics SET name = ?, brand = ?, price = ?, main_ingredient = ?, effect = ?, category = ?, image_file = ?, likes = ? WHERE id = ?";
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, cosmetic.getName());
@@ -158,14 +158,14 @@ public class CosmeticsRepository {
     }
     
     // 6. 전체 화장품 목록 가져오기 (READ ALL)
-    public List<Cosmetics> getAllCosmetics() {
-        List<Cosmetics> cosmeticsList = new ArrayList<>();
+    public List<CosmeticsDTO> getAllCosmetics() {
+        List<CosmeticsDTO> cosmeticsList = new ArrayList<>();
         String sql = "SELECT * FROM cosmetics";
 
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Cosmetics cosmetic = new Cosmetics(
+            	CosmeticsDTO cosmetic = new CosmeticsDTO(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("brand"),
@@ -184,4 +184,40 @@ public class CosmeticsRepository {
 
         return cosmeticsList;
     }
+    
+    // 7 .같은 카테고리에서 자기 자신(id)을 제외한 상품 최대 limit개 가져오기 (detail사용)
+    public List<CosmeticsDTO> getRelatedCosmetics(String category, int excludeId, int limit) {
+        List<CosmeticsDTO> related = new ArrayList<>();
+        String sql = "SELECT * FROM cosmetics WHERE category = ? AND id != ? LIMIT ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, category);
+            stmt.setInt(2, excludeId);
+            stmt.setInt(3, limit);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+            	CosmeticsDTO cosmetic = new CosmeticsDTO(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("brand"),
+                    rs.getInt("price"),
+                    rs.getString("main_ingredient"),
+                    rs.getString("effect"),
+                    rs.getString("category"),
+                    rs.getString("image_file"),
+                    rs.getInt("likes")
+                );
+                related.add(cosmetic);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return related;
+    }
+
 }

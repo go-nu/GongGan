@@ -1,6 +1,6 @@
-package dto;
+package mvc.model;
 
-public class Cosmetics {
+public class CosmeticsDTO {
     private int id;
     private String name;
     private String brand;
@@ -12,10 +12,10 @@ public class Cosmetics {
     private int likes;
 
     // 기본 생성자
-    public Cosmetics() {}
+    public CosmeticsDTO() {}
 
     // 전체 생성자
-    public Cosmetics(int id, String name, String brand, int price, String main_ingredient, String effect, String category, String image_file, int likes) {
+    public CosmeticsDTO(int id, String name, String brand, int price, String main_ingredient, String effect, String category, String image_file, int likes) {
         this.id = id;
         this.name = name;
         this.brand = brand;
