@@ -26,16 +26,9 @@
   </div>
 </section>
 
-<!--  상단  -->
+<!--  화장품 섹션  -->
 <section class="featured-section">
-  <div class="container text-center py-5">
-    <h4 class="text-muted">상단</h4>
-  </div>
-</section>
-
-<!--  뷰티 카드 -->
-<section class="about-section">
-  <div class="container">
+	<div class="container">
     <%
       List<CosmeticsDTO> allCosmetics = (List<CosmeticsDTO>) request.getAttribute("cosmeticsList");
 
@@ -75,6 +68,13 @@
     </div>
     <% } %>
   </div>
+</section>
+
+<!--  중단 -->
+<section class="about-section">
+  	<div class="container text-center py-5">
+    <h4 class="text-muted">상단</h4>
+    </div>
 </section>
 
 <!-- 하단 -->

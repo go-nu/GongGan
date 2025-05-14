@@ -26,15 +26,8 @@
   </div>
 </section>
 
-<!-- 섹션 위 -->
+<!-- 화장품 카테고리 -->
 <section class="featured-section">
-  <div class="container text-center py-5">
-    <h4 class="text-muted">상단 섹션</h4>
-  </div>
-</section>
-
-<!-- 카테고리 -->
-<section class="about-section">
   <div class="container pt-5 pb-5">
     <% 
       String category = request.getParameter("category");
@@ -73,7 +66,7 @@
     </div>
 
     <!-- 페이지 네비게이션 -->
-    <nav aria-label="Page navigation example" class="mt-4">
+    <nav aria-label="Page navigation example" class="mt-5 mb-5">
       <ul class="pagination justify-content-center">
         <li class="page-item <%= (currentPage == 1) ? "disabled" : "" %>">
           <a class="page-link" href="?category=<%= category %>&page=<%= currentPage - 1 %>">이전</a>
@@ -91,7 +84,14 @@
   </div>
 </section>
 
-<!-- 섹션 아래 -->
+<!-- 중단 -->
+<section class="about-section">
+  	 <div class="container text-center py-5">
+     <h4 class="text-muted">중단 섹션</h4>
+     </div>
+</section>
+
+<!-- 하단 -->
 <section class="class-section">
   <div class="container text-center py-5">
     <h4 class="text-muted">하단 섹션</h4>

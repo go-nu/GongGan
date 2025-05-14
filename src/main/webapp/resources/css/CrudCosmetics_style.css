@@ -1,158 +1,101 @@
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Sans KR', 'Arial', sans-serif;
-        }
-        
-        body {
-            background-color: #fafafa;
-            color: #333;
-        }
-        
-        header {
-            background-color: #fafafa;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: #e63946;
-        }
-        
-        .logo span {
-            color: #1d3557;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 25px;
-        }
-        
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            color: #e63946;
-        }
-        
-        
-        
-        /* 배경 이미지 섹션 */
-		.bg-image {
-			position: relative; 
-		    background-color: #f1faee; /* 배경 */
-		    background-size: cover; /* 배경 이미지가 섹션을 완전히 덮게 만듬 */
-		    background-position: center center; /* 배경 이미지가 섹션 중앙에 맞춰짐 */
-		    background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 */
-		    margin: 0 auto;
-		    width: 100%;
-		    height: 100%; /* 섹션 높이에 맞게 설정 */
-		    position: relative;
-		}
-		
-		/* 상하단 공간 */
-		.white-space {
-		  background-color: white;
-		  height: 200px; /* 원하는 높이로 조절 */
-		}
-		
-		.overlay {
-		    background: rgba(255, 255, 255, 0.5);
-		    z-index: 1;
-		}
-		
-		.container.pt-5.pb-5 > form {
-		  display: grid;
-		  grid-template-columns: 1fr 300px; /* 왼쪽 남은 공간, 오른쪽 300px (이미지 + 파일 선택) */
-		  gap: 20px; /* 컬럼 사이 간격 */
-		}
-		
-		.form-left-side {
-		  display: flex;
-		  flex-direction: column;
-		  gap: 10px; /* 각 form-row-custom 사이 간격 */
-		}
-		
-		.form-row-custom {
-		  display: flex;
-		  gap: 10px; /* 내부 요소 간 간격 */
-		  align-items: center;
-		}
-		
-		.form-col {
-		  display: flex;
-		  flex-direction: column;
-		  flex: 1;
-		}
-		
-		.form-col > label {
-		  margin-bottom: 5px;
-		}
-		
-		.preview-container {
-		  display: flex;
-		  flex-direction: column;
-		  align-items: flex-end; /* 오른쪽 정렬 */
-		}
-		
-		#imagePreviewContainer {
-		  width: 300px;
-		  height: 300px;
-		  border: 1px solid #000;
-		  overflow: hidden;
-		  display: flex;
-		  justify-content: center;
-		  align-items: center;
-		  margin-bottom: 5px; /* 이미지와 파일 선택 창 사이 간격 */
-		}
-		
-		#imagePreview {
-		  max-width: 100%;
-		  max-height: 100%;
-		  object-fit: contain;
-		  display: block;
-		}
-		
-		.preview-container > label {
-		  width: 300px; /* 파일 선택 레이블 너비 고정 */
-		  text-align: left; /* 텍스트 왼쪽 정렬 */
-		}
-		
-		.preview-container > input[type="file"] {
-		  width: 300px; /* 파일 선택 input 너비 고정 */
-		}
-		
-		.text-end {
-		  grid-column: 1 / 3; /* 버튼을 아래쪽 전체 너비로 확장 */
-		  text-align: end;
-		  margin-top: 20px;
-		}
-		
-		
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', 'Arial', sans-serif;
+}
+
+body {
+  background-color: #fafafa;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.white-space {
+  background-color: white;
+  height: 200px;
+}
+
+.bg-image {
+  background-color: #f1faee;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.overlay {
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 1;
+}
+
+.container.pt-5.pb-5 > form {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+}
+
+.form-left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-row-custom {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.form-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-col > label {
+  margin-bottom: 5px;
+}
+
+/* 미리보기 박스 우측 고정 */
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#imagePreviewContainer {
+  width: 300px;
+  height: 300px;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+#imagePreview {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* 파일 선택 바 너비 조정 */
+.preview-container input[type="file"] {
+  width: 100%;
+  max-width: 410px;
+}
+
+.text-end {
+  grid-column: 1 / 3;
+  text-align: end;
+  margin-top: 20px;
+}
