@@ -27,7 +27,7 @@ h2 {
 }
 
 .cancle{
-	background-color: #e63946;
+	background-color: #e63946 !important;
 }
 .cancle:hover{
 	background-color: #c1121f !important; 
