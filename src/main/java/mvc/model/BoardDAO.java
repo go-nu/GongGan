@@ -77,69 +77,29 @@ public class BoardDAO {
 
 		    return total_record;
 		}
-
-    
-    //board 테이블의 레코드 가져오기
-    // 입력받은 페이지와 검색조건에 따라 게시글 목록을 조회해 ArrayList로 반환
-    // SQL 쿼리문 동적 생성 및 데이터베이스에서 데이터 추출
-    // page : 현재 페이지, limit : 한 페이지에 보여줄 레코드 수
-    // items : 검색 조건(ex: 제목, 내용, 전체), text : 검색어
-    // 게시판에서 검색 조건(items, text)과 페이지 번호(page), 한 페이지당 게시글 수(limit)에 따라 해당 조건의 게시글 목록을 ArrayList<BoardDTO>로 반환합니다.
-    
-	   public ArrayList<BoardDTO> getBoardList(int page, int limit, String items, String text) {
+	   
+	   public int getMyListCount(String id) {
 		    Connection conn = null;
 		    PreparedStatement pstmt = null;
 		    ResultSet rs = null;
-
-		    int total_record = getListCount(items, text);
-		    int start = (page - 1) * limit;
-		    int index = start + 1;
+		    int total_record = 0;
 
 		    String sql;
-		    ArrayList<BoardDTO> list = new ArrayList<>();
 
 		    try {
 		        conn = DBConnection.getConnection();
 
-		        // 검색 조건 여부에 따라 SQL 구성
-		        if (items == null || text == null || items.isEmpty() || text.isEmpty()) {
-		            sql = "SELECT * FROM boardf ORDER BY num DESC";
-		            pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		        } else {
-		            // 허용된 컬럼 목록
-		            List<String> validColumns = Arrays.asList("subject", "content", "id");
-		            if (!validColumns.contains(items)) {
-		                throw new IllegalArgumentException("검색 항목이 잘못되었습니다: " + items);
-		            }
-
-		            sql = "SELECT * FROM boardf WHERE " + items + " LIKE ? ORDER BY num DESC";
-		            pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-		            pstmt.setString(1, "%" + text + "%");
-		        }
+	            sql = "SELECT COUNT(*) FROM boardf WHERE id = ?";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setString(1, id);
 
 		        rs = pstmt.executeQuery();
-
-		        while (rs.absolute(index)) {
-		            BoardDTO board = new BoardDTO();
-		            board.setNum(rs.getInt("num"));
-		            board.setId(rs.getString("id"));
-		            board.setSubject(rs.getString("subject"));
-		            board.setContent(rs.getString("content"));
-		            board.setRegist_day(rs.getString("regist_day"));
-		            board.setHit(rs.getInt("hit"));
-		            board.setIp(rs.getString("ip"));
-		            board.setLiking(rs.getInt("liking"));
-		            list.add(board);
-
-		            if (index < (start + limit) && index <= total_record)
-		                index++;
-		            else
-		                break;
+		        if (rs.next()) {
+		            total_record = rs.getInt(1);
 		        }
 
-		        return list;
 		    } catch (Exception ex) {
-		        System.out.println("getBoardList() : " + ex);
+		        System.out.println("getMyListCount() : " + ex);
 		    } finally {
 		        try {
 		            if (rs != null) rs.close();
@@ -149,11 +109,185 @@ public class BoardDAO {
 		            throw new RuntimeException(ex.getMessage());
 		        }
 		    }
-
-		    return null;
+		    return total_record;
 		}
 
-    
+    //board 테이블의 레코드 가져오기
+    // 입력받은 페이지와 검색조건에 따라 게시글 목록을 조회해 ArrayList로 반환
+    // SQL 쿼리문 동적 생성 및 데이터베이스에서 데이터 추출
+    // page : 현재 페이지, limit : 한 페이지에 보여줄 레코드 수
+    // items : 검색 조건(ex: 제목, 내용, 전체), text : 검색어
+    // 게시판에서 검색 조건(items, text)과 페이지 번호(page), 한 페이지당 게시글 수(limit)에 따라 해당 조건의 게시글 목록을 ArrayList<BoardDTO>로 반환합니다.
+   public ArrayList<BoardDTO> getBoardList(int page, int limit, String items, String text) {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    ArrayList<BoardDTO> list = new ArrayList<>();
+
+	    int offset = (page - 1) * limit; // OFFSET 계산
+
+	    String sql;
+
+	    try {
+	        conn = DBConnection.getConnection();
+
+	        // 검색 조건 유무에 따라 SQL 분기
+	        if (items == null || text == null || items.isEmpty() || text.isEmpty()) {
+	            sql = "SELECT * FROM boardf ORDER BY num DESC LIMIT ? OFFSET ?";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setInt(1, limit);
+	            pstmt.setInt(2, offset);
+	        } else {
+	            // 허용된 컬럼만 사용하도록 체크
+	            List<String> validColumns = Arrays.asList("subject", "content", "id");
+	            if (!validColumns.contains(items)) {
+	                throw new IllegalArgumentException("검색 항목이 잘못되었습니다: " + items);
+	            }
+
+	            sql = "SELECT * FROM boardf WHERE " + items + " LIKE ? ORDER BY num DESC LIMIT ? OFFSET ?";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setString(1, "%" + text + "%");
+	            pstmt.setInt(2, limit);
+	            pstmt.setInt(3, offset);
+	        }
+
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            BoardDTO board = new BoardDTO();
+	            board.setNum(rs.getInt("num"));
+	            board.setId(rs.getString("id"));
+	            board.setSubject(rs.getString("subject"));
+	            board.setContent(rs.getString("content"));
+	            board.setRegist_day(rs.getString("regist_day"));
+	            board.setHit(rs.getInt("hit"));
+	            board.setIp(rs.getString("ip"));
+	            board.setLiking(rs.getInt("liking"));
+	            list.add(board);
+	        }
+
+	        return list;
+	    } catch (Exception ex) {
+	        System.out.println("getBoardList() : " + ex);
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (Exception ex) {
+	            throw new RuntimeException(ex.getMessage());
+	        }
+	    }
+
+	    return null;
+	}
+
+//  내가 쓴 글 불러오기
+	public ArrayList<BoardDTO> getMyBoardList(int page, int limit, String userId) {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    ArrayList<BoardDTO> list = new ArrayList<>();
+	    int offset = (page - 1) * limit;
+
+	    String sql = "SELECT * FROM boardf WHERE id = ? ORDER BY num DESC LIMIT ? OFFSET ?";
+
+	    try {
+	        conn = DBConnection.getConnection();
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, userId);
+	        pstmt.setInt(2, limit);
+	        pstmt.setInt(3, offset);
+
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            BoardDTO board = new BoardDTO();
+	            board.setNum(rs.getInt("num"));
+	            board.setId(rs.getString("id"));
+	            board.setSubject(rs.getString("subject"));
+	            board.setContent(rs.getString("content"));
+	            board.setRegist_day(rs.getString("regist_day"));
+	            board.setHit(rs.getInt("hit"));
+	            board.setIp(rs.getString("ip"));
+	            board.setLiking(rs.getInt("liking"));
+	            list.add(board);
+	        }
+
+	        return list;
+	    } catch (Exception ex) {
+	        System.out.println("getMyBoardList() : " + ex);
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (Exception ex) {
+	            throw new RuntimeException(ex.getMessage());
+	        }
+	    }
+
+	    return null;
+	}
+
+	public ArrayList<BoardDTO> getMyBoard(int page, int limit, String id) {
+		Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    int start = (page - 1) * limit;
+	    int index = start + 1;
+	    int total_record = getMyListCount(id);
+
+	    String sql;
+	    ArrayList<BoardDTO> list = new ArrayList<>();
+
+	    try {
+	        conn = DBConnection.getConnection();
+
+        	sql = "SELECT * FROM boardf WHERE id = ? ORDER BY num DESC";
+    		pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            pstmt.setString(1, id);
+            
+            rs = pstmt.executeQuery();
+            
+            while (rs.absolute(index)) {
+            	BoardDTO board = new BoardDTO();
+            	board.setNum(rs.getInt("num"));
+            	board.setId(rs.getString("id"));
+            	board.setSubject(rs.getString("subject"));
+            	board.setContent(rs.getString("content"));
+            	board.setRegist_day(rs.getString("regist_day"));
+            	board.setHit(rs.getInt("hit"));
+            	board.setIp(rs.getString("ip"));
+            	board.setLiking(rs.getInt("liking"));
+            	list.add(board);
+            	
+            	if (index < (start + limit) && index <= total_record)
+            		index++;
+            	else
+            		break;
+            }
+            
+            return list;
+	    } catch (Exception ex) {
+	    	System.out.println("getBoardList() : " + ex);
+	    } finally {
+	    	try {
+	    		if (rs != null) rs.close();
+	    		if (pstmt != null) pstmt.close();
+	    		if (conn != null) conn.close();
+	    	} catch (Exception ex) {
+	    		throw new RuntimeException(ex.getMessage());
+        }	
+    }	
+	    
+	    return null;
+	}
+
+
     //member 테이블에서 인증된 id의 사용자명 가져오기
     public String getLoginNameById(String id) {
        Connection conn = null;

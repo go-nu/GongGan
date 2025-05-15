@@ -195,14 +195,14 @@
 <!--  -->
     <section class="class-section">
 		<div class="container">
-			<div class="about-content">
+<!-- 			<div class="about-content">
                 <div class="about-text">
                     <h2>내가 만드는 한식</h2>                    
                     <p>인기 있는 레시피를 모아 봣어요</p>
                 </div>
                 <div class="about-image"></div>
             </div>
-		    <a href="#"  class="text-end mt-3">전체 활동 보기 &raquo;</a>
+		    <a href="#"  class="text-end mt-3">전체 활동 보기 &raquo;</a> -->
 	  	</div>
 	</section>	
 	

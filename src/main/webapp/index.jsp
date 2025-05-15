@@ -49,69 +49,69 @@ String id = (String) session.getAttribute("id");
 		<div id="colorCarousel" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-inner">
 				<%
-    // 슬라이드 정보를 DB에서 가져오기 위한 SQL 쿼리
-    String sql1 = "SELECT * FROM main"; // main 테이블에서 카테고리 정보를 가져옵니다
-    Statement pstmt1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-    ResultSet rs1 = pstmt1.executeQuery(sql1);
-    boolean firstItem = true; // 첫 번째 아이템을 구분하기 위해 사용
-    int currentRow = 1; // 현재 행 번호 (1부터 시작)
-    
-    // 1부터 3번까지 반복
-    while (rs1.next() && currentRow <= 3) {
-        %>
-        <div class="carousel-item <%=firstItem ? "active" : ""%>">
-            <img src="./resources/img/<%=rs1.getString("FILENAME")%>"
-                 class="d-block w-100" alt="<%=rs1.getString("TITLE")%>">
-            <div class="fixed-caption">
-                <h3><%=rs1.getString("TITLE")%></h3>
-                <p><%=rs1.getString("NOTE")%></p>
-                <!-- 태그들이 null이 아닌 경우에만 출력 -->
-                <%
-                if (rs1.getString("TAG1") != null && !rs1.getString("TAG1").isEmpty()) {
-                %>
-                <p><%=rs1.getString("TAG1")%></p>
-                <%
-                }
-                %>
-                <%
-                if (rs1.getString("TAG2") != null && !rs1.getString("TAG2").isEmpty()) {
-                %>
-                <p><%=rs1.getString("TAG2")%></p>
-                <%
-                }
-                %>
-                <%
-                if (rs1.getString("TAG3") != null && !rs1.getString("TAG3").isEmpty()) {
-                %>
-                <p><%=rs1.getString("TAG3")%></p>
-                <%
-                }
-                %>
-                <%
-                if (rs1.getString("TAG4") != null && !rs1.getString("TAG4").isEmpty()) {
-                %>
-                <p><%=rs1.getString("TAG4")%></p>
-                <%
-                }
-                %>
-                <%
-                if (rs1.getString("TAG5") != null && !rs1.getString("TAG5").isEmpty()) {
-                %>
-                <p><%=rs1.getString("TAG5")%></p>
-                <%
-                }
-                %>
-            </div>
-        </div>
-        <%
-        // 첫 번째 아이템이 처리된 후에는 "active" 클래스가 더 이상 추가되지 않도록 설정
-        firstItem = false;
-        currentRow++;  // 행 번호 증가
-    }
-    
-    rs1.close();
-    pstmt1.close();
-%>
+				    // 슬라이드 정보를 DB에서 가져오기 위한 SQL 쿼리
+				    String sql1 = "SELECT * FROM main"; // main 테이블에서 카테고리 정보를 가져옵니다
+				    Statement pstmt1 = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				    ResultSet rs1 = pstmt1.executeQuery(sql1);
+				    boolean firstItem = true; // 첫 번째 아이템을 구분하기 위해 사용
+				    int currentRow = 1; // 현재 행 번호 (1부터 시작)
+				    
+				    // 1부터 3번까지 반복
+				    while (rs1.next() && currentRow <= 3) {
+				        %>
+				        <div class="carousel-item <%=firstItem ? "active" : ""%>">
+				            <img src="./resources/img/<%=rs1.getString("FILENAME")%>"
+				                 class="d-block w-100" alt="<%=rs1.getString("TITLE")%>">
+				            <div class="fixed-caption">
+				                <h3><%=rs1.getString("TITLE")%></h3>
+				                <p><%=rs1.getString("NOTE")%></p>
+				                <!-- 태그들이 null이 아닌 경우에만 출력 -->
+				                <%
+				                if (rs1.getString("TAG1") != null && !rs1.getString("TAG1").isEmpty()) {
+				                %>
+				                <p><%=rs1.getString("TAG1")%></p>
+				                <%
+				                }
+				                %>
+				                <%
+				                if (rs1.getString("TAG2") != null && !rs1.getString("TAG2").isEmpty()) {
+				                %>
+				                <p><%=rs1.getString("TAG2")%></p>
+				                <%
+				                }
+				                %>
+				                <%
+				                if (rs1.getString("TAG3") != null && !rs1.getString("TAG3").isEmpty()) {
+				                %>
+				                <p><%=rs1.getString("TAG3")%></p>
+				                <%
+				                }
+				                %>
+				                <%
+				                if (rs1.getString("TAG4") != null && !rs1.getString("TAG4").isEmpty()) {
+				                %>
+				                <p><%=rs1.getString("TAG4")%></p>
+				                <%
+				                }
+				                %>
+				                <%
+				                if (rs1.getString("TAG5") != null && !rs1.getString("TAG5").isEmpty()) {
+				                %>
+				                <p><%=rs1.getString("TAG5")%></p>
+				                <%
+				                }
+				                %>
+				            </div>
+				        </div>
+				        <%
+				        // 첫 번째 아이템이 처리된 후에는 "active" 클래스가 더 이상 추가되지 않도록 설정
+				        firstItem = false;
+				        currentRow++;  // 행 번호 증가
+				    }
+				    
+				    rs1.close();
+				    pstmt1.close();
+				%>
 			</div>
 			<!-- Carousel Controls -->
 			<button class="carousel-control-prev" type="button"
@@ -141,45 +141,43 @@ String id = (String) session.getAttribute("id");
 				// 카테고리 정보를 반복하여 출력
 				while (rs2.next()) {
 				%>
-				<div class="category-card"
-					onclick="location.href='<%=rs2.getString("TITLE").toLowerCase() + ".jsp"%>'">
-					<img src="./resources/img/<%=rs2.getString("FILENAME")%>"
-						class="category-image">
-					<div class="category-info">
-						<h3><%=rs2.getString("TITLE")%></h3>
-						<p><%=rs2.getString("NOTE")%></p>
-						<div>
-							<%
-							// 태그가 NULL이 아닌 경우에만 출력
-							if (rs2.getString("TAG1") != null && !rs2.getString("TAG1").isEmpty()) {
-							%>
-							<span class="tag"><%=rs2.getString("TAG1")%></span>
-							<%
-							}
-							if (rs2.getString("TAG2") != null && !rs2.getString("TAG2").isEmpty()) {
-							%>
-							<span class="tag"><%=rs2.getString("TAG2")%></span>
-							<%
-							}
-							if (rs2.getString("TAG3") != null && !rs2.getString("TAG3").isEmpty()) {
-							%>
-							<span class="tag"><%=rs2.getString("TAG3")%></span>
-							<%
-							}
-							if (rs2.getString("TAG4") != null && !rs2.getString("TAG4").isEmpty()) {
-							%>
-							<span class="tag"><%=rs2.getString("TAG4")%></span>
-							<%
-							}
-							if (rs2.getString("TAG5") != null && !rs2.getString("TAG5").isEmpty()) {
-							%>
-							<span class="tag"><%=rs2.getString("TAG5")%></span>
-							<%
-							}
-							%>
-						</div>
+				<%
+					String title = rs2.getString("TITLE");
+					String lowerTitle = title.toLowerCase();
+					String onclickUrl;
+					
+					if ("K-FOOD".equalsIgnoreCase(title)) {
+					    onclickUrl = "food.jsp";
+					} else if ("K-BEAUTY".equalsIgnoreCase(title)) {
+					    onclickUrl = request.getContextPath() + "/cosmetics?action=list";
+					} else if ("LOCATION".equalsIgnoreCase(title)) {
+					    onclickUrl = "location.jsp";
+					} else {
+					    onclickUrl = lowerTitle + ".jsp";
+					}
+					%>
+					
+					<div class="category-card" onclick="location.href='<%=onclickUrl%>'" style="cursor: pointer;">
+					    <img src="./resources/img/<%=rs2.getString("FILENAME")%>" class="category-image">
+					    <div class="category-info">
+					        <h3><%=rs2.getString("TITLE")%></h3>
+					        <p><%=rs2.getString("NOTE")%></p>
+					        <div>
+					            <% if (rs2.getString("TAG1") != null && !rs2.getString("TAG1").isEmpty()) { %>
+					                <span class="tag"><%=rs2.getString("TAG1")%></span>
+					            <% } if (rs2.getString("TAG2") != null && !rs2.getString("TAG2").isEmpty()) { %>
+					                <span class="tag"><%=rs2.getString("TAG2")%></span>
+					            <% } if (rs2.getString("TAG3") != null && !rs2.getString("TAG3").isEmpty()) { %>
+					                <span class="tag"><%=rs2.getString("TAG3")%></span>
+					            <% } if (rs2.getString("TAG4") != null && !rs2.getString("TAG4").isEmpty()) { %>
+					                <span class="tag"><%=rs2.getString("TAG4")%></span>
+					            <% } if (rs2.getString("TAG5") != null && !rs2.getString("TAG5").isEmpty()) { %>
+					                <span class="tag"><%=rs2.getString("TAG5")%></span>
+					            <% } %>
+					        </div>
+					    </div>
 					</div>
-				</div>
+
 				<%
 				}
 				rs2.close();

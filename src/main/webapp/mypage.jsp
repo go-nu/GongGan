@@ -75,15 +75,15 @@
 					<div class="board-footer">
 						<ul class="pagination">
 							<c:if test="${pageNum > 1}">
-								<li><a href="BoardViewAction.do?pageNum=${pageNum - 1}">«</a></li>
+								<li><a href="MyPage.do?pageNum=${pageNum - 1}">«</a></li>
 							</c:if>
 							<c:forEach var="i" begin="${startPage}" end="${endPage}">
 								<li <c:if test="${i == pageNum}">class="active"</c:if>>
-									<a href="BoardViewAction.do?pageNum=${i}">${i}</a>
+									<a href="MyPage.do?pageNum=${i}">${i}</a>
 								</li>
 							</c:forEach>
 							<c:if test="${pageNum < total_page}">
-								<li><a href="BoardViewActio.do?pageNum=${pageNum + 1}">»</a></li>
+								<li><a href="MyPage.do?pageNum=${pageNum + 1}">»</a></li>
 							</c:if>
 						</ul>
 					</div>

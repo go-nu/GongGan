@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
+<%@ page import="java.util.*"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,6 +14,7 @@
 </head>
 <body>
     <%@ include file="header.jsp" %>
+    <%@ include file="dbconn.jsp" %>
     
 <!-- 슬라이드 -->
     <section class="hero">
@@ -47,54 +49,33 @@
 	    	</div>
             <div class="about-content">
 				<div class="category-grid">
-	                <div class="category-card">
-	                    <img src="./resources/img/seoul.jpg" class="category-image">
-	                    <div class="category-info">
-	                        <h3>서울</h3>
-	                        <p>전통과 현대가 어우러진 <br>대한민국의 수도</p>
-	                        <div>
-	                            <span class="tag">경복궁</span>
-	                            <span class="tag">남산타워</span>
-	                            <span class="tag">홍대거리</span>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="category-card">
-	                	<img src="./resources/img/busan.jpg" class="category-image">
-	                    <div class="category-info">
-	                        <h3>부산</h3>
-	                        <p>바다와 도시가 만나는 <br>낭만적인 항구 도시</p>
-	                        <div>
-	                            <span class="tag">해운대</span>
-	                            <span class="tag">광안리</span>
-	                            <span class="tag">감천문화마을</span>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="category-card">
-	                    <img src="./resources/img/jeju.jpg" class="category-image">
-	                    <div class="category-info">
-	                        <h3>제주도</h3>
-	                        <p>자연이 살아 숨 쉬는 <br>힐링 아일랜드</p>
-	                        <div>
-	                            <span class="tag">성산일출봉</span>
-	                            <span class="tag">우도</span>
-	                            <span class="tag">한라산</span>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="category-card">
-	                    <img src="./resources/img/gyeongju.jpg" class="category-image">
-	                    <div class="category-info">
-	                        <h3>경주</h3>
-	                        <p>천년의 역사를 품은 <br>고대 왕국 신라의 도시</p>
-	                        <div>
-	                            <span class="tag">불국사</span>
-	                            <span class="tag">첨성대</span>
-	                            <span class="tag">월정교</span>
-	                        </div>
-	                    </div>
-	                </div>
+					<%
+						PreparedStatement pstmt = null;
+						ResultSet rs = null;
+						String sql = "SELECT * FROM city";
+						
+						pstmt = conn.prepareStatement(sql);
+						rs = pstmt.executeQuery();
+						
+						while(rs.next()) {
+					%>
+					<a href="city.jsp?num=<%=rs.getString("num")%>">
+		                <div class="category-card">
+		                    <img src="./resources/img/<%=rs.getString("img")%>" class="category-image">
+		                    <div class="category-info">
+		                        <h3><%=rs.getString("title")%></h3>
+		                        <p><%=rs.getString("note")%></p>
+		                        <div>
+		                            <span class="tag"><%=rs.getString("tag1")%></span>
+		                            <span class="tag"><%=rs.getString("tag2")%></span>
+		                            <span class="tag"><%=rs.getString("tag3")%></span>
+		                        </div>
+		                    </div>
+		                </div>
+	                </a>
+	                <%
+						}
+	                %>
 	            </div>
             </div>
         </div>
