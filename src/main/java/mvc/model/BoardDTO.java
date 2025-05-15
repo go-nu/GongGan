@@ -11,7 +11,32 @@ public class BoardDTO {
 	private String ip;
 	private int liking;
 	
-	private int commet_count;
+    // 첨부파일 관련 필드 추가
+    private String fileName;     // 저장된 파일명
+    private String originalFileName; // 원본 파일명
+    private long fileSize;       // 파일 크기
+	
+    private int commet_count; // 댓글 카운트
+	
+    
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getOriginalFileName() {
+		return originalFileName;
+	}
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
+	}
+	public long getFileSize() {
+		return fileSize;
+	}
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
 	
 	
 	public int getCommet_count() {
