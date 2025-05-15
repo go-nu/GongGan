@@ -9,12 +9,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>[사이트 이름]</title>
+	<title>My Page</title>
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="./resources/css/mp_style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-	<script src="./resources/js/swiper-init.js"></script>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
@@ -34,10 +33,10 @@
 		</div>
 	</section>
 
-	<div class="container">
+	<div class="container mt-5">
 		<div class="justify-content-center">
 			<div class="section-title">
-				<h2>내가 작성한 글 / 댓글</h2>
+				<h2>내가 작성한 글</h2>
 				<p><%=session.getAttribute("id") %></p>
 			</div>
 			<section class="board-section">
@@ -100,9 +99,18 @@
 		<div class="container">
 			<div class="section-title mt-3">
 				<div class="d-flex justify-content-end gap-2">
-					<a href="updateAccount.jsp">내 정보 수정</a>
+				    <form action="updateAccount.jsp" method="get" class="m-0 p-0">
+				        <button type="submit" class="btn btn-link text-decoration-none p-0 m-0 align-baseline">
+				            내 정보 수정
+				        </button>
+				    </form>
 					<span>ㆍ</span>
-					<a href="#">회원 탈퇴</a>
+				    <form action="confirmDeleteUser.jsp" method="post" class="m-0 p-0">
+				        <button type="submit" class="btn btn-link text-decoration-none p-0 m-0 align-baseline"
+				                onclick="return confirm('비밀번호 확인 후 탈퇴가 진행됩니다. 진행하시겠습니까?');">
+				            회원 탈퇴
+				        </button>
+				    </form>
 				</div>
 			</div>
 		</div>

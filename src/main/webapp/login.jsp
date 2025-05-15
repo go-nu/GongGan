@@ -43,7 +43,7 @@
 			                    <label for="password">Password</label>
 			                </div>
 			            </div>
-			            <button type="submit" class="btn btn-lg btn-success w-100">로그인</button>
+			            <button type="submit" class="btn btn-lg w-100">로그인</button>
 			        </form>
 			        <!-- 아이디/비밀번호 찾기, 회원가입 링크 추가 -->
 	                <div class="d-flex justify-content-center mt-3">

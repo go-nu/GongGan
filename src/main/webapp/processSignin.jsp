@@ -12,7 +12,7 @@
 	String year = request.getParameter("birthyy");
 	String month = request.getParameterValues("birthmm")[0];
 	String day = request.getParameter("birthdd");
-	String birth = year + "/" + month + "/" + day;
+	String birth = year + "-" + month + "-" + day;
 	String email1 = request.getParameter("email1");
 	String email2 = request.getParameterValues("email2")[0];
 	String email = email1 + "@" + email2;
