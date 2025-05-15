@@ -76,8 +76,14 @@
 		<display-name>K_Culture</display-name>
 		<web-resource-collection>
 			<web-resource-name>admin Page</web-resource-name>
-		<!-- 관리자로그인 시도할 페이지 및 성공할 경우 이동하는 파일경로 -->
-        <url-pattern>/adminCheck.jsp</url-pattern>
+			<!-- 관리자로그인 시도할 페이지 및 성공할 경우 이동하는 파일경로 -->
+			<url-pattern>/adminCheck.jsp</url-pattern> <!-- 여기서 관리자 로그인 시도해야 함 -->
+			<!-- 이 밑의 파일들은 관리자 권한이 있어야만 실행됨 -->
+			<url-pattern>/editPage.jsp</url-pattern>
+			<url-pattern>/processUpdatePage.jsp</url-pattern>
+			<url-pattern>/AddCosmetics.jsp</url-pattern>
+			<url-pattern>/Admin_Cosmetics.jsp</url-pattern>
+			<url-pattern>/DeleteCosmetics.jsp</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<description>권한 관리자명</description>
