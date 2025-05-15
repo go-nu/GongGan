@@ -42,7 +42,7 @@ public class BoardDAO {
 
 		        // 검색 조건이 없는 경우
 		        if (items == null || text == null || items.isEmpty() || text.isEmpty()) {
-		            sql = "SELECT COUNT(*) FROM board";
+		            sql = "SELECT COUNT(*) FROM boardf";
 		            pstmt = conn.prepareStatement(sql);
 		        } else {
 		            // 유효한 컬럼만 허용
@@ -51,7 +51,7 @@ public class BoardDAO {
 		                throw new IllegalArgumentException("검색 항목이 잘못되었습니다: " + items);
 		            }
 
-		            sql = "SELECT COUNT(*) FROM board WHERE " + items + " LIKE ?";
+		            sql = "SELECT COUNT(*) FROM boardf WHERE " + items + " LIKE ?";
 		            pstmt = conn.prepareStatement(sql);
 		            
 		            
@@ -77,96 +77,7 @@ public class BoardDAO {
 
 		    return total_record;
 		}
-	   
-	   public int getMyListCount(String id) {
-		    Connection conn = null;
-		    PreparedStatement pstmt = null;
-		    ResultSet rs = null;
-		    int total_record = 0;
 
-		    String sql;
-
-		    try {
-		        conn = DBConnection.getConnection();
-
-	            sql = "SELECT COUNT(*) FROM board WHERE id = ?";
-	            pstmt = conn.prepareStatement(sql);
-	            pstmt.setString(1, id);
-
-		        rs = pstmt.executeQuery();
-		        if (rs.next()) {
-		            total_record = rs.getInt(1);
-		        }
-
-		    } catch (Exception ex) {
-		        System.out.println("getMyListCount() : " + ex);
-		    } finally {
-		        try {
-		            if (rs != null) rs.close();
-		            if (pstmt != null) pstmt.close();
-		            if (conn != null) conn.close();
-		        } catch (Exception ex) {
-		            throw new RuntimeException(ex.getMessage());
-		        }
-		    }
-		    return total_record;
-		}
-
-	// 마이페이지 내가 쓴 글 목록 보기
-		public ArrayList<BoardDTO> getMyBoard(int page, int limit, String id) {
-			Connection conn = null;
-		    PreparedStatement pstmt = null;
-		    ResultSet rs = null;
-
-		    int start = (page - 1) * limit;
-		    int index = start + 1;
-		    int total_record = getMyListCount(id);
-
-		    String sql;
-		    ArrayList<BoardDTO> list = new ArrayList<>();
-
-		    try {
-		        conn = DBConnection.getConnection();
-
-	        	sql = "SELECT * FROM board WHERE id = ? ORDER BY num DESC";
-	    		pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-	            pstmt.setString(1, id);
-	            
-	            rs = pstmt.executeQuery();
-	            
-	            while (rs.absolute(index)) {
-	            	BoardDTO board = new BoardDTO();
-	            	board.setNum(rs.getInt("num"));
-	            	board.setId(rs.getString("id"));
-	            	board.setSubject(rs.getString("subject"));
-	            	board.setContent(rs.getString("content"));
-	            	board.setRegist_day(rs.getString("regist_day"));
-	            	board.setHit(rs.getInt("hit"));
-	            	board.setIp(rs.getString("ip"));
-	            	board.setLiking(rs.getInt("liking"));
-	            	list.add(board);
-	            	
-	            	if (index < (start + limit) && index <= total_record)
-	            		index++;
-	            	else
-	            		break;
-	            }
-	            
-	            return list;
-		    } catch (Exception ex) {
-		    	System.out.println("getBoardList() : " + ex);
-		    } finally {
-		    	try {
-		    		if (rs != null) rs.close();
-		    		if (pstmt != null) pstmt.close();
-		    		if (conn != null) conn.close();
-		    	} catch (Exception ex) {
-		    		throw new RuntimeException(ex.getMessage());
-	        }	
-	    }	
-		    
-		    return null;
-		}
     
     //board 테이블의 레코드 가져오기
     // 입력받은 페이지와 검색조건에 따라 게시글 목록을 조회해 ArrayList로 반환
@@ -192,7 +103,7 @@ public class BoardDAO {
 
 		        // 검색 조건 여부에 따라 SQL 구성
 		        if (items == null || text == null || items.isEmpty() || text.isEmpty()) {
-		            sql = "SELECT * FROM board ORDER BY num DESC";
+		            sql = "SELECT * FROM boardf ORDER BY num DESC";
 		            pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		        } else {
 		            // 허용된 컬럼 목록
@@ -201,7 +112,7 @@ public class BoardDAO {
 		                throw new IllegalArgumentException("검색 항목이 잘못되었습니다: " + items);
 		            }
 
-		            sql = "SELECT * FROM board WHERE " + items + " LIKE ? ORDER BY num DESC";
+		            sql = "SELECT * FROM boardf WHERE " + items + " LIKE ? ORDER BY num DESC";
 		            pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		            pstmt.setString(1, "%" + text + "%");
 		        }
@@ -287,7 +198,8 @@ public class BoardDAO {
        try {
           conn = DBConnection.getConnection();      
 
-          String sql = "INSERT INTO board (id, subject, content, regist_day, hit, ip, liking) VALUES (?, ?, ?, ?, ?, ?, ?)";
+          String sql = "INSERT INTO boardf (id, subject, content, regist_day, hit, ip, liking, file_name, original_file_name, file_size) "
+          		+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
           pstmt = conn.prepareStatement(sql);
           pstmt.setString(1, board.getId());
@@ -297,6 +209,9 @@ public class BoardDAO {
           pstmt.setInt(5, board.getHit());
           pstmt.setString(6, board.getIp());
           pstmt.setInt(7, board.getLiking());
+          pstmt.setString(8, board.getFileName());
+          pstmt.setString(9, board.getOriginalFileName());
+          pstmt.setLong(10, board.getFileSize());
 
           pstmt.executeUpdate();
        } catch (Exception ex) {
@@ -327,7 +242,7 @@ public class BoardDAO {
        try {
           conn = DBConnection.getConnection();
 
-          String sql = "select hit from board where num = ? ";
+          String sql = "select hit from boardf where num = ? ";
           pstmt = conn.prepareStatement(sql);
           pstmt.setInt(1, num);
           rs = pstmt.executeQuery();
@@ -337,7 +252,7 @@ public class BoardDAO {
              hit = rs.getInt("hit") + 1;
        
 
-          sql = "update board set hit=? where num=?";
+          sql = "update boardf set hit=? where num=?";
           pstmt = conn.prepareStatement(sql);      
           pstmt.setInt(1, hit);
           pstmt.setInt(2, num);
@@ -360,58 +275,118 @@ public class BoardDAO {
     }
     
   //선택된 글 상세 내용 가져오기
-    public BoardDTO getBoardByNum(int num, int page) {
+    public BoardDTO getBoardByNum(int num, int pageNum) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         BoardDTO board = null;
-
+        
+        updateHit(num);
+        
         try {
-            // 히트 업데이트 및 예외 처리
-            try {
-                updateHit(num);
-            } catch (Exception e) {
-                System.out.println("조회수 업데이트 오류: " + e);
-                // 조회수 업데이트 실패해도 계속 진행
-            }
-            
-            String sql = "select * from board where num = ?";
             conn = DBConnection.getConnection();
+            
+            String sql = "SELECT b.*, m.name FROM boardf b, users m " +
+                        "WHERE b.id = m.id AND b.num = ?";
+            
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, num);
+            
             rs = pstmt.executeQuery();
-
+            
             if (rs.next()) {
                 board = new BoardDTO();
                 board.setNum(rs.getInt("num"));
                 board.setId(rs.getString("id"));
-                board.setLiking(rs.getInt("liking"));
+                board.setName(rs.getString("name"));
                 board.setSubject(rs.getString("subject"));
                 board.setContent(rs.getString("content"));
                 board.setRegist_day(rs.getString("regist_day"));
                 board.setHit(rs.getInt("hit"));
                 board.setIp(rs.getString("ip"));
+                board.setLiking(rs.getInt("liking"));
                 
-                // 디버깅을 위해 콘솔에 출력
-                System.out.println("게시글 로드 성공 - 번호: " + board.getNum() + ", 제목: " + board.getSubject());
-            } else {
-                System.out.println("게시글 로드 실패 - 해당 번호의 게시글이 없음: " + num);
+                // 첨부파일 정보 설정
+                board.setFileName(rs.getString("file_name"));
+                board.setOriginalFileName(rs.getString("original_file_name"));
+                board.setFileSize(rs.getLong("file_size"));
             }
             
             return board;
         } catch (Exception ex) {
-            System.out.println("getBoardByNum() 오류: " + ex);
-            ex.printStackTrace(); // 자세한 오류 확인을 위해 스택 트레이스 출력
+            System.out.println("getBoardByNum() 예외 발생 : " + ex);
             return null;
         } finally {
-            try {
-                if (rs != null) rs.close();                     
-                if (pstmt != null) pstmt.close();            
-                if (conn != null) conn.close();
+            try {                
+                if (rs != null) 
+                    rs.close();                        
+                if (pstmt != null) 
+                    pstmt.close();                
+                if (conn != null) 
+                    conn.close();
             } catch (Exception ex) {
                 throw new RuntimeException(ex.getMessage());
-            }      
+            }        
+        }        
+    }
+
+    // 조회수 증가 없이 게시글을 가져오는 오버로딩 메서드
+    public BoardDTO getBoardByNum(int num, boolean increaseHit) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        BoardDTO board = null;
+        
+        // 조회수 증가 여부 확인
+        if (increaseHit) {
+            updateHit(num);
         }
+        
+        try {
+            conn = DBConnection.getConnection();
+            
+            String sql = "SELECT b.*, m.name FROM boardf b, users m " +
+                        "WHERE b.id = m.id AND b.num = ?";
+            
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, num);
+            
+            rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                board = new BoardDTO();
+                board.setNum(rs.getInt("num"));
+                board.setId(rs.getString("id"));
+                board.setName(rs.getString("name"));
+                board.setSubject(rs.getString("subject"));
+                board.setContent(rs.getString("content"));
+                board.setRegist_day(rs.getString("regist_day"));
+                board.setHit(rs.getInt("hit"));
+                board.setIp(rs.getString("ip"));
+                board.setLiking(rs.getInt("liking"));
+                
+                // 첨부파일 정보 설정
+                board.setFileName(rs.getString("file_name"));
+                board.setOriginalFileName(rs.getString("original_file_name"));
+                board.setFileSize(rs.getLong("file_size"));
+            }
+            
+            return board;
+        } catch (Exception ex) {
+            System.out.println("getBoardByNum() 예외 발생 : " + ex);
+            return null;
+        } finally {
+            try {                
+                if (rs != null) 
+                    rs.close();                        
+                if (pstmt != null) 
+                    pstmt.close();                
+                if (conn != null) 
+                    conn.close();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex.getMessage());
+            }        
+        }        
     }
 
     //선택된 글 내용 수정하기
@@ -422,29 +397,34 @@ public class BoardDAO {
         try {
             conn = DBConnection.getConnection();
             
-            String sql = "UPDATE board SET id=?, subject=?, content=?, regist_day=?, ip=? WHERE num=?";
-            pstmt = conn.prepareStatement(sql);
+            String sql = "UPDATE boardf SET subject=?, content=?, regist_day=?, ip=?, " +
+                        "file_name=?, original_file_name=?, file_size=? " +
+                        "WHERE num=?";
             
-            pstmt.setString(1, board.getId());
-            pstmt.setString(2, board.getSubject());
-            pstmt.setString(3, board.getContent());
-            pstmt.setString(4, board.getRegist_day());
-            pstmt.setString(5, board.getIp());
-            pstmt.setInt(6, board.getNum());
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, board.getSubject());
+            pstmt.setString(2, board.getContent());
+            pstmt.setString(3, board.getRegist_day());
+            pstmt.setString(4, board.getIp());
+            pstmt.setString(5, board.getFileName());
+            pstmt.setString(6, board.getOriginalFileName());
+            pstmt.setLong(7, board.getFileSize());
+            pstmt.setInt(8, board.getNum());
             
             pstmt.executeUpdate();
         } catch (Exception ex) {
-            System.out.println("updateBoard() 에러 : " + ex);
+            System.out.println("updateBoard() 예외 발생: " + ex.getMessage());
+            ex.printStackTrace();
         } finally {
             try {
                 if (pstmt != null) 
-                    pstmt.close();
+                    pstmt.close();                
                 if (conn != null) 
                     conn.close();
             } catch (Exception ex) {
                 throw new RuntimeException(ex.getMessage());
-            }
-        }
+            }        
+        }        
     }
 
   //선택된 글 삭제하기
@@ -452,7 +432,7 @@ public class BoardDAO {
        Connection conn = null;
        PreparedStatement pstmt = null;      
 
-       String sql = "delete from board where num=?";   
+       String sql = "delete from boardf where num=?";   
 
        try {
           conn = DBConnection.getConnection();
@@ -533,7 +513,7 @@ public class BoardDAO {
             pstmt.close();
             
             // 2. board 테이블의 liking 컬럼 +1 업데이트
-            String updateBoardSql = "UPDATE board SET liking = liking + 1 WHERE num = ?";
+            String updateBoardSql = "UPDATE boardf SET liking = liking + 1 WHERE num = ?";
             pstmt = conn.prepareStatement(updateBoardSql);
             pstmt.setInt(1, boardNum);
             pstmt.executeUpdate();
@@ -577,7 +557,7 @@ public class BoardDAO {
             pstmt.close();
             
             // 2. board 테이블의 liking 컬럼 -1 업데이트 (0보다 작아지지 않도록)
-            String updateBoardSql = "UPDATE board SET liking = GREATEST(0, liking - 1) WHERE num = ?";
+            String updateBoardSql = "UPDATE boardf SET liking = GREATEST(0, liking - 1) WHERE num = ?";
             pstmt = conn.prepareStatement(updateBoardSql);
             pstmt.setInt(1, boardNum);
             pstmt.executeUpdate();
@@ -613,7 +593,7 @@ public class BoardDAO {
         try {
             conn = DBConnection.getConnection();
             
-            String sql = "SELECT liking FROM board WHERE num = ?";
+            String sql = "SELECT liking FROM boardf WHERE num = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, boardNum);
             
