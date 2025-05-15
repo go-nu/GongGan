@@ -9,7 +9,9 @@ public class CosmeticsDTO {
     private String effect;
     private String category;
     private String image_file;
-    private int likes;
+    private int likes;  //DB에 화장품 좋아요수
+    
+    private boolean liked;  //회원 개인의 화장품 좋아요
 
     // 기본 생성자
     public CosmeticsDTO() {}
@@ -54,4 +56,7 @@ public class CosmeticsDTO {
 
     public int getLikes() { return likes; }
     public void setLikes(int likes) { this.likes = likes; }
+    
+    public boolean isLiked() { return liked; }
+    public void setLiked(boolean liked) { this.liked = liked; }
 }

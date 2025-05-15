@@ -42,9 +42,9 @@
         String categoryName = entry.getKey();
         List<CosmeticsDTO> categoryCosmetics = entry.getValue();
     %>
-    <div class="mb-5">
+    <div class="mb-2">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4><%= categoryName %></h4>
+        <h3><%= categoryName %></h3>
         <a href="cosmetics?action=category&category=<%= categoryName %>" class="btn btn-sm btn-outline-secondary">더보기(More)</a>
       </div>
       <div class="row row-cols-1 row-cols-md-4 g-4">
@@ -56,9 +56,12 @@
         <div class="col">
           <div class="card h-100 shadow-sm border-0" style="height: 300px;">
             <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" class="card-img-top" alt="<%= cosmetic.getName() %>" style="height: 200px; object-fit: cover;">
-            <div class="card-body p-2 text-center" style="height: 110px; overflow: hidden;">
+            <div class="card-body p-2 text-center" style="height: 120px; overflow: hidden;">
               <h5 class="card-title mb-2"><%= cosmetic.getName() %></h5>
               <p class="card-text small text-muted mb-2">주요 성분: <%= cosmetic.getMain_ingredient() %></p>
+              <div style="font-size: 12px; color: #d33; line-height: 1; margin-bottom: 6px;">
+				  ❤️ <span style="font-size: 12px; color: #333;"><%= cosmetic.getLikes() %></span>
+			  </div>
               <a href="cosmetics?action=detail&id=<%= cosmetic.getId() %>" class="btn btn-sm btn-outline-primary">상세보기</a>
             </div>
           </div>
