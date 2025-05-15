@@ -11,13 +11,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[사이트 이름]</title>
+    <title>K-Food 체험 활동</title>
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./resources/css/food_style2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   	<script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<%
+if (request.isUserInRole("admin")) {
+    response.sendRedirect("admin_FoodActivity.jsp");
+    return;
+}
+%>
 </head>
 <body>
     <%@ include file="header.jsp" %>
@@ -145,9 +151,9 @@
     <section class="about-section">
         <div class="container">
          	<div class="section-title">
-	      		<h2>전체 체험활동</h2>
+	      		<h2>전체 체험 활동</h2>
 	      		<!-- 4카드 섹션  -->
-				<div class="container pt-1 pb-5">
+				<div class="container px-5">
 					<div class="row row-cols-1 row-cols-md-4 g-3">
 						<%
 							PreparedStatement pstmtS = null;
