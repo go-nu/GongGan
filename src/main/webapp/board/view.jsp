@@ -4,6 +4,7 @@
 
 <%@ page import="mvc.model.BoardDTO"%>
 <%@ page import="mvc.model.BoardDAO"%>
+<%@ page import="mvc.util.FileUtil" %>
 <%
     BoardDTO notice = (BoardDTO) request.getAttribute("board");
     int num = ((Integer) request.getAttribute("num")).intValue();
@@ -20,6 +21,7 @@
     }
     
     // JSP 페이지에서 사용할 수 있도록 변수 설정
+    pageContext.setAttribute("page", nowpage); // 250514 첨부파일 추가및 수정 중 추가
     pageContext.setAttribute("userLiked", userLiked);
     pageContext.setAttribute("sessionId", sessionId);
 %>
@@ -111,41 +113,108 @@
                                 </c:if>
                             </div>
                         </div>
-                    </div>
-    
-                    <!-- 댓글 영역 -->
-                    <div class="comment-section mb-5">
-                        <h5 class="mb-3">💬 댓글</h5>
-    
-                        <c:if test="${empty commentList}">
-                            <p class="text-muted">등록된 댓글이 없습니다.</p>
-                        </c:if>
-    
-                        <c:if test="${not empty commentList}">
-                            <ul class="list-group mb-3">
-                                <c:forEach var="comment" items="${commentList}">
-                                    <li class="list-group-item">
-                                        <div class="d-flex justify-content-between">
-                                            <strong>${comment.id}</strong>
-                                            <small class="text-muted">${comment.regist_day}</small>
-                                        </div>
-                                        <div class="mt-1">${comment.content}</div>
-                                    </li>
-                                </c:forEach>
-                            </ul>
-                        </c:if>
-    
-                        <c:if test="${not empty sessionId}">
-                            <form action="CommentWriteAction.do" method="post" class="mt-3">
-                                <input type="hidden" name="boardNum" value="${board.num}">
-                                <input type="hidden" name="pageNum" value="${page}">
-                                <div class="mb-2">
-                                    <textarea name="content" class="form-control" rows="3" placeholder="댓글을 입력하세요." required></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-sm">댓글 등록</button>
-                            </form>
-                        </c:if>
-                    </div>
+                        <!-- 첨부파일 정보 표시 부분을 추가 -->
+						<!-- 첨부파일 정보 표시 부분 수정 - 간격 추가 -->
+						<div class="card-footer bg-light border-top py-3">
+						    <div class="row align-items-center">
+						        <div class="col-md-3">
+						            <span class="fw-bold">첨부파일</span>
+						        </div>
+						        <div class="col-md-9">
+						            <c:choose>
+						                <c:when test="${not empty board.fileName}">
+						                    <a href="FileDownloadServlet?num=${board.num}" class="btn btn-sm btn-outline-secondary">
+						                        <i class="bi bi-download"></i> ${board.originalFileName}
+						                    </a>
+						                    <small class="text-muted ms-2">(${FileUtil.formatFileSize(board.fileSize)})</small>
+						                </c:when>
+						                <c:otherwise>
+						                    <span class="text-muted">첨부파일 없음</span>
+						                </c:otherwise>
+						            </c:choose>
+						        </div>
+						    </div>
+						</div>
+						</div>
+						
+						<!-- 간격 추가 -->
+						<div class="my-4"></div>
+						
+						<!-- 댓글 영역 - 페이징 추가 -->
+						<div class="comment-section mb-5">
+						    <h5 class="mb-3">💬 댓글</h5>
+						
+						    <c:if test="${empty commentList}">
+						        <p class="text-muted">등록된 댓글이 없습니다.</p>
+						    </c:if>
+						
+						    <c:if test="${not empty commentList}">
+						        <!-- 페이징을 위한 변수 설정 -->
+						        <c:set var="commentsPerPage" value="5" />
+						        <c:set var="totalComments" value="${commentList.size()}" />
+						        <c:set var="totalPages" value="${(totalComments + commentsPerPage - 1) / commentsPerPage}" />
+						        <c:set var="currentCommentPage" value="${param.commentPage != null ? param.commentPage : 1}" />
+						        
+						        <ul class="list-group mb-3">
+						            <!-- 현재 페이지에 해당하는 댓글만 표시 -->
+						            <c:forEach var="comment" items="${commentList}" varStatus="status">
+						                <c:if test="${status.index >= (currentCommentPage-1) * commentsPerPage && status.index < currentCommentPage * commentsPerPage}">
+						                    <li class="list-group-item">
+						                        <div class="d-flex justify-content-between">
+						                            <strong>${comment.id}</strong>
+						                            <small class="text-muted">${comment.regist_day}</small>
+						                        </div>
+						                        <div class="mt-1">${comment.content}</div>
+						                    </li>
+						                </c:if>
+						            </c:forEach>
+						        </ul>
+						        
+						        <!-- 댓글이 6개 이상일 경우에만 페이징 표시 -->
+						        <c:if test="${totalComments > 5}">
+						            <nav aria-label="댓글 페이지 네비게이션">
+						                <ul class="pagination pagination-sm justify-content-center">
+						                    <!-- 이전 페이지 버튼 -->
+						                    <li class="page-item ${currentCommentPage <= 1 ? 'disabled' : ''}">
+						                        <a class="page-link" href="BoardViewAction.do?num=${board.num}&pageNum=${page}&commentPage=${currentCommentPage - 1}" 
+						                           aria-label="이전">
+						                            <span aria-hidden="true">&laquo;</span>
+						                        </a>
+						                    </li>
+						                    
+						                    <!-- 페이지 번호 -->
+						                    <c:forEach var="i" begin="1" end="${totalPages}">
+						                        <li class="page-item ${currentCommentPage == i ? 'active' : ''}">
+						                            <a class="page-link" href="BoardViewAction.do?num=${board.num}&pageNum=${page}&commentPage=${i}">
+						                                ${i}
+						                            </a>
+						                        </li>
+						                    </c:forEach>
+						                    
+						                    <!-- 다음 페이지 버튼 -->
+						                    <li class="page-item ${currentCommentPage >= totalPages ? 'disabled' : ''}">
+						                        <a class="page-link" href="BoardViewAction.do?num=${board.num}&pageNum=${page}&commentPage=${currentCommentPage + 1}" 
+						                           aria-label="다음">
+						                            <span aria-hidden="true">&raquo;</span>
+						                        </a>
+						                    </li>
+						                </ul>
+						            </nav>
+						        </c:if>
+						    </c:if>
+						
+						    <c:if test="${not empty sessionId}">
+						        <form action="CommentWriteAction.do" method="post" class="mt-3">
+						            <input type="hidden" name="boardNum" value="${board.num}">
+						            <input type="hidden" name="pageNum" value="${page}">
+						            <input type="hidden" name="commentPage" value="${param.commentPage != null ? param.commentPage : 1}">
+						            <div class="mb-2">
+						                <textarea name="content" class="form-control" rows="3" placeholder="댓글을 입력하세요." required></textarea>
+						            </div>
+						            <button type="submit" class="btn btn-primary btn-sm">댓글 등록</button>
+						        </form>
+						    </c:if>
+						</div>
     
                     <!-- 하단 버튼 -->
                     <div class="d-flex justify-content-between">
@@ -158,6 +227,8 @@
             </div>
         </div>
     </div>
+    
+    
     
     <%@ include file="../footer.jsp" %>
 

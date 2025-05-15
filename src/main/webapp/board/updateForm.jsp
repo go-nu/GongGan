@@ -37,19 +37,12 @@
             <div class="container">
                 <h2 class="mb-4">✏️ 게시글 수정</h2>
 
-                <form name="updateWrite" action="./BoardUpdateAction.do" method="post" onsubmit="return checkForm()">
+                <form name="updateWrite" action="./BoardUpdateAction.do" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
                     <!-- 서버에 전달할 hidden 필드들 -->
-                    <input type="hidden" name="id" value="<%=id%>">
-                    <input type="hidden" name="num" value="<%=num%>">
-                    <input type="hidden" name="pageNum" value="<%=nowpage%>">
+                    <input type="hidden" name="id" id="id" value="<%=id%>">
+					<input type="hidden" name="num" id="num" value="<%=num%>">
+					<input type="hidden" name="pageNum" id="pageNum" value="<%=nowpage%>">
 
-                    <!-- 사용자에게 보여줄 ID -->
-                    <%-- <div class="mb-3 row"> 
-                        <label class="col-sm-2 col-form-label">아이디</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" value="<%=id%>" readonly>
-                        </div>
-                    </div> --%>
 
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">제목</label>
@@ -64,6 +57,26 @@
                             <textarea name="content" rows="6" class="form-control" required><%=board.getContent()%></textarea>
                         </div>
                     </div>
+                    
+                    <!-- 첨부파일 필드를 추가 (기존 updateForm.jsp에 아래 내용 삽입) -->
+					<div class="mb-3 row">
+					    <label class="col-sm-2 col-form-label">첨부파일</label>
+					    <div class="col-sm-8">
+					        <c:choose>
+					            <c:when test="${not empty board.fileName}">
+					                <div class="mb-2">
+					                    <span>현재 파일: ${board.originalFileName} (${board.fileSize / 1024}KB)</span>
+					                    <div class="form-check mt-1">
+					                        <input class="form-check-input" type="checkbox" name="deleteFile" id="deleteFile" value="1">
+					                        <label class="form-check-label" for="deleteFile">파일 삭제</label>
+					                    </div>
+					                </div>
+					            </c:when>
+					        </c:choose>
+					        <input type="file" name="attachment" class="form-control">
+					        <small class="form-text text-muted">새 파일을 선택하면 기존 파일은 대체됩니다.</small>
+					    </div>
+					</div>
 
                     <div class="mb-3 row">
                         <div class="offset-sm-2 col-sm-10">

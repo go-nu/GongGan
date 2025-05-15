@@ -80,6 +80,9 @@
                             <td class="post-title">
                                 <a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
                                     ${board.subject}
+                                    <c:if test="${not empty board.fileName}">
+							            <i class="bi bi-paperclip"></i> <!-- 첨부파일 아이콘 -->
+							        </c:if>
                                     <!-- 댓글 수 표시 기능 임시 제거 -->
                                     <%-- <c:if test="${board.comment_count > 0}">
                                         <span class="comment-count">${board.comment_count}</span>
