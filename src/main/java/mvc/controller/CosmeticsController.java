@@ -9,11 +9,16 @@ import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import jakarta.servlet.http.Part;
+import jakarta.servlet.http.HttpSession;
 
 import java.nio.file.Paths;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -39,6 +44,16 @@ public class CosmeticsController extends HttpServlet {
             // 화장품 상세 페이지 
             // 1. 해당 화장품 정보 조회
             CosmeticsDTO cosmetic = cosmeticsRepo.getCosmeticById(id);
+            
+            // ✅ 1_1. 로그인한 사용자라면 좋아요 여부 확인해서 setLiked
+            HttpSession session = request.getSession(false);
+            String userId = (session != null) ? (String) session.getAttribute("id") : null;
+
+            if (cosmetic != null && userId != null) {
+                boolean liked = cosmeticsRepo.hasUserLiked(cosmetic.getId(), userId);
+                cosmetic.setLiked(liked);
+            }
+            
             request.setAttribute("cosmetic", cosmetic);
 
             // 2. 관련 상품 12개 가져오기 (같은 카테고리, 자기 자신 제외)
@@ -237,7 +252,51 @@ public class CosmeticsController extends HttpServlet {
                 System.out.println("유효하지 않은 ID 형식");
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 ID");
             }
-        }
+        } else if ("likeToggle".equals(action)) {
+        	// 좋아요 기능
+            // 세션에서 사용자 ID 가져오기
+            HttpSession session = request.getSession(false);
+            String userId = (session != null) ? (String) session.getAttribute("id") : null;
 
+            // JSON 응답 준비
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            JSONObject json = new JSONObject();
+
+            if (userId == null) {
+                // 로그인 안 된 경우
+                json.put("success", false);
+                json.put("message", "로그인이 필요합니다.");
+                out.print(json.toJSONString());
+                out.flush();
+                return;
+            }
+
+            try {
+                int cosmeticId = Integer.parseInt(request.getParameter("id"));
+                boolean alreadyLiked = cosmeticsRepo.hasUserLiked(cosmeticId, userId);
+
+                if (alreadyLiked) {
+                    cosmeticsRepo.removeLike(cosmeticId, userId);
+                    json.put("liked", false);
+                } else {
+                    cosmeticsRepo.addLike(cosmeticId, userId);
+                    json.put("liked", true);
+                }
+
+                int likeCount = cosmeticsRepo.getLikeCount(cosmeticId);
+                json.put("likeCount", likeCount);
+                json.put("success", true);
+
+            } catch (Exception e) {
+                json.put("success", false);
+                json.put("message", "서버 오류: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            out.print(json.toJSONString());
+            out.flush();
+        }
     }
 }

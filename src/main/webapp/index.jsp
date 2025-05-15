@@ -98,10 +98,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="category-card" onclick="location.href='beauty.jsp'" style="cursor: pointer;">
+                <div class="category-card" onclick="location.href='${pageContext.request.contextPath}/cosmetics?action=list'" style="cursor: pointer;">
                 	<img src="./resources/img/category_b.jpg" class="category-image">
                     <div class="category-info">
-                        <h3>K-BEUATY</h3>
+                        <h3>K-BEAUTY</h3>
                         <p>한국의 화장품에 대한 정보 나눔</p>
                         <div>
                             <span class="tag">화장품 정보 공유</span>

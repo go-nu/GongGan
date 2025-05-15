@@ -219,5 +219,75 @@ public class CosmeticsDAO {
 
         return related;
     }
+    // 8 . 화장품 좋아요 버튼
+		 	// 8-1. 좋아요 여부 확인
+		    public boolean hasUserLiked(int cosmeticId, String userId) {
+		        String sql = "SELECT * FROM cosmetic_likes WHERE cosmetic_id = ? AND user_id = ?";
+		        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		            pstmt.setInt(1, cosmeticId);
+		            pstmt.setString(2, userId);
+		            try (ResultSet rs = pstmt.executeQuery()) {
+		                return rs.next();
+		            }
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		        return false;
+		    }
+		
+		    // 8-2. 좋아요 추가
+		    public void addLike(int cosmeticId, String userId) {
+		        String sql = "INSERT INTO cosmetic_likes (cosmetic_id, user_id) VALUES (?, ?)";
+		        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		            pstmt.setInt(1, cosmeticId);
+		            pstmt.setString(2, userId);
+		            pstmt.executeUpdate();
+		            updateLikeCount(cosmeticId); // 반영
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		
+		    // 8-3. 좋아요 취소
+		    public void removeLike(int cosmeticId, String userId) {
+		        String sql = "DELETE FROM cosmetic_likes WHERE cosmetic_id = ? AND user_id = ?";
+		        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		            pstmt.setInt(1, cosmeticId);
+		            pstmt.setString(2, userId);
+		            pstmt.executeUpdate();
+		            updateLikeCount(cosmeticId);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		
+		    // 8-4. 좋아요 수 조회
+		    public int getLikeCount(int cosmeticId) {
+		        String sql = "SELECT COUNT(*) FROM cosmetic_likes WHERE cosmetic_id = ?";
+		        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		            pstmt.setInt(1, cosmeticId);
+		            try (ResultSet rs = pstmt.executeQuery()) {
+		                if (rs.next()) {
+		                    return rs.getInt(1);
+		                }
+		            }
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		        return 0;
+		    }
+		
+		    // 8-5. cosmetics 테이블 업데이트
+		    public void updateLikeCount(int cosmeticId) {
+		        int count = getLikeCount(cosmeticId);
+		        String sql = "UPDATE cosmetics SET likes = ? WHERE id = ?";
+		        try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		            pstmt.setInt(1, count);
+		            pstmt.setInt(2, cosmeticId);
+		            pstmt.executeUpdate();
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
 
 }
