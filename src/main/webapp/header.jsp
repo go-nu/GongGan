@@ -30,7 +30,7 @@
                     	<li><a href="cosmetics?action=adminlist">뷰티 (K-BEAUTY)</a></li>
                     	<li><a href="location.jsp">관광지 (LOCATION)</a></li>
                     	<li><a href="logout.jsp">로그아웃</a></li>
-                        <li><a href="#">관리자페이지</a></li>
+                        <li><a href="adminPage.jsp">관리자페이지</a></li>
                         
                     	<!-- 일반 유저(로그인)일 때 헤더 메뉴 -->
                     	<%} else if (session.getAttribute("id") != null) { %>
