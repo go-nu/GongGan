@@ -59,7 +59,12 @@ public class BoardController extends HttpServlet {
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
 			rd.forward(request, response);
-		} else if (command.equals("/BoardWriteForm.do")) { // 글 등록 페이지 출력
+		} else if (command.equals("/MyPage.do")) { // 마이페이지
+	        requestLoginName(request);       // 로그인한 사용자 이름 가져오기
+	        requestMyBoard(request);         // 내가 쓴 게시글 목록 가져오기
+	        RequestDispatcher rd = request.getRequestDispatcher("./mypage.jsp");
+	        rd.forward(request, response);
+	    } else if (command.equals("/BoardWriteForm.do")) { // 글 등록 페이지 출력
 			requestLoginName(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./board/writeForm.jsp");
 			rd.forward(request, response);
@@ -137,7 +142,6 @@ public class BoardController extends HttpServlet {
 
 	}
 	
-
 	// 등록된 글 목록 가져오기
 	public void requestBoardList(HttpServletRequest request) {
 
@@ -192,6 +196,45 @@ public class BoardController extends HttpServlet {
 		request.setAttribute("endPage", endPage);
 
 	}
+	
+	// 등록된 글 목록 가져오기
+	public void requestMyBoard(HttpServletRequest request) {
+
+	    BoardDAO dao = BoardDAO.getInstance();
+	    ArrayList<BoardDTO> boardlist = new ArrayList<>();
+
+	    int pageNum = 1;
+	    int limit = LISTCOUNT;
+
+	    if (request.getParameter("pageNum") != null) {
+	        pageNum = Integer.parseInt(request.getParameter("pageNum"));
+	    }
+
+	    // ✅ 세션에서 로그인된 사용자 ID 가져오기
+	    HttpSession session = request.getSession();
+	    String id = (String) session.getAttribute("id");
+
+	    // ✅ 글 개수 및 목록 조회
+	    int total_record = dao.getMyListCount(id);
+	    boardlist = dao.getMyBoardList(pageNum, limit, id);
+
+	    // ✅ 페이지 수 계산 (올림)
+	    int total_page = (total_record + limit - 1) / limit;
+
+	    request.setAttribute("currentPage", pageNum);
+	    request.setAttribute("totalPage", total_page);
+	    request.setAttribute("totalPosts", total_record);
+	    request.setAttribute("boardList", boardlist);
+
+	    // ✅ 페이지네이션 범위 계산
+	    int startPage = ((pageNum - 1) / 10) * 10 + 1;
+	    int endPage = startPage + 9;
+	    if (endPage > total_page) endPage = total_page;
+
+	    request.setAttribute("startPage", startPage);
+	    request.setAttribute("endPage", endPage);
+	}
+
 
 	// 인증된 사용자명 가져오기
 	public void requestLoginName(HttpServletRequest request) {
@@ -203,7 +246,6 @@ public class BoardController extends HttpServlet {
 
 		request.setAttribute("id", id); // ← 추가
 		request.setAttribute("name", name);
-
 	}
 
 	// 새로운 글 등록하기
@@ -485,11 +527,6 @@ public class BoardController extends HttpServlet {
 	    return false;
 	}
 	
-	
-
-	   
-
-
 	// 선택된 글 삭제하기
 	public void requestBoardDelete(HttpServletRequest request) {
 		int num = Integer.parseInt(request.getParameter("num"));

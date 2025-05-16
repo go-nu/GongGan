@@ -24,11 +24,10 @@ public class CosmeticsDAO {
  // DB 연결 메서드에서 예외 발생 시 로그 추가
     private Connection getConnection() throws SQLException, ClassNotFoundException {
         Connection conn = DBConnection.getConnection();
-        if (conn != null) {
-            System.out.println("DB 연결 성공");
-        } else {
-            System.out.println("DB 연결 실패");
-        }
+		/*
+		 * if (conn != null) { System.out.println("DB 연결 성공"); } else {
+		 * System.out.println("DB 연결 실패"); }
+		 */
         return conn;
     }
 
