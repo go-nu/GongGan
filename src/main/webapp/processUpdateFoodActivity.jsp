@@ -5,7 +5,7 @@
 <%@ include file="dbconn.jsp" %>
 
 <%
-    String savePath = application.getRealPath("/upload");  // 업로드 디렉토리
+    String savePath = application.getRealPath("/resources/img");  // 업로드 디렉토리
     int maxSize = 10 * 1024 * 1024; // 최대 10MB
     String encoding = "UTF-8";
 
@@ -26,7 +26,7 @@
     String note      = multi.getParameter("NOTE");
 
     String oldImg    = multi.getParameter("oldImg");
-    String newImg    = multi.getFilesystemName("IMG");
+    String newImg    = multi.getFilesystemName("image_file_upload");
 
     String finalImg = (newImg != null) ? newImg : oldImg;
 
@@ -48,7 +48,12 @@
     conn.close();
 
     if (result > 0) {
-        response.sendRedirect("admin_FoodActivity.jsp");
+    	%>
+    	<script>
+    	    alert("수정이 완료되었습니다.");
+    	    location.href = "admin_FoodActivity.jsp";
+    	</script>
+    	<%
     } else {
         out.println("<script>alert('수정 실패'); history.back();</script>");
     }

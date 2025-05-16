@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*, java.io.*" %>
+<%@ page import="java.sql.*" %>
 <%@ include file="dbconn.jsp" %>
 
 <%
@@ -11,18 +11,25 @@
         out.println("<script>alert('삭제할 활동 ID가 없습니다.'); history.back();</script>");
         return;
     }
+    
+    // 1. 예약 내역이 있는지 먼저 확인
+    String checkSql = "SELECT COUNT(*) FROM fs_semi.reservation WHERE act_id = ?";
+    PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+    checkStmt.setString(1, actId);
+    ResultSet checkRs = checkStmt.executeQuery();
 
-    // 삭제 전 기존 이미지 파일명 확인
-    String imgFile = null;
-    String selectSql = "SELECT IMG FROM fs_semi.activity WHERE ACT_ID = ?";
-    PreparedStatement pstmtSelect = conn.prepareStatement(selectSql);
-    pstmtSelect.setString(1, actId);
-    ResultSet rs = pstmtSelect.executeQuery();
-    if (rs.next()) {
-        imgFile = rs.getString("IMG");
+    if (checkRs.next()) {
+        int reservationCount = checkRs.getInt(1);
+        if (reservationCount > 0) {
+            checkRs.close();
+            checkStmt.close();
+            conn.close();
+            out.println("<script>alert('해당 체험 활동에 예약 내역이 있어 삭제할 수 없습니다.'); history.back();</script>");
+            return;
+        }
     }
-    rs.close();
-    pstmtSelect.close();
+    checkRs.close();
+    checkStmt.close();
 
     // DB에서 삭제
     String deleteSql = "DELETE FROM fs_semi.activity WHERE ACT_ID = ?";
@@ -31,15 +38,9 @@
     int result = pstmtDelete.executeUpdate();
     pstmtDelete.close();
 
-    // 이미지 삭제
-    if (result > 0 && imgFile != null && !imgFile.isEmpty()) {
-        String uploadPath = application.getRealPath("/upload");
-        File imageFile = new File(uploadPath, imgFile);
-        if (imageFile.exists()) {
-            imageFile.delete(); // 서버 이미지 삭제
-        }
-    }
-
     conn.close();
-    response.sendRedirect("admin_FoodActivity.jsp");
 %>
+<script>
+    alert("삭제가 완료되었습니다.");
+    location.href = "admin_FoodActivity.jsp";
+</script>

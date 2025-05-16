@@ -304,5 +304,11 @@
 
 		input.value = value;
 	}
+	
+	function confirmDelete(actId) {
+	    if (confirm("정말 삭제하시겠습니까?")) {
+	        location.href = "deleteFoodActivity.jsp?ACT_ID=" + encodeURIComponent(actId);
+	    }
+	}
 </script>
 </html>

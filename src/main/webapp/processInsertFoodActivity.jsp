@@ -5,14 +5,14 @@
 <%@ include file="dbconn.jsp" %>
 
 <%
-    String savePath = application.getRealPath("/upload");
+    String savePath = application.getRealPath("/resources/img");
     int maxSize = 10 * 1024 * 1024;
     MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
 
     // 필드값 가져오기
     String title     = multi.getParameter("TITLE");
     int price        = Integer.parseInt(multi.getParameter("PRICE"));
-    String img       = multi.getFilesystemName("IMG");
+    String img       = multi.getFilesystemName("image_file_upload");
     int maxCount     = Integer.parseInt(multi.getParameter("MAX_COUNT"));
     String actDate   = multi.getParameter("ACT_DATE");
     String address   = multi.getParameter("ADDRESS");
@@ -37,7 +37,12 @@
     conn.close();
 
     if (result > 0) {
-        response.sendRedirect("admin_FoodActivity.jsp");
+    	%>
+    	<script>
+    	    alert("등록이 완료되었습니다.");
+    	    location.href = "admin_FoodActivity.jsp";
+    	</script>
+    	<%
     } else {
         out.println("<script>alert('등록 실패'); history.back();</script>");
     }

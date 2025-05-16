@@ -123,7 +123,7 @@
        	<div class="section-title">
       		<h2>전체 체험 활동</h2>
       		<div class="container text-end w-100 my-5">
-      			<a class="btn btn-lg btn-warning" href="updateFoodActivity.jsp">추가 등록</a>
+      			<a class="btn btn-lg btn-warning" href="insertFoodActivity.jsp">추가 등록</a>
       		</div>
       		<!-- 4카드 섹션  -->
 			<div class="container pt-3 pb-5">
