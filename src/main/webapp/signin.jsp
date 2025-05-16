@@ -11,22 +11,32 @@
 <link rel="stylesheet" href="./resources/css/index_style.css">
 <link rel="stylesheet" href="./resources/css/signin.css">
 <link rel="stylesheet" href="./resources/css/footer.css">
-<script type="text/javascript">
+
+<script>
+   function showModal(message) {
+     const modal = new bootstrap.Modal(document.getElementById('formAlertModal'));
+     document.getElementById('formAlertMessage').textContent = message;
+     modal.show();
+   }
+
    function checkForm() {
-      if (!document.newMember.id.value) {
-         alert("아이디를 입력하세요.");
+      const form = document.newMember;
+      if (!form.id.value) {
+         showModal("아이디를 입력하세요.");
          return false;
       }
 
-      if (!document.newMember.password.value) {
-         alert("비밀번호를 입력하세요.");
+      if (!form.password.value) {
+         showModal("비밀번호를 입력하세요.");
          return false;
       }
 
-      if (document.newMember.password.value != document.newMember.password_confirm.value) {
-         alert("비밀번호를 동일하게 입력하세요.");
+      if (form.password.value !== form.password_confirm.value) {
+         showModal("비밀번호를 동일하게 입력하세요.");
          return false;
       }
+
+      return true;
    }
 </script>
 </head>
@@ -136,7 +146,7 @@
 						<label class="col-sm-2">전화번호</label>
 						<div class="col-sm-3">
 							<input name="phone" type="text" class="form-control"
-								placeholder="phone">
+								placeholder="010-0000-0000">
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -157,6 +167,23 @@
 			</div>
 		</div>
 	</section>
+	<!-- 부트스트랩 경고 모달 -->
+	<div class="modal fade" id="formAlertModal" tabindex="-1" aria-labelledby="formAlertModalLabel" aria-hidden="true">
+	  	<div class="modal-dialog">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+			        <h5 class="modal-title" id="formAlertModalLabel">입력 오류</h5>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+		      	</div>
+		      	<div class="modal-body" id="formAlertMessage">
+		        	<!-- JavaScript로 오류 메시지가 여기에 표시됩니다 -->
+		      	</div>
+		      	<div class="modal-footer border-0">
+		        	<button type="button" class="btn" data-bs-dismiss="modal">확인</button>
+		      	</div>
+	    	</div>
+	  	</div>
+	</div>
 	<footer>
 		<div class="copyright">
 			<p>&copy; 2025 K-FOOD GUIDE. All rights reserved.</p>

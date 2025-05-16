@@ -108,10 +108,41 @@ try {
         System.out.println("▶ city_district INSERT 결과: " + result);
     }
 %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>등록 결과</title>
+    <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./resources/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <!-- 등록 성공 모달 -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successLabel">등록 완료</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                </div>
+                <div class="modal-body">
+                    등록이 완료되었습니다.
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-primary" onclick="location.href='AddLocation.jsp'">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-      alert("등록이 완료되었습니다.");
-      location.href = "AddLocation.jsp";
+        window.addEventListener("DOMContentLoaded", function () {
+            const modal = new bootstrap.Modal(document.getElementById("successModal"));
+            modal.show();
+        });
     </script>
+</body>
+</html>
 <%
 } catch (Exception ex) {
     ex.printStackTrace();

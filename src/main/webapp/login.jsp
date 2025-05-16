@@ -18,14 +18,20 @@
 .copyright > a{
 	color: #1d3557;
 }
-</style>
-</head>
-<style>
 .btn:hover {
 	background-color: #1d2757 !important;
 }
 </style>
+</head>
 <body>
+<script>
+<%
+String redirectParam = request.getParameter("redirect");
+if (redirectParam != null) {
+    session.setAttribute("redirectAfterLogin", redirectParam);
+}
+%>
+</script>
 <%@ include file="header.jsp" %>
 
 

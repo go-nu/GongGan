@@ -52,14 +52,67 @@
 	if (returnURL == null || returnURL.trim().equals("")) {
 	    returnURL = "admin_FoodActivity.jsp";  // 기본 경로
 	}
-    if (result > 0) {
-    	%>
-    	<script>
-    	    alert("수정이 완료되었습니다.");
-    	    location.href = "<%= returnURL %>";
-    	</script>
-    	<%
-    } else {
-        out.println("<script>alert('수정 실패'); history.back();</script>");
-    }
 %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>수정 결과</title>
+    <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./resources/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<% if (result > 0) { %>
+<!-- 수정 성공 모달 -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successLabel">수정 완료</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                체험 정보가 수정되었습니다.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-success" onclick="location.href='<%= returnURL %>'">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        new bootstrap.Modal(document.getElementById("successModal")).show();
+    });
+</script>
+
+<% } else { %>
+<!-- 수정 실패 모달 -->
+<div class="modal fade" id="failModal" tabindex="-1" aria-labelledby="failLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="failLabel">수정 실패</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                체험 정보 수정에 실패했습니다.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-danger" onclick="history.back()">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        new bootstrap.Modal(document.getElementById("failModal")).show();
+    });
+</script>
+<% } %>
+
+</body>
+</html>

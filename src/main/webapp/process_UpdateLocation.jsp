@@ -13,6 +13,7 @@ String tag2 = request.getParameter("tag2");
 String tag3 = request.getParameter("tag3");
 
 String uploadPath = application.getRealPath("/resources/img");
+boolean success = false;
 
 try {
     if ("city".equals(table)) {
@@ -43,7 +44,7 @@ try {
         pstmt.setString(6, imageFile);
         pstmt.setInt(7, Integer.parseInt(id));
         pstmt.executeUpdate();
-
+        success = true;
     } else if ("city_district".equals(table)) {
         String[] tagImgs = new String[3];
         String mainImg = "";
@@ -91,13 +92,8 @@ try {
         pstmt.setString(9, mainImg);
         pstmt.setInt(10, Integer.parseInt(id));
         pstmt.executeUpdate();
+        success = true;
     }
-%>
-    <script>
-        alert("수정이 완료되었습니다.");
-        location.href = "ManageLocation.jsp?table=<%=table%>&id=<%=id%>";
-    </script>
-<%
 } catch (Exception e) {
     e.printStackTrace();
 %>
@@ -108,3 +104,42 @@ try {
 <%
 }
 %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>수정 완료</title>
+    <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./resources/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <!-- 수정 완료 모달 -->
+    <div class="modal fade" id="updateSuccessModal" tabindex="-1" aria-labelledby="updateSuccessLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateSuccessLabel">수정 완료</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                </div>
+                <div class="modal-body">
+                    수정이 완료되었습니다.
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-primary" onclick="redirect()">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function redirect() {
+            location.href = "ManageLocation.jsp?table=<%=table%>&id=<%=id%>";
+        }
+
+        window.addEventListener("DOMContentLoaded", function () {
+            const modal = new bootstrap.Modal(document.getElementById("updateSuccessModal"));
+            modal.show();
+        });
+    </script>
+</body>
+</html>
