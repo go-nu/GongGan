@@ -18,6 +18,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   	<script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<%
+if (request.isUserInRole("admin")) {
+    response.sendRedirect("admin_FoodActivity.jsp");
+    return;
+}
+%>
 </head>
 <body>
     <%@ include file="header.jsp" %>
