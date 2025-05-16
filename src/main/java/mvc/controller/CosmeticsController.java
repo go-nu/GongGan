@@ -45,7 +45,7 @@ public class CosmeticsController extends HttpServlet {
             // 1. 해당 화장품 정보 조회
             CosmeticsDTO cosmetic = cosmeticsRepo.getCosmeticById(id);
             
-            // ✅ 1_1. 로그인한 사용자라면 좋아요 여부 확인해서 setLiked
+            // 1_1. 로그인한 사용자라면 좋아요 여부 확인해서 setLiked
             HttpSession session = request.getSession(false);
             String userId = (session != null) ? (String) session.getAttribute("id") : null;
 
@@ -83,7 +83,7 @@ public class CosmeticsController extends HttpServlet {
 
             request.setAttribute("cosmeticsList", list);
             request.setAttribute("category", category);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/beautyCategory.jsp"); // ✅ 포워딩 수정
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/beautyCategory.jsp");
             dispatcher.forward(request, response);
 
         } else if (action.equals("adminlist")) {

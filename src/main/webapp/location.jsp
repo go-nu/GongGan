@@ -59,7 +59,7 @@
 						
 						while(rs.next()) {
 					%>
-					<a href="city.jsp?num=<%=rs.getString("num")%>">
+					<a href="location_detail.jsp?city_num=<%=rs.getString("city_num")%>">
 		                <div class="category-card">
 		                    <img src="./resources/img/<%=rs.getString("img")%>" class="category-image">
 		                    <div class="category-info">
