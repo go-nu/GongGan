@@ -55,7 +55,7 @@ public class BoardController extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
-		if (command.equals("/BoardListAction.do")) {// 등록된 글 목록 페이지 출력하기
+		if (command.equals("/BoardListAction.do")) {// 등록된 글 목록 페이지 출력하기 1
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./boardF/list.jsp");
 			rd.forward(request, response);
