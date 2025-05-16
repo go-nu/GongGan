@@ -28,3 +28,29 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function updateDdayBadges() {
+    const dDayElements = document.querySelectorAll('[data-dday]');
+
+    dDayElements.forEach(function (el) {
+        const targetDate = el.getAttribute('data-dday');
+        const d = calculateDDay(targetDate);
+
+        // 텍스트 설정
+        el.textContent = d > 0 ? `D-${d}` : d === 0 ? 'D-Day' : '종료';
+
+        // 기존 배경 클래스 제거
+        el.classList.remove('bg-success', 'bg-warning', 'bg-danger', 'bg-dark');
+
+        // 색상 클래스 설정
+        if (d > 7) {
+            el.classList.add('bg-success');
+        } else if (d <= 7 && d > 3) {
+            el.classList.add('bg-warning');
+        } else if (d <= 3 && d >= 0) {
+            el.classList.add('bg-danger');
+        } else {
+            el.classList.add('bg-dark');
+        }
+    });
+}

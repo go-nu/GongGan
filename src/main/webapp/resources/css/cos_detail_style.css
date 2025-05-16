@@ -1,0 +1,53 @@
+/* 상세 이미지 */
+.main-image {
+	width: 100%; 
+	height: auto;
+}
+
+/* 우측정보 글씨 설정 */
+.right-info p{
+  font-size: 26px;
+}
+
+/* 관련상품 캐러셀 이미지 */
+.carousel-item img {
+	width: 100%; 
+	height: 200px;
+	object-fit: cover;
+}
+
+/* 슬라이드 넘침 방지 */
+.carousel-inner {
+	overflow-x: hidden;
+}
+
+.carousel-control-prev, .carousel-control-next {
+	top: 50%;
+	transform: translateY(-50%);
+	width: 40px;
+	height: 40px;
+	color: black;
+	z-index: 10;
+}
+.carousel-control-prev {
+	left: 0px;
+}
+.carousel-control-next {
+	right: 0px;
+}
+
+/* 섹션의 반응형 레이아웃 */
+.main-section {
+	display: block;
+}
+
+@media (min-width: 992px) {
+	.main-section {
+		display: flex;
+		gap: 2rem;
+	}
+	.main-section > .left-image,
+	.main-section > .right-info {
+		flex: 1;
+	}
+}

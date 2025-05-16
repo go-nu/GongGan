@@ -10,6 +10,7 @@
 <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="./resources/css/index_style.css">
 <link rel="stylesheet" href="./resources/css/signin.css">
+<link rel="stylesheet" href="./resources/css/footer.css">
 <script type="text/javascript">
    function checkForm() {
       if (!document.newMember.id.value) {

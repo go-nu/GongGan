@@ -9,15 +9,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="<%= request.getContextPath() %>/resources/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/rsv_style.css">
-    <style>
-        .right-info p {
-            font-size: 18px;
-        }
-        .like-icon {
-            font-size: 24px;
-        }
-    </style>
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/cos_detail_style.css">
 </head>
 <body>
 <%@ include file="header.jsp"%>
@@ -31,7 +23,7 @@
 %>
 
 <div class="container py-5 mt-5">
-    <div class="reserve-section mt-5 mb-4 px-5">
+    <div class="main-section mt-5 mb-4 px-5">
         <c:if test="${not empty cosmetic}">
             <!-- 왼쪽 이미지 -->
             <div class="left-image mb-4 mb-md-0">
@@ -40,12 +32,12 @@
 
             <!-- 오른쪽 정보 -->
 			<div class="right-info" style="position: relative; min-height: 300px;">
-			    <h3 class="pb-3"><b>${cosmetic.name}</b></h3>
-			    <p><strong>브랜드 :</strong> ${cosmetic.brand}</p>
-			    <p><strong>가격 :</strong> ${cosmetic.price}원</p>
-			    <p><strong>메인성분 :</strong> ${cosmetic.main_ingredient}</p>
-			    <p><strong>효과/효능 :</strong> ${cosmetic.effect}</p>
-			    <p><strong>카테고리 :</strong> ${cosmetic.category}</p>
+			    <h2 class="pb-3"><b>${cosmetic.name}</b></h2>
+			    <p><strong>브랜드 :</strong> ${cosmetic.brand}
+			    <p><strong>가격 :</strong> ${cosmetic.price}원
+			    <p><strong>메인성분 :</strong> ${cosmetic.main_ingredient}
+			    <p><strong>효과/효능 :</strong> ${cosmetic.effect}
+			    <p><strong>카테고리 :</strong> ${cosmetic.category}
 			
 			    <!-- 하단 고정 좋아요 + 뒤로가기 -->
 			    <div style="position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding-top: 12px;">
@@ -73,30 +65,30 @@
         </c:if>
     </div>
 </div>
-
 <!-- 관련 상품 -->
 <section class="about-section" style="padding: 60px 0;">
-    <div class="container">
-        <h3 class="px-5 pb-3">관련 상품</h3>
-        <div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
-            <div class="carousel-inner">
-                <c:forEach var="group" items="${relatedGroups}" varStatus="status">
-                    <div class="carousel-item ${status.first ? 'active' : ''}">
-                        <div class="row">
-                            <c:forEach var="r" items="${group}">
-                                <div class="col-md-3 text-center">
-                                    <div class="card border-0">
-                                        <img src="${pageContext.request.contextPath}/resources/img/${r.image_file}" class="card-img-top img-fluid" alt="${r.name}" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body">
-                                            <h6 class="card-title">${r.name}</h6>
-                                            <a href="cosmetics?action=detail&id=${r.id}" class="btn btn-sm btn-outline-primary">상세보기</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </div>
-                </c:forEach>
+  <div class="container">
+    <h3 class="px-5 pb-3">관련 상품</h3>
+    <div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
+      <div class="carousel-inner">
+        <c:forEach var="group" items="${relatedGroups}" varStatus="status">
+          <div class="carousel-item ${status.first ? 'active' : ''}">
+            <div class="row">
+              <c:forEach var="r" items="${group}">
+                <div class="col-md-3">
+				  <div class="card h-100 shadow-sm border-0" style="height: 300px;">
+				    <img src="${pageContext.request.contextPath}/resources/img/${r.image_file}" class="card-img-top img-fluid" alt="${r.name}" style="height: 200px; object-fit: cover;">
+				    <div class="card-body p-2 text-center" style="height: 110px; overflow: hidden;">
+				      <h6 class="card-title" style="margin-bottom: 2px;">${r.name}</h6>
+				      <p class="card-text small text-muted" style="margin: 0;">브랜드: ${r.brand}</p>
+				      <div style="font-size: 12px; color: #d33; line-height: 1; margin: 4px 0;">
+				        ❤️ <span style="font-size: 12px; color: #333;">${r.likes}</span>
+				      </div>
+				      <a href="cosmetics?action=detail&id=${r.id}" class="btn btn-sm btn-outline-primary">상세보기</a>
+				    </div>
+				  </div>
+				</div>
+              </c:forEach>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
                 <span class="fa-solid fa-chevron-left fa-2x text-dark"></span>
@@ -104,8 +96,11 @@
             <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
                 <span class="fa-solid fa-chevron-right fa-2x text-dark"></span>
             </button>
-        </div>
+          </div>
+        </c:forEach>
+      </div>
     </div>
+  </div>
 </section>
 <!-- 로그인 필요 모달 -->
 <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredLabel" aria-hidden="true">
@@ -125,6 +120,7 @@
     	</div>
   	</div>
 </div>
+
 
 <section class="class-section" style="min-height: 160px;">
     <div class="container"></div>

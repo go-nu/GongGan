@@ -330,8 +330,6 @@
 			</button>
 		</div>
 	</div>
-
-	
 	<!-- 후기 섹션 -->
 <!-- 	<h4 class="px-5 mt-5">후기</h4>
 	<div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">

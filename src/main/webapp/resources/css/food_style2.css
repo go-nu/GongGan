@@ -74,7 +74,7 @@ a {
 
 .section-title {
     text-align: center;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
 }
 
 .section-title h2 {
@@ -181,6 +181,12 @@ a {
 .class-top img {
 	width: 100%;
 	display: block;
+}
+
+.card-img-top2{
+	width: 268px;
+  	height: 201px;
+  	object-fit: cover; /* 또는 contain */
 }
 
 .nav-tabs {

@@ -10,6 +10,15 @@
 <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="./resources/css/index_style.css">
 <link rel="stylesheet" href="./resources/css/login.css">
+<link rel="stylesheet" href="./resources/css/footer.css">
+<style>
+.copyright > p{
+	display: inline-block;
+}
+.copyright > a{
+	color: #1d3557;
+}
+</style>
 </head>
 <style>
 .btn:hover {
@@ -58,7 +67,7 @@
 	<footer>
         <div class="container">
             <div class="copyright">
-                <p>&copy; 2025 K-CULTURE GUIDE. All rights reserved.</p>
+                <p>&copy; 2025 K-CULTURE GUIDE. All rights reserved.</p><a href="adminCheck.jsp" >ㅁ</a>
             </div>
         </div>
     </footer>
