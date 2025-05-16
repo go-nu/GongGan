@@ -59,6 +59,10 @@ public class BoardController extends HttpServlet {
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
 			rd.forward(request, response);
+		} else if (command.equals("/BoardListActionF.do")) {// 등록된 글 목록 페이지 출력하기
+			requestBoardList(request);
+			RequestDispatcher rd = request.getRequestDispatcher("./food.jsp");
+			rd.forward(request, response);
 		} else if (command.equals("/MyPage.do")) { // 마이페이지
 	        requestLoginName(request);       // 로그인한 사용자 이름 가져오기
 	        requestMyBoard(request);         // 내가 쓴 게시글 목록 가져오기
