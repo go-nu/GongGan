@@ -1,3 +1,4 @@
+jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -9,6 +10,9 @@
     BoardDTO notice = (BoardDTO) request.getAttribute("board");
     int num = ((Integer) request.getAttribute("num")).intValue();
     int nowpage = ((Integer) request.getAttribute("page")).intValue();
+    String category = (String) request.getAttribute("category");
+
+    if (category == null || category.trim().equals("")) category = "food";
     
     // 현재 로그인한 사용자의 아이디
     String sessionId = (String) session.getAttribute("id");
@@ -24,14 +28,15 @@
     pageContext.setAttribute("page", nowpage); // 250514 첨부파일 추가및 수정 중 추가
     pageContext.setAttribute("userLiked", userLiked);
     pageContext.setAttribute("sessionId", sessionId);
+    pageContext.setAttribute("category", category);
 %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-Food Guide - 게시글 상세보기</title>
+<!--     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title><c:out value="${board.subject}"/> - 상세보기</title>
     <link rel="stylesheet" href="./resources/./css/styles.css">
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
     <style>
@@ -50,10 +55,32 @@
             margin-left: 5px;
             font-weight: bold;
         }
+        /* 댓글 스타일 추가 */
+        .comment-block {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .comment-block:last-child {
+            border-bottom: none;
+        }
+        .comment-actions {
+            margin-top: 5px;
+        }
+        .comment-actions .btn {
+            margin-right: 5px;
+        }
     </style>
     <script type="text/javascript">
         function confirmDelete() {
             if (confirm("정말 삭제하시겠습니까?")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        function confirmCommentDelete() {
+            if (confirm("댓글을 삭제하시겠습니까?")) {
                 return true;
             } else {
                 return false;
@@ -140,7 +167,7 @@
 						<!-- 간격 추가 -->
 						<div class="my-4"></div>
 						
-						<!-- 댓글 영역 - 페이징 추가 -->
+						<!-- 댓글 영역 - 페이징 추가 및 수정/삭제 기능 추가 -->
 						<div class="comment-section mb-5">
 						    <h5 class="mb-3">💬 댓글</h5>
 						
@@ -164,7 +191,47 @@
 						                            <strong>${comment.id}</strong>
 						                            <small class="text-muted">${comment.regist_day}</small>
 						                        </div>
-						                        <div class="mt-1">${comment.content}</div>
+						                        
+                                                <!-- 댓글 수정 모드일 때와 일반 모드일 때 구분 -->
+                                                <c:choose>
+                                                    <c:when test="${param.edit_id == comment.num}">
+                                                        <!-- 댓글 수정 폼 -->
+                                                        <form action="CommentUpdateAction.do" method="post" class="mt-2">
+                                                            <input type="hidden" name="num" value="${comment.num}">
+                                                            <input type="hidden" name="boardNum" value="${board.num}">
+                                                            <input type="hidden" name="pageNum" value="${page}">
+                                                            <input type="hidden" name="commentPage" value="${currentCommentPage}">
+                                                            <div class="form-group">
+                                                                <textarea name="content" class="form-control mb-2" rows="2" required>${comment.content}</textarea>
+                                                            </div>
+                                                            <div class="d-flex">
+                                                                <button type="submit" class="btn btn-sm btn-success me-2">저장</button>
+                                                                <a href="BoardViewAction.do?num=${board.num}&pageNum=${page}&commentPage=${currentCommentPage}" 
+                                                                   class="btn btn-sm btn-secondary">취소</a>
+                                                            </div>
+                                                        </form>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <!-- 댓글 내용 표시 -->
+                                                        <div class="mt-1">${comment.content}</div>
+                                                        
+                                                        <!-- 댓글 작성자인 경우에만 수정/삭제 버튼 표시 -->
+                                                        <c:if test="${sessionId == comment.id}">
+                                                            <div class="d-flex mt-2">
+                                                                <a href="BoardViewAction.do?num=${board.num}&pageNum=${page}&commentPage=${currentCommentPage}&edit_id=${comment.num}" 
+                                                                   class="btn btn-sm btn-outline-primary me-2">수정</a>
+                                                                <form action="CommentDeleteAction.do" method="post">
+                                                                    <input type="hidden" name="num" value="${comment.num}">
+                                                                    <input type="hidden" name="boardNum" value="${board.num}">
+                                                                    <input type="hidden" name="pageNum" value="${page}">
+                                                                    <input type="hidden" name="commentPage" value="${currentCommentPage}">
+                                                                    <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                                            onclick="return confirmCommentDelete()">삭제</button>
+                                                                </form>
+                                                            </div>
+                                                        </c:if>
+                                                    </c:otherwise>
+                                                </c:choose>
 						                    </li>
 						                </c:if>
 						            </c:forEach>

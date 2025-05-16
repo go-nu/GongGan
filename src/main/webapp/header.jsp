@@ -38,7 +38,7 @@
                         
                     	<!-- 일반 유저(로그인)일 때 헤더 메뉴 -->
                     	<%} else if (session.getAttribute("id") != null) { %>
-                    	<li><a href="food.jsp">한식 (K-FOOD)</a></li>
+                    	<li><a href="<c:url value="/BoardListActionF.do?pageNum=1&items=${items}&text=${text}"/>">한식 (K-FOOD)</a></li>
                     	<li><a href="cosmetics?action=list">뷰티 (K-BEAUTY)</a></li>
                     	<li><a href="location.jsp">관광지 (LOCATION)</a></li>
                     	<li><a href="logout.jsp">로그아웃</a></li>

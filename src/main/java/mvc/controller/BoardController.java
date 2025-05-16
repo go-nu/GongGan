@@ -37,6 +37,7 @@ import mvc.util.FileUtil;
 		maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 
+
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static final int LISTCOUNT = 5;
@@ -56,8 +57,12 @@ public class BoardController extends HttpServlet {
 
 		if (command.equals("/BoardListAction.do")) {// 등록된 글 목록 페이지 출력하기
 			requestBoardList(request);
-			RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("./boardF/list.jsp");
 			rd.forward(request, response);
+		} else if (command.equals("/BoardListActionF.do")) {// 등록된 글 목록 페이지 각 서브사이트 섹션에 출력하기
+			requestBoardList(request);
+			RequestDispatcher rd = request.getRequestDispatcher("./food.jsp");
+			rd.forward(request, response);	
 		}else if (command.equals("/BoardListActionF.do")) {// 등록된 글 목록 페이지 출력하기
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./food.jsp");
@@ -65,15 +70,15 @@ public class BoardController extends HttpServlet {
 		}else if (command.equals("/BoardListActionL.do")) {// 등록된 글 목록 페이지 출력하기
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./location.jsp");
-			rd.forward(request, response);
+			rd.forward(request, response);	
 		} else if (command.equals("/MyPage.do")) { // 마이페이지
 	        requestLoginName(request);       // 로그인한 사용자 이름 가져오기
 	        requestMyBoard(request);         // 내가 쓴 게시글 목록 가져오기
 	        RequestDispatcher rd = request.getRequestDispatcher("./mypage.jsp");
-	        rd.forward(request, response);
-	    } else if (command.equals("/BoardWriteForm.do")) { // 글 등록 페이지 출력
+	        rd.forward(request, response);	
+		} else if (command.equals("/BoardWriteForm.do")) { // 글 등록 페이지 출력
 			requestLoginName(request);
-			RequestDispatcher rd = request.getRequestDispatcher("./board/writeForm.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("./boardF/writeForm.jsp");
 			rd.forward(request, response);
 		} else if (command.equals("/BoardWriteAction.do")) { // 새로운 글 등록
 			try {
@@ -113,7 +118,7 @@ public class BoardController extends HttpServlet {
 				if (!response.isCommitted()) {
 					// 직접 view.jsp로 포워딩 (BoardView.do로 가지 않고)
 					// 정상적으로 게시글 정보가 있으면 뷰 페이지로 포워딩
-					RequestDispatcher rd = request.getRequestDispatcher("./board/view.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("./boardF/view.jsp");
 					rd.forward(request, response);
 				}
 			} catch (Exception e) {
@@ -126,7 +131,7 @@ public class BoardController extends HttpServlet {
 		} else if (command.equals("/BoardUpdateForm.do")) { // 글 수정 폼 출력 250512 수정
 			requestBoardView(request, response); // 기존 게시글 정보 가져오기
 			requestLoginName(request); // 로그인 사용자 정보 가져오기
-			RequestDispatcher rd = request.getRequestDispatcher("./board/updateForm.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("./boardF/updateForm.jsp");
 			rd.forward(request, response);
 		} else if (command.equals("/BoardUpdateAction.do")) { // 글 수정 처리
 			System.out.println("request.getParameter(\"num\") : " + request.getParameter("num"));
@@ -145,49 +150,72 @@ public class BoardController extends HttpServlet {
 		} else if (command.equals("/CommentWriteAction.do")) {
 			requestCommentWrite(request, response);
 			return;
-		}
+		} else if (command.equals("/CommentUpdateAction.do")) { // 수정 후 해당 게시글 상세 페이지로 리다이렉트
+            requestCommentUpdate(request);
+            int boardNum = Integer.parseInt(request.getParameter("boardNum"));
+            int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+            int commentPage = Integer.parseInt(request.getParameter("commentPage"));
+            response.sendRedirect("BoardViewAction.do?num=" + boardNum 
+                                + "&pageNum=" + pageNum 
+                                + "&commentPage=" + commentPage); 
+		} else if (command.equals("/CommentDeleteAction.do")) { // 댓글 삭제 처리 추가
+            requestCommentDelete(request);
+            // 삭제 후 해당 게시글 상세 페이지로 리다이렉트
+            int boardNum = Integer.parseInt(request.getParameter("boardNum"));
+            int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+            int commentPage = Integer.parseInt(request.getParameter("commentPage"));
+            response.sendRedirect("BoardViewAction.do?num=" + boardNum 
+                                + "&pageNum=" + pageNum 
+                                + "&commentPage=" + commentPage);
+        }
 
 	}
 	
+
 	// 등록된 글 목록 가져오기
 	public void requestBoardList(HttpServletRequest request) {
 
 		BoardDAO dao = BoardDAO.getInstance();
 		ArrayList<BoardDTO> boardlist = new ArrayList<BoardDTO>();
-
+		
+		// 페이지 번호 처리 (기본값 1)
 		int pageNum = 1;
-		int limit = LISTCOUNT;
+		int limit = LISTCOUNT; // 페이지당 게시글 개수 설정
 
 		if (request.getParameter("pageNum") != null)
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 
+		// 검색 조건 처리
 		String items = request.getParameter("items");
 		String text = request.getParameter("text");
+		
+		// ✅ category 파라미터도 받아오기 250516 11시 추가
+	    String category = request.getParameter("category");
+	    if (category == null || category.trim().isEmpty()) {
+	        category = "food";  // 기본값
+	    }
 
 		// Fix: null인 items와 text 파라미터 처리
-		if (items == null)
-			items = "";
-		if (text == null)
-			text = "";
-
-		int total_record = dao.getListCount(items, text);
-		boardlist = dao.getBoardList(pageNum, limit, items, text);
+	    if (items == null || items.trim().equals("")) items = null;
+	    if (text == null || text.trim().equals("")) text = null;
+		
+		// 전체 게시글 수와 해당 카테고리의 게시글 수 계산
+		int total_record = dao.getListCount(items, text, category);
+	    boardlist = dao.getBoardList(pageNum, limit, items, text, category);
+		
+		
 
 		// 페이지네이션을 위한 검색 파라미터 보존
 		request.setAttribute("items", items);
 		request.setAttribute("text", text);
+		request.setAttribute("category", category);
 
-		int total_page;
+		// 삼항연산자를 사용해 총 페이지 수 계산 250516 11시
+	    int total_page = (total_record % limit == 0)
+	            ? total_record / limit
+	            : total_record / limit + 1;
 
-		if (total_record % limit == 0) {
-			total_page = total_record / limit;
-			Math.floor(total_page);
-		} else {
-			total_page = total_record / limit;
-			Math.floor(total_page);
-			total_page = total_page + 1;
-		}
-
+	    // 현재 페이지와 총 페이지 수를 request에 저장
 		request.setAttribute("currentPage", pageNum);
 		request.setAttribute("totalPage", total_page);
 		request.setAttribute("totalPosts", total_record);
@@ -204,43 +232,43 @@ public class BoardController extends HttpServlet {
 
 	}
 	
-	// 등록된 글 목록 가져오기
-	public void requestMyBoard(HttpServletRequest request) {
+	// 마이페이지 가져오기
+		public void requestMyBoard(HttpServletRequest request) {
 
-	    BoardDAO dao = BoardDAO.getInstance();
-	    ArrayList<BoardDTO> boardlist = new ArrayList<>();
+		    BoardDAO dao = BoardDAO.getInstance();
+		    ArrayList<BoardDTO> boardlist = new ArrayList<>();
 
-	    int pageNum = 1;
-	    int limit = LISTCOUNT;
+		    int pageNum = 1;
+		    int limit = LISTCOUNT;
 
-	    if (request.getParameter("pageNum") != null) {
-	        pageNum = Integer.parseInt(request.getParameter("pageNum"));
-	    }
+		    if (request.getParameter("pageNum") != null) {
+		        pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		    }
 
-	    // ✅ 세션에서 로그인된 사용자 ID 가져오기
-	    HttpSession session = request.getSession();
-	    String id = (String) session.getAttribute("id");
+		    // ✅ 세션에서 로그인된 사용자 ID 가져오기
+		    HttpSession session = request.getSession();
+		    String id = (String) session.getAttribute("id");
 
-	    // ✅ 글 개수 및 목록 조회
-	    int total_record = dao.getMyListCount(id);
-	    boardlist = dao.getMyBoardList(pageNum, limit, id);
+		    // ✅ 글 개수 및 목록 조회
+		    int total_record = dao.getMyListCount(id);
+		    boardlist = dao.getMyBoardList(pageNum, limit, id);
 
-	    // ✅ 페이지 수 계산 (올림)
-	    int total_page = (total_record + limit - 1) / limit;
+		    // ✅ 페이지 수 계산 (올림)
+		    int total_page = (total_record + limit - 1) / limit;
 
-	    request.setAttribute("currentPage", pageNum);
-	    request.setAttribute("totalPage", total_page);
-	    request.setAttribute("totalPosts", total_record);
-	    request.setAttribute("boardList", boardlist);
+		    request.setAttribute("currentPage", pageNum);
+		    request.setAttribute("totalPage", total_page);
+		    request.setAttribute("totalPosts", total_record);
+		    request.setAttribute("boardList", boardlist);
 
-	    // ✅ 페이지네이션 범위 계산
-	    int startPage = ((pageNum - 1) / 10) * 10 + 1;
-	    int endPage = startPage + 9;
-	    if (endPage > total_page) endPage = total_page;
+		    // ✅ 페이지네이션 범위 계산
+		    int startPage = ((pageNum - 1) / 10) * 10 + 1;
+		    int endPage = startPage + 9;
+		    if (endPage > total_page) endPage = total_page;
 
-	    request.setAttribute("startPage", startPage);
-	    request.setAttribute("endPage", endPage);
-	}
+		    request.setAttribute("startPage", startPage);
+		    request.setAttribute("endPage", endPage);
+		}
 
 	// 인증된 사용자명 가져오기
 	public void requestLoginName(HttpServletRequest request) {
@@ -252,6 +280,7 @@ public class BoardController extends HttpServlet {
 
 		request.setAttribute("id", id); // ← 추가
 		request.setAttribute("name", name);
+
 	}
 
 	// 새로운 글 등록하기
@@ -295,6 +324,14 @@ public class BoardController extends HttpServlet {
 		board.setHit(0);
 		board.setRegist_day(regist_day);
 		board.setIp(request.getRemoteAddr());
+		
+		// ✅ 카테고리 받기 (food, beauty, location) 250516 12시 20분 추가
+	    String category = request.getParameter("category");
+	    if (category == null || category.trim().isEmpty()) {
+	        category = "food";  // 기본값으로 설정
+	    }
+	    board.setCategory(category);  // BoardDTO에 카테고리 설정
+		
 
 		// 첨부 파일 처리
 		try {
@@ -388,6 +425,7 @@ public class BoardController extends HttpServlet {
 	}
 
 	// 선택된 글 내용 수정하기
+	
 	public void requestBoardUpdate(HttpServletRequest request) throws ServletException, IOException {
 		System.out.println("request22 : " + request);
 		// 파라미터 검증 및 기본값 설정 수정 250514 오후추가
@@ -411,7 +449,7 @@ public class BoardController extends HttpServlet {
 	        pageNum = Integer.parseInt(pageNumParam);
 	    }
 		
-		// 추가 전까지 코드
+		// 파일 업로드를 위한 설정
 	    String uploadPath = request.getServletContext().getRealPath("/uploads");
 	    File uploadDir = new File(uploadPath);
 	    if (!uploadDir.exists()) {
@@ -442,39 +480,46 @@ public class BoardController extends HttpServlet {
 	    board.setRegist_day(regist_day);
 	    board.setIp(request.getRemoteAddr());       
 	    
+	    // ✅ 카테고리 받기 (food, beauty, location)
+	    String category = request.getParameter("category");
+	    if (category == null || category.trim().isEmpty()) {
+	        category = "food";  // 기본값
+	    }
+	    board.setCategory(category);
+	    
 	    // 첨부 파일 처리
 	    try {
 	        // 파일 삭제 여부 확인
-	        String deleteFile = request.getParameter("deleteFile");
-	        if (deleteFile != null && deleteFile.equals("1")) {
-	            // 기존 파일이 있으면 삭제
-	            if (board.getFileName() != null && !board.getFileName().isEmpty()) {
-	                File oldFile = new File(uploadPath + File.separator + board.getFileName());
-	                if (oldFile.exists()) {
-	                    oldFile.delete();
-	                }
-	                // 파일 정보 초기화
-	                board.setFileName(null);
-	                board.setOriginalFileName(null);
-	                board.setFileSize(0);
-	            }
-	        }
+	    	String deleteFile = request.getParameter("deleteFile");
+	    	if (deleteFile != null && deleteFile.equals("1")) {
+	    	    // 기존 파일이 있으면 삭제
+	    	    if (board.getFileName() != null && !board.getFileName().isEmpty()) {
+	    	        File oldFile = new File(uploadPath + File.separator + board.getFileName());
+	    	        if (oldFile.exists()) {
+	    	            oldFile.delete();
+	    	        }
+	    	        // 파일 정보 초기화
+	    	        board.setFileName(null);
+	    	        board.setOriginalFileName(null);
+	    	        board.setFileSize(0);
+	    	    }
+	    	}
 	        
 	        // 새 파일 업로드 확인
-	        Part filePart = request.getPart("attachment");
-	        if (filePart != null && filePart.getSize() > 0) {
-	            // 파일 크기 확인
-	            if (filePart.getSize() > maxFileSize) {
-	                throw new IllegalStateException("파일 크기가 10MB를 초과합니다.");
-	            }
-	            
-	            // 기존 파일이 있으면 삭제
-	            if (board.getFileName() != null && !board.getFileName().isEmpty()) {
-	                File oldFile = new File(uploadPath + File.separator + board.getFileName());
-	                if (oldFile.exists()) {
-	                    oldFile.delete();
-	                }
-	            }
+	    	Part filePart = request.getPart("attachment");
+	    	if (filePart != null && filePart.getSize() > 0) {
+	    	    // 파일 크기 확인
+	    	    if (filePart.getSize() > maxFileSize) {
+	    	        throw new IllegalStateException("파일 크기가 10MB를 초과합니다.");
+	    	    }
+
+	    	    // 기존 파일이 있으면 삭제
+	    	    if (board.getFileName() != null && !board.getFileName().isEmpty()) {
+	    	        File oldFile = new File(uploadPath + File.separator + board.getFileName());
+	    	        if (oldFile.exists()) {
+	    	            oldFile.delete();
+	    	        }
+	    	    }
 	            
 	            // 원본 파일명 가져오기
 	            String originalFileName = getFileName(filePart);
@@ -495,6 +540,9 @@ public class BoardController extends HttpServlet {
 	        
 	        // 게시글 DB 업데이트
 	        dao.updateBoard(board);
+	        
+	        // 변경된 board 객체를 request에 다시 저장
+	        request.setAttribute("board", board);
 	        
 	    } catch (IllegalStateException e) {
 	        request.setAttribute("errorMessage", e.getMessage());
@@ -532,6 +580,11 @@ public class BoardController extends HttpServlet {
 	    return false;
 	}
 	
+	
+
+	   
+
+
 	// 선택된 글 삭제하기
 	public void requestBoardDelete(HttpServletRequest request) {
 		int num = Integer.parseInt(request.getParameter("num"));
@@ -667,5 +720,33 @@ public class BoardController extends HttpServlet {
 			out.println("</script>");
 		}
 	}
+	
+	 // 댓글 수정 메서드
+    private void requestCommentUpdate(HttpServletRequest request) {
+        int commentNum = Integer.parseInt(request.getParameter("num"));
+        String content = request.getParameter("content");
+        
+        HttpSession session = request.getSession();
+        String sessionId = (String) session.getAttribute("id");
+        
+        CommentDAO dao = CommentDAO.getInstance();
+        
+        CommentDTO comment = new CommentDTO();
+        comment.setNum(commentNum);
+        comment.setContent(content);
+        
+        dao.updateComment(comment, sessionId);
+    }
+    
+    // 댓글 삭제 메서드
+    private void requestCommentDelete(HttpServletRequest request) {
+        int commentNum = Integer.parseInt(request.getParameter("num"));
+        
+        HttpSession session = request.getSession();
+        String sessionId = (String) session.getAttribute("id");
+        
+        CommentDAO dao = CommentDAO.getInstance();
+        dao.deleteComment(commentNum, sessionId);
+    }
 
 }

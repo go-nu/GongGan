@@ -24,7 +24,14 @@ String id = (String) session.getAttribute("id");
 		}
 		return true;
 	}
-	  let map, marker;
+	
+	if (!document.querySelector('input[name="category"]:checked')) {
+	    alert("카테고리를 선택하세요.");
+	    return false;
+	}
+	
+	
+	  /* let map, marker; 주소 필요 시 사용
 
 	    function initMap() {
 	        const defaultCenter = new naver.maps.LatLng(37.5665, 126.9780); // 서울시청 좌표
@@ -96,7 +103,7 @@ String id = (String) session.getAttribute("id");
 	    window.onload = function() {
 	        initMap();
 	        document.getElementById("searchBtn").addEventListener("click", searchAddress);
-	    };
+	    }; */
 </script>
 <title>Board</title>
 <style>
@@ -124,14 +131,32 @@ String id = (String) session.getAttribute("id");
 
 					<!-- 사용자에게 보여줄 ID -->
 					<div class="mb-3 row">
-						<label class="col-sm-2 col-form-label">작성자</label>
+						<label class="col-sm-2 col-form-label"><strong>작성자</strong></label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control" value="<%=id%>" readonly>
 						</div>
 					</div>
+					
+					<!-- ✅ 카테고리 선택 -->
+					<div class="mb-3">
+					    <label class="col-sm-2 col-form-label"><strong>카테고리 선택</strong></label>
+					    <div class="form-check form-check-inline">
+					        <input class="form-check-input" type="radio" name="category" id="categoryFood" value="food" checked>
+					        <label class="form-check-label" for="categoryFood">K-Food</label>
+					    </div>
+					    <div class="form-check form-check-inline">
+					        <input class="form-check-input" type="radio" name="category" id="categoryBeauty" value="beauty">
+					        <label class="form-check-label" for="categoryBeauty">K-Beauty</label>
+					    </div>
+					    <div class="form-check form-check-inline">
+					        <input class="form-check-input" type="radio" name="category" id="categoryLocation" value="location">
+					        <label class="form-check-label" for="categoryLocation">K-Location</label>
+					    </div>
+					</div>
+					
 
 					<div class="mb-3 row">
-						<label class="col-sm-2 col-form-label">제목</label>
+						<label class="col-sm-2 col-form-label"><strong>제목</strong></label>
 						<div class="col-sm-6">
 							<input name="subject" type="text" class="form-control"
 								placeholder="제목을 입력하세요." required>
@@ -139,7 +164,7 @@ String id = (String) session.getAttribute("id");
 					</div>
 
 					<div class="mb-3 row">
-						<label class="col-sm-2 col-form-label">내용</label>
+						<label class="col-sm-2 col-form-label"><strong>내용</strong></label>
 						<div class="col-sm-8">
 							<textarea name="content" rows="6" class="form-control"
 								placeholder="내용을 입력하세요." required></textarea>
@@ -148,7 +173,7 @@ String id = (String) session.getAttribute("id");
 
 					<!-- 첨부파일 필드 추가 -->
 					<div class="mb-3 row">
-						<label class="col-sm-2 col-form-label">첨부파일</label>
+						<label class="col-sm-2 col-form-label"><strong>첨부파일</strong></label>
 						<div class="col-sm-8">
 							<input type="file" name="attachment" class="form-control">
 							<small class="form-text text-muted">파일 크기는 최대 10MB까지
