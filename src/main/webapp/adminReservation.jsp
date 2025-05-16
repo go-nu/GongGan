@@ -107,8 +107,12 @@
 			<p><%=rs.getString("note") %></p>
 
 			<div class="text-end mt-4">
-                <a class="btn btn-md btn-outline-success" href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>">수정</a>
-                <button class="btn btn-md btn-outline-danger" onclick="confirmDelete('<%= rs.getString("ACT_ID") %>')">삭제</button>
+                <a class="btn btn-md btn-outline-success" href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI() + "?act_id=" + rs.getString("ACT_ID"), "UTF-8") %>">수정</a>
+                <a href="deleteFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=admin_FoodActivity.jsp" 
+				   class="btn btn-md btn-outline-danger"
+				   onclick="return confirm('정말 삭제하시겠습니까?');">
+				   삭제
+				</a>
 			</div>
 			<%
 			}

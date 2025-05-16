@@ -37,7 +37,9 @@
 </style>
 <body>
 <%@ include file="header.jsp" %>
-
+<%
+String returnURL = request.getParameter("returnURL");
+%>
 <section class="white-space"></section>
 
 <section class="bg-image">
@@ -47,6 +49,7 @@
 		    <form action="processUpdateFoodActivity.jsp" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
 		        <input type="hidden" name="ACT_ID" value="<%= actId %>">
 		        <input type="hidden" name="oldImg" value="<%= imgFile %>">
+		        <input type="hidden" name="returnURL" value="<%= returnURL %>">
 		
 				<div class="form-left-side">
 					<div class="form-row-custom">
@@ -104,7 +107,7 @@
 		
 		        <div class="text-end">
 		            <button type="submit" class="btn btn-primary">수정 완료</button>
-		            <a href="admin_FoodActivity.jsp" class="btn btn-secondary">취소</a>
+		            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary">취소</a>
 		        </div>
 		    </form>
 		</div>

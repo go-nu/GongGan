@@ -40,7 +40,13 @@
 
     conn.close();
 %>
+<%
+    String returnURL = request.getParameter("returnURL");
+    if (returnURL == null || returnURL.trim().isEmpty()) {
+        returnURL = "admin_FoodActivity.jsp"; // 기본값
+    }
+%>
 <script>
     alert("삭제가 완료되었습니다.");
-    location.href = "admin_FoodActivity.jsp";
+    location.href = "<%= returnURL %>";
 </script>
