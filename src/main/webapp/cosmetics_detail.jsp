@@ -21,6 +21,14 @@
 </head>
 <body>
 <%@ include file="header.jsp"%>
+<%
+    String returnURL = request.getRequestURI();
+    String query = request.getQueryString();
+    if (query != null) {
+        returnURL += "?" + query;
+    }
+    request.setAttribute("returnURL", returnURL);
+%>
 
 <div class="container py-5 mt-5">
     <div class="reserve-section mt-5 mb-4 px-5">
@@ -50,7 +58,7 @@
 			                </span>
 			            </c:when>
 			            <c:otherwise>
-			                <span style="cursor: pointer; display: inline-flex; align-items: center; font-size: 24px; gap: 4px;" onclick="alert('로그인 후 이용 가능합니다.');">
+			                <span style="cursor: pointer; display: inline-flex; align-items: center; font-size: 24px; gap: 4px;" onclick="openLoginModal();">
 			                    <span>🤍</span>
 			                    <span style="font-size: 16px; color: #555;">${cosmetic.likes}</span>
 			                </span>
@@ -99,6 +107,24 @@
         </div>
     </div>
 </section>
+<!-- 로그인 필요 모달 -->
+<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredLabel" aria-hidden="true">
+  	<div class="modal-dialog">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+		        <h5 class="modal-title" id="loginRequiredLabel">로그인 필요</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+	      	</div>
+	      	<div class="modal-body">
+	        	로그인 후 이용 가능합니다.
+	      	</div>
+	      	<div class="modal-footer border-0">
+		        <a href="login.jsp?redirect=${returnURL}" class="btn btn-primary">로그인</a>
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	      	</div>
+    	</div>
+  	</div>
+</div>
 
 <section class="class-section" style="min-height: 160px;">
     <div class="container"></div>
@@ -139,6 +165,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// 로그인 필요 모달
+function openLoginModal() {
+    const modal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+    modal.show();
+}
 </script>
 
 </body>
