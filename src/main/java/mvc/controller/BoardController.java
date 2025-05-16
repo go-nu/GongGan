@@ -37,7 +37,6 @@ import mvc.util.FileUtil;
 		maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 
-
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	static final int LISTCOUNT = 5;
@@ -58,6 +57,14 @@ public class BoardController extends HttpServlet {
 		if (command.equals("/BoardListAction.do")) {// 등록된 글 목록 페이지 출력하기
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./board/list.jsp");
+			rd.forward(request, response);
+		}else if (command.equals("/BoardListActionF.do")) {// 등록된 글 목록 페이지 출력하기
+			requestBoardList(request);
+			RequestDispatcher rd = request.getRequestDispatcher("./food.jsp");
+			rd.forward(request, response);
+		}else if (command.equals("/BoardListActionL.do")) {// 등록된 글 목록 페이지 출력하기
+			requestBoardList(request);
+			RequestDispatcher rd = request.getRequestDispatcher("./location.jsp");
 			rd.forward(request, response);
 		} else if (command.equals("/MyPage.do")) { // 마이페이지
 	        requestLoginName(request);       // 로그인한 사용자 이름 가져오기
@@ -235,7 +242,6 @@ public class BoardController extends HttpServlet {
 	    request.setAttribute("endPage", endPage);
 	}
 
-
 	// 인증된 사용자명 가져오기
 	public void requestLoginName(HttpServletRequest request) {
 
@@ -382,7 +388,6 @@ public class BoardController extends HttpServlet {
 	}
 
 	// 선택된 글 내용 수정하기
-	
 	public void requestBoardUpdate(HttpServletRequest request) throws ServletException, IOException {
 		System.out.println("request22 : " + request);
 		// 파라미터 검증 및 기본값 설정 수정 250514 오후추가

@@ -90,7 +90,7 @@
             <!-- 게시판 미리 보기 -->
             <div class="my-4 board" style="min-height: 400px;">
 				<div class="px-2 ps-sm-5">
-					<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
+					<a class="nav-link text-secondary" href="<c:url value="/BoardListActionL.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
 					<div class="board-section">
 						<div class="container">
 							<table class="board-table">
