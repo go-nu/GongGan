@@ -7,7 +7,7 @@
     <div class="container">
         <div class="section-title">
             <h2>전체 프로그램</h2>
-            <p>추가하기</p>
+            <a class="btn btn-md btn-warning" href="insertFoodActivity.jsp">추가 등록</a>
         </div>
 
         <div class="table-responsive">
@@ -59,12 +59,14 @@
 							</button>
 					    </td>
 					    <td>
-							<a href="#" class="btn btn-sm btn-primary">
+							<a href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>" class="btn btn-sm btn-primary">
                                 →
                             </a>
 						</td>
 					    <td>
-					    	<a href="#" class="btn btn-sm btn-danger">
+					    	<a href="deleteFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI() + "?act_id=" + rs.getString("ACT_ID"), "UTF-8") %>" 
+							   class="btn btn-sm btn-danger"
+							   onclick="return confirm('정말 삭제하시겠습니까?');">
                                 →
                             </a>
 					    </td>
@@ -155,6 +157,12 @@
       });
     });
   });
+  
+	function confirmDelete(actId) {
+	    if (confirm("정말 삭제하시겠습니까?")) {
+	        location.href = "deleteFoodActivity.jsp?ACT_ID=" + encodeURIComponent(actId);
+	    }
+	}
 </script>
 
 

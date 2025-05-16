@@ -5,6 +5,13 @@
 <%@ include file="dbconn.jsp" %>
 
 <%
+	String redirectURL = request.getRequestURI();
+	String queryString = request.getQueryString();
+	if (queryString != null) {
+	    redirectURL += "?" + queryString;
+	}
+	String encodedRedirect = java.net.URLEncoder.encode(redirectURL, "UTF-8");
+	
     String savePath = application.getRealPath("/resources/img");
     int maxSize = 10 * 1024 * 1024;
     MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
@@ -40,7 +47,7 @@
     	%>
     	<script>
     	    alert("등록이 완료되었습니다.");
-    	    location.href = "admin_FoodActivity.jsp";
+    	    location.href = "admin_FoodActivity.jsp?redirect=encodedRedirect";
     	</script>
     	<%
     } else {

@@ -5,6 +5,7 @@
 <%@ include file="dbconn.jsp" %>
 
 <%
+
     String savePath = application.getRealPath("/resources/img");  // 업로드 디렉토리
     int maxSize = 10 * 1024 * 1024; // 최대 10MB
     String encoding = "UTF-8";
@@ -47,11 +48,15 @@
     pstmt.close();
     conn.close();
 
+	String returnURL = multi.getParameter("returnURL");
+	if (returnURL == null || returnURL.trim().equals("")) {
+	    returnURL = "admin_FoodActivity.jsp";  // 기본 경로
+	}
     if (result > 0) {
     	%>
     	<script>
     	    alert("수정이 완료되었습니다.");
-    	    location.href = "admin_FoodActivity.jsp";
+    	    location.href = "<%= returnURL %>";
     	</script>
     	<%
     } else {
