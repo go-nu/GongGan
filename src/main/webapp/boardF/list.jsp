@@ -6,18 +6,70 @@
 <%@ page import="java.util.List"%>
 <%
     String sessionId = (String) session.getAttribute("id");
-	List boardList = (List) request.getAttribute("boardList");	
-	int total_record = ((Integer) request.getAttribute("totalPosts")).intValue();
-	int pageNum = ((Integer) request.getAttribute("currentPage")).intValue();
-	int total_page = ((Integer) request.getAttribute("totalPage")).intValue();
+    
+    // 카테고리 파라미터 받기 (없으면 'food'로 기본 설정)
+    String category = request.getParameter("category");
+    if (category == null || category.trim().isEmpty()) {
+        category = "food";
+    }
+    
+    // 카테고리 이름 매핑 (화면에 표시용)
+    String categoryName = "K-Food";
+    if (category.equals("beauty")) {
+        categoryName = "K-Beauty";
+    } else if (category.equals("location")) {
+        categoryName = "K-Location";
+    }
+    
+    // 게시판 목록
+    List boardList = (List) request.getAttribute("boardList");
+
+    Integer total_record_obj = (Integer) request.getAttribute("totalPosts");
+    Integer pageNum_obj = (Integer) request.getAttribute("currentPage");
+    Integer total_page_obj = (Integer) request.getAttribute("totalPage");
+
+    int total_record = (total_record_obj != null) ? total_record_obj.intValue() : 0;
+    int pageNum = (pageNum_obj != null) ? pageNum_obj.intValue() : 1;
+    int total_page = (total_page_obj != null) ? total_page_obj.intValue() : 1;
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-Food Guide - 커뮤니티 게시판</title>
+    <title><%= categoryName %> Guide - 커뮤니티 게시판</title>
     <link rel="stylesheet" href="./resources/css/styles.css">
+    <!-- 카테고리 탭 스타일 추가 -->
+    <style>
+        .category-tabs {
+        display: flex;
+
+        margin: 30px 0 20px;
+        border-bottom: 2px solid #ddd;
+    }
+    .category-tabs a {
+        padding: 10px 30px;
+        margin: 0 5px;
+        text-decoration: none;
+        color: #333;
+        border: 2px solid transparent;
+        border-radius: 10px 10px 0 0;
+        background-color: #f5f5f5;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .category-tabs a:hover {
+        background-color: #eaeaea;
+    }
+    .category-tabs a.active {
+        background-color: #ffffff;
+        border: 2px solid #e74c3c;
+        border-bottom: 2px solid white;
+        font-weight: bold;
+        color: #e74c3c;
+    }
+    
+    </style>
     <script type="text/javascript">
     var id = "<%= session.getAttribute("id") != null ? session.getAttribute("id") : "" %>";
     
@@ -26,7 +78,7 @@
             alert("로그인 해주세요.");
             return false;
         }
-        location.href = "./BoardWriteForm.do?id=${id}";
+        location.href = "./BoardWriteForm.do?id=${id}&category=<%= category %>";
     }
     </script>
 </head>
@@ -36,8 +88,15 @@
     <section class="board-section">
         <div class="container">
             <div class="board-header">
-                <h1>자유 게시판</h1>
-                <p>자유로운 의견을 나누는 공간입니다.</p>
+                <h1><%= categoryName %> 게시판</h1>
+                <p><%= categoryName %>에 관한 자유로운 의견을 나누는 공간입니다.</p>
+            </div>
+            
+            <!-- 카테고리 탭 네비게이션 추가 -->
+            <div class="category-tabs">
+                <a href="BoardListAction.do?category=food" class="<%= category.equals("food") ? "active" : "" %>">K-Food</a>
+                <a href="BoardListAction.do?category=beauty" class="<%= category.equals("beauty") ? "active" : "" %>">K-Beauty</a>
+                <a href="BoardListAction.do?category=location" class="<%= category.equals("location") ? "active" : "" %>">K-Location</a>
             </div>
             
             <div class="board-options">
@@ -46,6 +105,7 @@
                 </div>
                 <div class="search-container">
                     <form action="BoardListAction.do" method="get">
+                        <input type="hidden" name="category" value="<%= category %>">
                         <select name="items" class="search-select">
                             <option value="subject" <c:if test="${param.items eq 'subject'}">selected</c:if>>제목</option>
                             <option value="content" <c:if test="${param.items eq 'content'}">selected</c:if>>내용</option>
@@ -78,15 +138,14 @@
                         <tr>
                             <td class="post-number">${board.num}</td>
                             <td class="post-title">
-                                <a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
+                                <a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}&category=<%= category %>" class="title-link">
                                     ${board.subject}
                                     <c:if test="${not empty board.fileName}">
-							            <i class="bi bi-paperclip"></i> <!-- 첨부파일 아이콘 -->
-							        </c:if>
-                                    <!-- 댓글 수 표시 기능 임시 제거 -->
-                                    <%-- <c:if test="${board.comment_count > 0}">
+                                        <i class="bi bi-paperclip"></i> <!-- 첨부파일 아이콘 -->
+                                    </c:if>
+                                    <c:if test="${board.comment_count > 0}">
                                         <span class="comment-count">${board.comment_count}</span>
-                                    </c:if> --%>
+                                    </c:if>
                                 </a>
                             </td>
                             <td class="post-author">${board.id}</td>
@@ -100,17 +159,17 @@
             <div class="board-footer">
                 <ul class="pagination">
                     <c:if test="${pageNum > 1}">
-                        <li><a href="BoardListAction.do?pageNum=${pageNum - 1}<c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">«</a></li>
+                        <li><a href="BoardListAction.do?pageNum=${pageNum - 1}&category=<%= category %><c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">«</a></li>
                     </c:if>
                     
                     <c:forEach var="i" begin="${startPage}" end="${endPage}">
                         <li <c:if test="${i == pageNum}">class="active"</c:if>>
-                            <a href="BoardListAction.do?pageNum=${i}<c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">${i}</a>
+                            <a href="BoardListAction.do?pageNum=${i}&category=<%= category %><c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">${i}</a>
                         </li>
                     </c:forEach>
                     
                     <c:if test="${pageNum < total_page}">
-                        <li><a href="BoardListAction.do?pageNum=${pageNum + 1}<c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">»</a></li>
+                        <li><a href="BoardListAction.do?pageNum=${pageNum + 1}&category=<%= category %><c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">»</a></li>
                     </c:if>
                 </ul>
                 

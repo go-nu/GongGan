@@ -10,8 +10,28 @@ public class BoardDTO {
 	private int hit;
 	private String ip;
 	private int liking;
+	private String category;
 	
-    // 첨부파일 관련 필드 추가
+	private int comment_count;
+	
+	// 250516 댓글 수 추후 기능 추가하면 사용(지금은 X)
+	public int getComment_count() {
+	    return comment_count;
+	}
+
+	public void setComment_count(int comment_count) {
+	    this.comment_count = comment_count;
+	}
+	
+	// 250516 카테고리 생성자 및 게터 세터 추가
+    public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
+	// 첨부파일 관련 필드 추가
     private String fileName;     // 저장된 파일명
     private String originalFileName; // 원본 파일명
     private long fileSize;       // 파일 크기
