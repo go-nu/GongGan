@@ -19,7 +19,9 @@
 	    redirectURL = "/K_Culture/BoardListAction.do" + (queryString != null ? "?" + queryString : "");
 	} else if (redirectURL.contains("board/view.jsp")) {
 	    redirectURL = "/K_Culture/BoardViewAction.do" + (queryString != null ? "?" + queryString : "");
-	}
+	} else if (redirectURL.contains("beauty.jsp") || redirectURL.contains("cosmetics_detail.jsp")) {
+	    redirectURL = "/K_Culture/cosmetics" + (queryString != null ? "?" + queryString : "");
+	} 
 	String encodedRedirect = java.net.URLEncoder.encode(redirectURL, "UTF-8");
 %>
     <header>

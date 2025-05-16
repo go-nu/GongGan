@@ -38,9 +38,7 @@
 <script src="./resources/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="./resources/css/rsv_style.css">
 </head>
-
 <body>
-
 <div class="container py-5 mt-5">
 
 	<!-- 예약 정보 -->
@@ -108,9 +106,8 @@
 
 			<div class="text-end mt-4">
                 <a class="btn btn-md btn-outline-success" href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI() + "?act_id=" + rs.getString("ACT_ID"), "UTF-8") %>">수정</a>
-                <a href="deleteFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=admin_FoodActivity.jsp" 
-				   class="btn btn-md btn-outline-danger"
-				   onclick="return confirm('정말 삭제하시겠습니까?');">
+				<a href="#" class="btn btn-md btn-outline-danger"
+				   onclick="openDeleteModal('<%= rs.getString("ACT_ID") %>'); return false;">
 				   삭제
 				</a>
 			</div>
@@ -122,6 +119,7 @@
 				pstmt.close();
 			%>
 		</div>
+
 	</div>
 	
 	<!-- 활동 설명 사진 -->
@@ -176,120 +174,30 @@
 			</button>
 		</div>
 	</div>
-
-	
-	<!-- 후기 섹션 -->
-	<h4 class="px-5 mt-5">후기</h4>
-	<div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
-		<div class="carousel-inner">
-			<!-- 슬라이드 1 -->
-			<div class="carousel-item active">
-				<div class="row gx-3">
-					<div class="col-md-4">
-						<div class="card h-100">
-							<img src="./resources/img/newyork.jpg" class="card-img-top"
-								alt="후기 이미지" style="height: 250px; object-fit: cover;">
-							<div class="card-body text-center">
-								<p class="card-text">정말 재밌는 시간이었어요!</p>
-								<small class="text-muted">by 사용자A</small>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card h-100">
-							<img src="./resources/img/paris.jpg" class="card-img-top"
-								alt="후기 이미지" style="height: 250px; object-fit: cover;">
-							<div class="card-body text-center">
-								<p class="card-text">아이랑 같이 해서 좋았어요.</p>
-								<small class="text-muted">by 사용자B</small>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card h-100">
-							<img src="./resources/img/img_avatar1.png" class="card-img-top"
-								alt="후기 이미지" style="height: 250px; object-fit: cover;">
-							<div class="card-body text-center">
-								<p class="card-text">또 참가하고 싶어요!</p>
-								<small class="text-muted">by 사용자C</small>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 슬라이드 2 -->
-			<div class="carousel-item">
-				<div class="row gx-3">
-					<div class="col-md-4">
-						<div class="card h-100">
-							<img src="./resources/img/newyork.jpg" class="card-img-top"
-								alt="후기 이미지" style="height: 250px; object-fit: cover;">
-							<div class="card-body text-center">
-								<p class="card-text">후기 4!</p>
-								<small class="text-muted">by 사용자D</small>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card h-100">
-							<img src="./resources/img/paris.jpg" class="card-img-top"
-								alt="후기 이미지" style="height: 250px; object-fit: cover;">
-							<div class="card-body text-center">
-								<p class="card-text">후기 5.</p>
-								<small class="text-muted">by 사용자E</small>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card h-100">
-							<img src="./resources/img/img_avatar1.png" class="card-img-top"
-								alt="후기 이미지" style="height: 250px; object-fit: cover;">
-							<div class="card-body text-center">
-								<p class="card-text">후기 6!</p>
-								<small class="text-muted">by 사용자F</small>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 슬라이드 버튼 -->
-		<button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
-			<span class="fa-solid fa-chevron-left fa-2x text-dark"></span>
-		</button>
-		<button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
-			<span class="fa-solid fa-chevron-right fa-2x text-dark"></span>
-		</button>
-	</div>
+</div>
+<!-- 삭제 확인 모달 -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+  	<div class="modal-dialog">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+		        <h5 class="modal-title" id="deleteConfirmLabel">삭제 확인</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+	      	</div>
+	      	<div class="modal-body">
+	        	정말 삭제하시겠습니까?
+	      	</div>
+	      	<div class="modal-footer border-0">
+		        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">삭제</button>
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	      	</div>
+    	</div>
+  	</div>
 </div>
 <%@ include file="footer.jsp"%>
 </body>
 <script>
 	const sessionId = '<%= sessionId != null ? sessionId : "null" %>';
-	// 모달 창
-	function openConfirmModal() {
-		if (!sessionId || sessionId === "null") {
-			alert("로그인 후 이용 가능합니다.");
-			return;
-		}
-		const name = document.getElementById("name").value;
-		const phone = document.getElementById("phone").value;
-		const people = document.getElementById("people").value;
-
-		if (!name || !phone || !people) {
-			alert("모든 항목을 입력하세요.");
-			return;
-		}
-
-		document.getElementById("confirmName").innerText = name;
-		document.getElementById("confirmPhone").innerText = phone;
-		document.getElementById("confirmPeople").innerText = people;
-
-		const modal = new bootstrap.Modal(document
-				.getElementById('confirmModal'));
-		modal.show();
-	}
-
+	
 	function submitForm() {
 		document.querySelector("form").submit();
 	}
@@ -309,10 +217,22 @@
 		input.value = value;
 	}
 	
-	function confirmDelete(actId) {
-	    if (confirm("정말 삭제하시겠습니까?")) {
-	        location.href = "deleteFoodActivity.jsp?ACT_ID=" + encodeURIComponent(actId);
-	    }
+	// 삭제 모달
+	let deleteActId = "";
+
+	function openDeleteModal(actId) {
+		deleteActId = actId;
+		const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+		modal.show();
 	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+		const deleteBtn = document.getElementById("confirmDeleteBtn");
+		deleteBtn.addEventListener("click", function () {
+			if (deleteActId) {
+				location.href = "deleteFoodActivity.jsp?ACT_ID=" + encodeURIComponent(deleteActId) + "&returnURL=admin_FoodActivity.jsp";
+			}
+		});
+	});
 </script>
 </html>

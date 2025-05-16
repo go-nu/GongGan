@@ -11,15 +11,11 @@
 
     PreparedStatement pstmt = null;
     ResultSet rs = null;
-
+    boolean showSuccessModal = false;
+    boolean showOverLimitModal = false;
+    
     // 예약 요청 처리
     if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("name") != null) {
-    	// 로그인 체크
-    	if (sessionId == null) {
-    	    out.println("<script>alert('로그인 후 이용 가능합니다.'); location.href='login.jsp?returnURL=" + request.getRequestURI() + "';</script>");
-    	    return;
-    	}
-    	
         String rsv_name = request.getParameter("name");
         int count = Integer.parseInt(request.getParameter("people"));
         String phone=request.getParameter("phone");
@@ -46,9 +42,10 @@
         rs = pstmt.executeQuery();
         if (rs.next()) maxCount = rs.getInt(1);
         rs.close(); pstmt.close();
-
+	
+        // 정원 초과 시
         if (totalReserved + count > maxCount) {
-            out.println("<script>alert('정원을 초과하였습니다.'); history.back();</script>");
+        	showOverLimitModal = true;
         } else {
             // 예약번호 생성 (예: RSV20250513AB12)
             String datePart = new SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
@@ -66,11 +63,9 @@
             pstmt.executeUpdate();
             pstmt.close();
 
-            out.println("<script>alert('예약이 완료되었습니다.'); history.back(); </script>");
+            // 예약 완료 시
+            showSuccessModal = true;
         }
-
-        if (conn != null) conn.close();
-        return;
     }
 %>
 <html>
@@ -83,9 +78,7 @@
 <script src="./resources/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="./resources/css/rsv_style.css">
 </head>
-
 <body>
-
 <div class="container py-5 mt-5">
 
 	<!-- 예약 정보 -->
@@ -186,7 +179,7 @@
 							</div>
 						</div>
 						<div class="text-end mt-4">
-							<button type="button" class="btn btn-primary px-4 py-2"
+							<button type="button" class="btn btn-success px-4 py-2"
 								onclick="openConfirmModal()">예약하기</button>
 						</div>
 					</form>
@@ -202,14 +195,83 @@
 									<p><strong>예약자명 : </strong> <span id="confirmName"></span></p>
 									<p><strong>연락처 : </strong> <span id="confirmPhone"></span></p>
 									<p><strong>인원수 : </strong> <span id="confirmPeople"></span></p>
-									<p>해당 정보가 맞습니까?</p>
+									<p>해당 정보가 맞는지 확인해 주세요.</p>
 								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+								<div class="modal-footer border-0">
 									<button type="button" class="btn btn-primary" onclick="submitForm()">확인</button>
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 								</div>
 							</div>
 						</div>
+					</div>
+					<!-- 로그인 필요 모달 -->
+					<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredLabel" aria-hidden="true">
+					  	<div class="modal-dialog">
+					    	<div class="modal-content">
+						      	<div class="modal-header">
+							        <h5 class="modal-title" id="loginRequiredLabel">로그인 필요</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+						      	</div>
+						      	<div class="modal-body">
+						        	로그인 후 이용 가능합니다.
+						      	</div>
+						      	<div class="modal-footer border-0">
+							        <button type="button" class="btn btn-primary" onclick="redirectToLogin()">로그인</button>
+							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						      	</div>
+					    	</div>
+					  	</div>
+					</div>
+					<!-- 입력값 누락 모달 -->
+					<div class="modal fade" id="inputRequiredModal" tabindex="-1" aria-labelledby="inputRequiredLabel" aria-hidden="true">
+					  	<div class="modal-dialog">
+						    <div class="modal-content">
+						      	<div class="modal-header">
+							        <h5 class="modal-title" id="inputRequiredLabel">입력 확인</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+						      	</div>
+						      	<div class="modal-body">
+						        	모든 항목을 입력해 주세요.
+						      	</div>
+						      	<div class="modal-footer border-0">
+						        	<button type="button" class="btn btn-md btn-success" data-bs-dismiss="modal">확인</button>
+						      	</div>
+					    	</div>
+					  	</div>
+					</div>
+					<!-- 예약 성공 모달 -->
+					<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+					  	<div class="modal-dialog">
+						    <div class="modal-content">
+						      	<div class="modal-header">
+							        <h5 class="modal-title" id="successModalLabel">예약 완료</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+						      	</div>
+						      	<div class="modal-body">
+						        	예약이 완료되었습니다.
+						      	</div>
+						      	<div class="modal-footer border-0">
+						        	<button type="button" class="btn btn-success" data-bs-dismiss="modal">확인</button>
+						      	</div>
+					    	</div>
+					  	</div>
+					</div>
+					<!-- 정원 초과 모달 -->
+					<div class="modal fade" id="overLimitModal" tabindex="-1" aria-labelledby="overLimitModalLabel" aria-hidden="true">
+					  	<div class="modal-dialog">
+						    <div class="modal-content">
+						      	<div class="modal-header">
+							        <h5 class="modal-title" id="overLimitModalLabel">정원 초과</h5>
+							        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+						      	</div>
+						      	<div class="modal-body">
+						        	정원을 초과하였습니다.
+						      	</div>
+						      	<div class="modal-footer border-0">
+						        	<button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+						      	</div>
+					    	</div>
+					  	</div>
 					</div>
 				</div>
 			</div>
@@ -268,24 +330,110 @@
 			</button>
 		</div>
 	</div>
-
+	<!-- 후기 섹션 -->
+<!-- 	<h4 class="px-5 mt-5">후기</h4>
+	<div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
+		<div class="carousel-inner">
+			슬라이드 1
+			<div class="carousel-item active">
+				<div class="row gx-3">
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/newyork.jpg" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">정말 재밌는 시간이었어요!</p>
+								<small class="text-muted">by 사용자A</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/paris.jpg" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">아이랑 같이 해서 좋았어요.</p>
+								<small class="text-muted">by 사용자B</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/img_avatar1.png" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">또 참가하고 싶어요!</p>
+								<small class="text-muted">by 사용자C</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			슬라이드 2
+			<div class="carousel-item">
+				<div class="row gx-3">
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/newyork.jpg" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">후기 4!</p>
+								<small class="text-muted">by 사용자D</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/paris.jpg" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">후기 5.</p>
+								<small class="text-muted">by 사용자E</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/img_avatar1.png" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">후기 6!</p>
+								<small class="text-muted">by 사용자F</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		슬라이드 버튼
+		<button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+			<span class="fa-solid fa-chevron-left fa-2x text-dark"></span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+			<span class="fa-solid fa-chevron-right fa-2x text-dark"></span>
+		</button>
+	</div> -->
 </div>
 <%@ include file="footer.jsp"%>
 </body>
 <script>
 	const sessionId = '<%= sessionId != null ? sessionId : "null" %>';
-	// 모달 창
+	// 예약 확인 모달
 	function openConfirmModal() {
+		// 로그인 필요 모달
 		if (!sessionId || sessionId === "null") {
-			alert("로그인 후 이용 가능합니다.");
+			const loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+			loginModal.show();
 			return;
 		}
 		const name = document.getElementById("name").value;
 		const phone = document.getElementById("phone").value;
 		const people = document.getElementById("people").value;
 
+		// 입력값 누락 모달
 		if (!name || !phone || !people) {
-			alert("모든 항목을 입력하세요.");
+			const inputModal = new bootstrap.Modal(document.getElementById('inputRequiredModal'));
+			inputModal.show();
 			return;
 		}
 
@@ -297,7 +445,7 @@
 				.getElementById('confirmModal'));
 		modal.show();
 	}
-
+	
 	function submitForm() {
 		document.querySelector("form").submit();
 	}
@@ -316,5 +464,31 @@
 
 		input.value = value;
 	}
+	
+	// 로그인 하러 가기
+	function redirectToLogin() {
+		const returnURL = encodeURIComponent(window.location.pathname + window.location.search);
+		location.href = 'login.jsp?redirect=' + returnURL;
+	}
+
+	// 예약 성공 모달
+	<% if (showSuccessModal) { %>
+	  const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+	  window.addEventListener('DOMContentLoaded', () => {
+	    successModal.show();
+	  });
+	<% } %>
+	
+	// 정원 초과 모달
+	<% if (showOverLimitModal) { %>
+	  const overLimitModal = new bootstrap.Modal(document.getElementById('overLimitModal'));
+	  window.addEventListener('DOMContentLoaded', () => {
+	    overLimitModal.show();
+	  });
+	<% } %>
+	
 </script>
 </html>
+<%
+    if (conn != null) conn.close();
+%>

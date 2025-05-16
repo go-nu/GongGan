@@ -12,6 +12,25 @@
 <link rel="stylesheet" href="./resources/css/login.css">
 <link rel="stylesheet" href="./resources/css/footer.css">
 </head>
+<style>
+.btn-success {
+    background-color: #198754;
+    border-color: #198754;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background-color: #157347;
+    border-color: #146c43;
+    color: #fff;
+}
+
+.btn-success:active {
+    background-color: #146c43;
+    border-color: #13653f;
+    color: #fff;
+}
+</style>
 <body>
 <%@ include file="header.jsp" %>
 <section class="hero">
@@ -42,7 +61,7 @@
 			        <!-- 아이디/비밀번호 찾기, 회원가입 링크 추가 -->
 	                <div class="d-flex justify-content-center mt-3">
 	                    <a href='<c:url value="searchId.jsp"/>' class="text-decoration-none mx-2">아이디 찾기</a>   
-	                    <a href='<c:url value="searchPassword.jsp"/>' class="text-decoration-none mx-2">비밀번호 찾기</a>   
+	                    <%-- <a href='<c:url value="searchPassword.jsp"/>' class="text-decoration-none mx-2">비밀번호 찾기</a>    --%>
 	                    <a href='<c:url value="signin.jsp"/>' class="text-decoration-none mx-2">회원가입</a>
 	                </div>
         		</div>

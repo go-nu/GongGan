@@ -30,6 +30,11 @@
    }
 </script>
 </head>
+<style>
+.btn:hover {
+	color: white !important;
+}
+</style>
 <body>
 	<%@ include file="header.jsp"%>
 	<section class="hero">

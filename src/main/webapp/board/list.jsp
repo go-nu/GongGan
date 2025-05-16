@@ -23,7 +23,7 @@
     
     function checkForm() {
         if ("${id}" == "") {
-            alert("로그인 해주세요.");
+            alert("로그인 후 이용 가능합니다.");
             return false;
         }
         location.href = "./BoardWriteForm.do?id=${id}";
