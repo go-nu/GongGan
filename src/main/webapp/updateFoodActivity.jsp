@@ -72,7 +72,8 @@ String returnURL = request.getParameter("returnURL");
 				
 				        <div class="form-col">
 				            <label for="ACT_DATE" class="form-label">체험일자</label>
-				            <input type="text" name="ACT_DATE" id="ACT_DATE" class="form-control" value="<%= rs.getString("ACT_DATE") %>" required>
+				            <input type="text" name="ACT_DATE" id="ACT_DATE" class="form-control" value="<%= rs.getString("ACT_DATE") %>" 
+				            	placeholder="yyyy/mm/dd HH:mm" required>
 				        </div>
 			        </div>
 			

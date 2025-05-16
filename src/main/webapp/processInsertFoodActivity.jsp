@@ -42,15 +42,62 @@
     int result = pstmt.executeUpdate();
     pstmt.close();
     conn.close();
-
-    if (result > 0) {
-    	%>
-    	<script>
-    	    alert("등록이 완료되었습니다.");
-    	    location.href = "admin_FoodActivity.jsp?redirect=encodedRedirect";
-    	</script>
-    	<%
-    } else {
-        out.println("<script>alert('등록 실패'); history.back();</script>");
-    }
 %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>등록 결과</title>
+    <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./resources/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<% if (result > 0) { %>
+<!-- ✅ 등록 성공 모달 -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successLabel">등록 완료</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                활동이 등록되었습니다.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-success" onclick="location.href='admin_FoodActivity.jsp?redirect=<%= encodedRedirect %>'">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+<% } else { %>
+<!-- ❌ 등록 실패 모달 -->
+<div class="modal fade" id="failModal" tabindex="-1" aria-labelledby="failLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="failLabel">등록 실패</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                활동 등록 중 오류가 발생했습니다.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-danger" onclick="history.back()">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        const success = document.getElementById("successModal");
+        const fail = document.getElementById("failModal");
+        if (success) new bootstrap.Modal(success).show();
+        if (fail) new bootstrap.Modal(fail).show();
+    });
+</script>
+
+</body>
+</html>

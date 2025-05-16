@@ -19,7 +19,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>아이디 찾기</title>
 <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="./resources/css/index_style.css">
 <link rel="stylesheet" href="./resources/css/login.css">

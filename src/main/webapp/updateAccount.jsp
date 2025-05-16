@@ -131,7 +131,7 @@ String address = (String) session.getAttribute("address");
 
 				<div class="mb-3">
 					<label class="form-label">전화번호</label>
-					<input type="tel" name="phone" class="form-control" value="<%=phone%>">
+					<input type="tel" name="phone" class="form-control" value="<%=phone%>" placeholder="010-0000-0000">
 				</div>
 
 				<div class="mb-3">

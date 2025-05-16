@@ -39,8 +39,39 @@ driver="com.mysql.jdbc.Driver" user="root" password="1234" />
 	<sql:param value="<%=timestamp%>" />
 </sql:update>
 
-<%-- JSP 내부에서 alert 사용 --%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 완료</title>
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+    <script src="./resources/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- 회원가입 성공 모달 -->
+<div class="modal fade" id="signupSuccessModal" tabindex="-1" aria-labelledby="signupSuccessLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signupSuccessLabel">회원가입 완료</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+      </div>
+      <div class="modal-body">
+        회원가입이 완료되었습니다.
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-success" onclick="location.href='index.jsp'">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-    alert('회원가입이 완료되었습니다.');
-    window.location.href = 'index.jsp';
+    window.addEventListener("DOMContentLoaded", function () {
+        new bootstrap.Modal(document.getElementById("signupSuccessModal")).show();
+    });
 </script>
+
+</body>
+</html>

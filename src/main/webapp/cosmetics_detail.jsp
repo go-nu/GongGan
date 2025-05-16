@@ -114,7 +114,7 @@
 	        	로그인 후 이용 가능합니다.
 	      	</div>
 	      	<div class="modal-footer border-0">
-		        <a href="login.jsp?redirect=${returnURL}" class="btn btn-primary">로그인</a>
+		        <button type="button" class="btn btn-primary" onclick="redirectToLogin()">로그인</button>
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 	      	</div>
     	</div>
@@ -166,6 +166,11 @@ document.addEventListener('DOMContentLoaded', function () {
 function openLoginModal() {
     const modal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
     modal.show();
+}
+
+function redirectToLogin() {
+    const returnURL = encodeURIComponent(window.location.pathname + window.location.search);
+    location.href = 'login.jsp?redirect=' + returnURL;
 }
 </script>
 
