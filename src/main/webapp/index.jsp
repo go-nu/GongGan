@@ -147,7 +147,7 @@ String id = (String) session.getAttribute("id");
 					String onclickUrl;
 					
 					if ("K-FOOD".equalsIgnoreCase(title)) {
-					    onclickUrl = "food.jsp";
+					    onclickUrl = request.getContextPath() + "/BoardListActionF.do?pageNum=1";
 					} else if ("K-BEAUTY".equalsIgnoreCase(title)) {
 					    onclickUrl = request.getContextPath() + "/cosmetics?action=list";
 					} else if ("LOCATION".equalsIgnoreCase(title)) {
