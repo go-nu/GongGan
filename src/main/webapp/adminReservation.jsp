@@ -1,7 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="mvc.model.BoardDTO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*, java.text.*, java.sql.*" %>
 <%@ include file="dbconn.jsp" %>
 <%@ include file="header.jsp"%>
@@ -12,14 +9,13 @@
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    // 예약 요청 처리
     if ("POST".equalsIgnoreCase(request.getMethod()) && request.getParameter("name") != null) {
-    	// 로그인 체크
-    	if (sessionId == null) {
-    	    out.println("<script>alert('로그인 후 이용 가능합니다.'); location.href='login.jsp?returnURL=" + request.getRequestURI() + "';</script>");
-    	    return;
-    	}
-    	
+    	// 관리자 로그인 체크
+	    if (!request.isUserInRole("admin")) {
+	        response.sendRedirect("adminLogin_failed.jsp");
+	        return;
+	    }
+	
         String rsv_name = request.getParameter("name");
         int count = Integer.parseInt(request.getParameter("people"));
         String phone=request.getParameter("phone");
@@ -28,54 +24,13 @@
             out.println("<script>alert('DB 연결 실패'); history.back();</script>");
             return;
         }
-        
-        // 현재 예약 수와 최대 수 비교
-        int totalReserved = 0;
-        int maxCount = 0;
-
-        String countSql = "SELECT IFNULL(SUM(count), 0) FROM reservation WHERE act_id = ?";
-        pstmt = conn.prepareStatement(countSql);
-        pstmt.setString(1, act_id);
-        rs = pstmt.executeQuery();
-        if (rs.next()) totalReserved = rs.getInt(1);
-        rs.close(); pstmt.close();
-
-        String maxSql = "SELECT max_count FROM activity WHERE act_id = ?";
-        pstmt = conn.prepareStatement(maxSql);
-        pstmt.setString(1, act_id);
-        rs = pstmt.executeQuery();
-        if (rs.next()) maxCount = rs.getInt(1);
-        rs.close(); pstmt.close();
-
-        if (totalReserved + count > maxCount) {
-            out.println("<script>alert('정원을 초과하였습니다.'); history.back();</script>");
-        } else {
-            // 예약번호 생성 (예: RSV20250513AB12)
-            String datePart = new SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
-            String randPart = UUID.randomUUID().toString().substring(0, 4).toUpperCase();
-            String rsvNum = "RSV" + datePart + randPart;
-
-            String insertSql = "INSERT INTO reservation (rsv_num, id, rsv_name, phone, count, act_id) VALUES (?, ?, ?, ?, ?, ?)";
-            pstmt = conn.prepareStatement(insertSql);
-            pstmt.setString(1, rsvNum);
-            pstmt.setString(2, sessionId);
-            pstmt.setString(3, rsv_name);
-            pstmt.setString(4, phone);
-            pstmt.setInt(5, count);
-            pstmt.setString(6, act_id);
-            pstmt.executeUpdate();
-            pstmt.close();
-
-            out.println("<script>alert('예약이 완료되었습니다.'); history.back(); </script>");
-        }
-
         if (conn != null) conn.close();
         return;
     }
 %>
 <html>
 <head>
-<title>예약 상세 페이지</title>
+<title>관리자 예약 상세 페이지</title>
 <link rel="stylesheet" href="./resources/css/index_style.css">
 <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -150,69 +105,22 @@
 			<p><strong>장소 :</strong> <%=rs.getString("address") %></p>
 			<p><strong>설명</strong></p>
 			<p><%=rs.getString("note") %></p>
-		<%
+
+			<div class="text-end mt-4">
+                <a class="btn btn-md btn-outline-success" href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI() + "?act_id=" + rs.getString("ACT_ID"), "UTF-8") %>">수정</a>
+                <a href="deleteFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=admin_FoodActivity.jsp" 
+				   class="btn btn-md btn-outline-danger"
+				   onclick="return confirm('정말 삭제하시겠습니까?');">
+				   삭제
+				</a>
+			</div>
+			<%
 			}
 			if (rs != null) 
 				rs.close();
 			if (pstmt != null)
 				pstmt.close();
-		%>
-
-			<!-- 예약하기 섹션 -->
-			<div class="mb-3">
-				<div class="p-4 border">
-					<form method="post" action="reservation.jsp?act_id=<%=act_id%>">
-						<div class="g-3">
-							<div class="col-md-12">
-								<label for="name" class="form-label">예약자명</label>
-								<input type="text" name="name" id="name" class="form-control mb-2"
-									placeholder="이름을 입력하세요." required>
-							</div>
-							<div class="col-md-12">
-								<label for="phone" class="form-label">연락처</label>
-								<input type="text" class="form-control mb-2" id="phone" name="phone"
-									placeholder="010-0000-0000" required>
-							</div>
-							<div class="col-md-12">
-								<label for="people" class="form-label">인원수</label>
-								<div class="input-group" style="max-width: 200px;">
-									<button type="button" class="btn btn-outline-secondary people-btn"
-										onclick="changePeople(-1)">−</button>
-									<input type="number" id="people" name="people" class="form-control text-center" value="1" 
-										min="1" max="10" readonly>
-									<button type="button" class="btn btn-outline-secondary people-btn"
-										onclick="changePeople(1)">＋</button>
-								</div>
-							</div>
-						</div>
-						<div class="text-end mt-4">
-							<button type="button" class="btn btn-primary px-4 py-2"
-								onclick="openConfirmModal()">예약하기</button>
-						</div>
-					</form>
-					<!-- 예약 확인 모달 -->
-					<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">예약 정보 확인</h5>
-									<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-								</div>
-								<div class="modal-body">
-									<p><strong>예약자명 : </strong> <span id="confirmName"></span></p>
-									<p><strong>연락처 : </strong> <span id="confirmPhone"></span></p>
-									<p><strong>인원수 : </strong> <span id="confirmPeople"></span></p>
-									<p>해당 정보가 맞습니까?</p>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-									<button type="button" class="btn btn-primary" onclick="submitForm()">확인</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			%>
 		</div>
 	</div>
 	
@@ -269,6 +177,90 @@
 		</div>
 	</div>
 
+	
+	<!-- 후기 섹션 -->
+	<h4 class="px-5 mt-5">후기</h4>
+	<div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
+		<div class="carousel-inner">
+			<!-- 슬라이드 1 -->
+			<div class="carousel-item active">
+				<div class="row gx-3">
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/newyork.jpg" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">정말 재밌는 시간이었어요!</p>
+								<small class="text-muted">by 사용자A</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/paris.jpg" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">아이랑 같이 해서 좋았어요.</p>
+								<small class="text-muted">by 사용자B</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/img_avatar1.png" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">또 참가하고 싶어요!</p>
+								<small class="text-muted">by 사용자C</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 슬라이드 2 -->
+			<div class="carousel-item">
+				<div class="row gx-3">
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/newyork.jpg" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">후기 4!</p>
+								<small class="text-muted">by 사용자D</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/paris.jpg" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">후기 5.</p>
+								<small class="text-muted">by 사용자E</small>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card h-100">
+							<img src="./resources/img/img_avatar1.png" class="card-img-top"
+								alt="후기 이미지" style="height: 250px; object-fit: cover;">
+							<div class="card-body text-center">
+								<p class="card-text">후기 6!</p>
+								<small class="text-muted">by 사용자F</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 슬라이드 버튼 -->
+		<button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+			<span class="fa-solid fa-chevron-left fa-2x text-dark"></span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+			<span class="fa-solid fa-chevron-right fa-2x text-dark"></span>
+		</button>
+	</div>
 </div>
 <%@ include file="footer.jsp"%>
 </body>
@@ -315,6 +307,12 @@
 			value = max;
 
 		input.value = value;
+	}
+	
+	function confirmDelete(actId) {
+	    if (confirm("정말 삭제하시겠습니까?")) {
+	        location.href = "deleteFoodActivity.jsp?ACT_ID=" + encodeURIComponent(actId);
+	    }
 	}
 </script>
 </html>
