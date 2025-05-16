@@ -11,19 +11,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-Food 체험 활동</title>
+    <title>[사이트 이름]</title>
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
 	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./resources/css/food_style2.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   	<script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<%
-if (request.isUserInRole("admin")) {
-    response.sendRedirect("admin_FoodActivity.jsp");
-    return;
-}
-%>
 </head>
 <body>
     <%@ include file="header.jsp" %>
@@ -126,7 +120,7 @@ if (request.isUserInRole("admin")) {
 						            			</div>
 					            				<h3><%=rs.getString("title") %></h3>
 						            			<p class="mb-1"><%=rs.getString("act_date") %></p>
-												<span class="badge d-day-badge ms-3" 
+												<span class="badge d-day-badge" 
 													data-dday="<%= isoDateStr %>"></span>									
 						          			</div>
 					          			</a>
@@ -151,69 +145,11 @@ if (request.isUserInRole("admin")) {
     <section class="about-section">
         <div class="container">
          	<div class="section-title">
-	      		<h2>전체 체험 활동</h2>
-	      		<!-- 4카드 섹션  -->
-				<div class="container px-5">
-					<div class="row row-cols-1 row-cols-md-4 g-3">
-						<%
-							PreparedStatement pstmtS = null;
-							ResultSet rsS = null;
-							String sqlS = "select * from activity ORDER BY STR_TO_DATE(act_date, '%Y/%c/%e %H:%i')";
-							
-							pstmtS = conn.prepareStatement(sqlS);
-							rsS = pstmtS.executeQuery();
-							
-							// D-day가 0 이하일 때 화면에 보이지 않음
-							while(rsS.next()) {
-								try {
-								    String actDateStr = rsS.getString("act_date");
-								    Date actDate = sdf.parse(actDateStr);
-		                            Calendar actCal = Calendar.getInstance();
-		                            actCal.setTime(actDate);
-		                            actCal.set(Calendar.HOUR_OF_DAY, 0);
-		                            actCal.set(Calendar.MINUTE, 0);
-		                            actCal.set(Calendar.SECOND, 0);
-		                            actCal.set(Calendar.MILLISECOND, 0);
-		                            actDate = actCal.getTime();
-
-								    long diff = actDate.getTime() - now.getTime();
-								    long days = (long) Math.ceil((double) diff / (24 * 60 * 60 * 1000));
-
-								    if (days <= 0) continue;
-								    isoDateStr = isoFormat.format(actDate);
-									%>
-										
-							    	<!-- 카드 -->
-							    	<div class="col">
-							      		<div class="card h-100 shadow-sm border-0">
-							        		<img src="./resources/img/<%=rsS.getString("img")%>" class="card-img-top2" alt="...">
-							        		<div class="card-body">
-												<div class="d-flex align-items-center mb-1">
-							          				<h5 class="card-title"><%=rsS.getString("title")%></h5>
-							          				<span class="badge d-day-badge ms-3" 
-							          					data-dday='<%= isoDateStr %>'></span>
-							         			</div>
-							          			<div class="d-flex align-items-center gap-3 small text-muted mb-2">
-								            		<div><i class="bi bi-eye"></i> 120</div>
-								            		<div><i class="bi bi-chat-left"></i> 3</div>
-								            		<div><i class="bi bi-heart"></i> 15</div>
-							          			</div>
-							          		<p class="card-text"><%=rsS.getString("note")%></p>
-							        		</div>
-							        		<div class="card-footer bg-white border-0 text-end">
-							          			<a href="reservation.jsp?act_id=<%=rsS.getString("act_id")%>" class="btn btn-sm">예약하기</a>
-							        		</div>
-							      		</div>
-							    	</div>
-							    	<%
-								} catch (ParseException e) {
-								    continue; // 날짜 파싱 실패한 항목은 무시
-								}
-							}
-				    	%>
-			    	</div>
-			 	</div>
-	    	</div>
+	      		<h2 id="example" style="margin-bottom: 30px;">전체 체험활동</h2>
+	      	</div>
+	      	<!-- Ajax로 로딩될 카드 및 페이지 버튼 영역 -->
+        <div id="activityList"></div>
+	      		
         </div>
     </section>
 
@@ -225,5 +161,71 @@ if (request.isUserInRole("admin")) {
 	
     <%@ include file="swiper.jsp" %>
     <%@ include file="footer.jsp" %>
+    <!-- 페이지 버튼을 누를때 스크롤 유지하는 스크립트  -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // 활동 목록 로드 함수
+    function loadActivityPage(page) {
+        page = parseInt(page);
+        if (isNaN(page) || page < 1) page = 1;
+        const finalUrl = "foodActivityList.jsp?page=" + page;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", finalUrl, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById("activityList").innerHTML = xhr.responseText;
+             // ✅ AJAX 완료 후 스크롤 복원
+                const savedY = sessionStorage.getItem("scrollY");
+                if (savedY !== null) {
+                    window.scrollTo(0, parseInt(savedY));
+                    sessionStorage.removeItem("scrollY");
+                }
+                initDdayBadges();      // D-day 초기화
+                addPaginationEvent();  // 페이징 버튼 다시 바인딩
+            }
+        };
+
+        xhr.send();
+    }
+
+    // 페이지 버튼 이벤트 바인딩
+    function addPaginationEvent() {
+        document.querySelectorAll(".ajax-page").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault(); // 링크의 기본 이동 막고
+                const page = this.getAttribute("data-page");
+               /*  sessionStorage.setItem("scrollY", window.scrollY); // ✅ 클릭 시 위치 저장*/
+                loadActivityPage(page); // AJAX로 로딩 
+                const targetElement = document.getElementById("example"); // 이동할 요소의 ID
+                const targetOffset = targetElement.offsetTop - 90; // 요소의 상단 좌표
+                window.scrollTo({
+                	  top: targetOffset,
+                	  behavior: 'smooth' // 부드러운 스크롤 효과 (선택 사항)
+                	});
+            });
+        });
+    }
+
+    // D-day 초기화 함수 (dday.js 필요)
+    function initDdayBadges() {
+        if (typeof updateDdayBadges === 'function') {
+            updateDdayBadges();
+        }
+    }
+
+    // 첫 페이지 로딩
+    // URL에서 page 파라미터 추출
+    function getPageFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("page") || 1;
+    }
+
+    const page = getPageFromURL();
+    loadActivityPage(page); // ← 추출한 page로 로딩
+});
+
+</script>
 </body>
 </html>

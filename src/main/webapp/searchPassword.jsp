@@ -10,6 +10,7 @@
 <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="./resources/css/index_style.css">
 <link rel="stylesheet" href="./resources/css/login.css">
+<link rel="stylesheet" href="./resources/css/footer.css">
 </head>
 <body>
 <%@ include file="header.jsp" %>
