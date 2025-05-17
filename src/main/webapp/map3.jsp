@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=14z98e6lun"></script>
-
+<%@ page import="java.sql.*, java.util.*" %>
 <style>
 	#map {
 	  width: 100%;
@@ -40,6 +40,44 @@
 	  border-radius: 0;
 	}
 </style>
+
+<%
+Connection connMap = null;
+PreparedStatement pstmtM = null;
+ResultSet rsM = null;
+Map<String, List<Map<String, Object>>> storeData = new HashMap<>();
+try {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    connMap = DriverManager.getConnection("jdbc:mysql://localhost:3306/fs_semi?serverTimezone=UTC", "root", "1234");
+
+    String sqlM = "SELECT * FROM map_loc WHERE category = ?";
+    pstmtM = connMap.prepareStatement(sqlM);
+    pstmtM.setString(1, "생일카페");
+    rsM = pstmtM.executeQuery();
+
+    while (rsM.next()) {
+        String region = rsM.getString("region");
+        Map<String, Object> item = new HashMap<>();
+        item.put("name", rsM.getString("name"));
+        item.put("lat", rsM.getDouble("lat"));
+        item.put("lng", rsM.getDouble("lng"));
+        item.put("address", rsM.getString("address"));
+        storeData.putIfAbsent(region, new ArrayList<>());
+        storeData.get(region).add(item);
+    }
+} catch (Exception e) {
+    out.println("DB 연결 오류: " + e.getMessage());
+} finally {
+    try {
+        if (rsM != null) rsM.close();
+        if (pstmtM != null) pstmtM.close();
+        if (connMap != null) connMap.close();
+    } catch (SQLException e) {
+        out.println("연결 종료 실패: " + e.getMessage());
+    }
+}
+%>
+
 <!-- 메인 컨테이너 -->
 <div class="container py-2 d-flex flex-column align-items-center">
 	<div class="row justify-content-center w-100">
@@ -54,10 +92,6 @@
 			<div class="map-wrapper" style="width: 800px; margin: 0 auto;">
 				<!-- 카테고리 및 지역 선택 -->
 				<div class="d-flex gap-2 justify-content-end mb-3" style="background-color: transparent;">
-					<select id="categorySelect" class="form-select form-select-sm" style="width: 200px; height: 32px;">
-					  	<option value="전체">전체</option>
-					  	<option value="생일카페">생일카페</option>
-					</select>
 					<select id="legionSelect" class="form-select form-select-sm" style="width: 200px; height: 32px;">
 					  	<option value="홍대">홍대</option>
 					  	<option value="합정">합정</option>
@@ -77,22 +111,28 @@
 </div>
 
 <script>
-// 생일카페 데이터만 유지
 const storeData = {
-	'홍대': {
-    	'생일카페': [
-    		{ name: '위밋데얼', lat: 37.552881, lng: 126.921116, address: '블랙핑크 생일 카페'},
-    		{ name: '카페 몽글 하늘점', lat: 37.555150, lng: 126.927174, address: 'BTS 생일 카페'},
-    		{ name: '요고 프로즌요거트 홍대점', lat: 37.555348, lng: 126.928283, address: '데이식스 생일카페'},
-    	]
-  	},
-	'합정': {
-		'생일카페': [
-			{ name: '피오니', lat: 37.550067, lng: 126.919724, address: '아이유 생일 카페'},
-			{ name: '파티세리로그', lat: 37.548224, lng: 126.918845, address: '세븐틴 생일 카페'},
-			{ name: '꽃뜨루', lat: 37.554870, lng: 126.910055, address: '트와이스 생일 카페'},
-		]
-	}
+<%
+    Iterator<Map.Entry<String, List<Map<String, Object>>>> iter = storeData.entrySet().iterator();
+    while (iter.hasNext()) {
+        Map.Entry<String, List<Map<String, Object>>> entry = iter.next();
+        String region = entry.getKey();
+        List<Map<String, Object>> stores = entry.getValue();
+
+        out.print("  \"" + region + "\": {\n");
+        out.print("    \"생일카페\": [\n");
+
+        for (int i = 0; i < stores.size(); i++) {
+            Map<String, Object> store = stores.get(i);
+            out.print("      { name: \"" + store.get("name") + "\", lat: " + store.get("lat") + ", lng: " + store.get("lng") + ", address: \"" + store.get("address") + "\" }");
+            if (i < stores.size() - 1) out.print(",\n"); else out.print("\n");
+        }
+
+        out.print("    ]\n");
+        out.print("  }");
+        if (iter.hasNext()) out.print(",\n"); else out.print("\n");
+    }
+%>
 };
 
 let map, markers = [];

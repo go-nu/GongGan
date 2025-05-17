@@ -37,7 +37,7 @@
             <div class="section-title">
                 <h2>이번주 생일 카페</h2>
             </div>
-            <%@ include file="map2.jsp" %>
+            <%@ include file="map3.jsp" %>
         </div>
     </section>
     

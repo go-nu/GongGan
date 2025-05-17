@@ -116,7 +116,6 @@
 		</div>
 	</section>
 
-    <%@ include file="swiper.jsp" %>
 	<%@ include file="footer.jsp"%>
 </body>
 </html>
