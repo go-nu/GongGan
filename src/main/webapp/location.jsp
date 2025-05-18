@@ -2,6 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%@ page import="java.util.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="mvc.model.BoardDAO" %>
+<%@ page import="mvc.model.BoardDTO" %>
+<%
+    BoardDAO boardDAO = BoardDAO.getInstance();
+    ArrayList<BoardDTO> boardList = boardDAO.getBoardList(1, 5, null, null, "location");
+    request.setAttribute("boardList", boardList);
+    request.setAttribute("currentPage", 1);
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -90,7 +99,7 @@
             <!-- 게시판 미리 보기 -->
             <div class="my-4 board" style="min-height: 400px;">
 				<div class="px-2 ps-sm-5">
-					<a class="nav-link text-secondary" href="<c:url value="/BoardListActionL.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
+					<a class="nav-link text-secondary" href="<c:url value='/BoardListAction.do?pageNum=1&category=location' />">more &raquo;</a>
 					<div class="board-section">
 						<div class="container">
 							<table class="board-table">

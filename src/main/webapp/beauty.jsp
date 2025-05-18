@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="mvc.model.CosmeticsDTO" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="mvc.model.BoardDAO" %>
+<%@ page import="mvc.model.BoardDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,7 +90,7 @@
     <!-- 게시판 미리 보기 -->
     <div class="my-4 board" style="min-height: 400px;">
 		<div class="px-2 ps-sm-5">
-			<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
+			<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&category=beauty"/>">more &raquo;</a>
 			<div class="board-section">
 				<div class="container">
 					<table class="board-table">

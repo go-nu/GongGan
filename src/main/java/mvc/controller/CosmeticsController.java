@@ -21,6 +21,8 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
+import mvc.model.BoardDAO;
+import mvc.model.BoardDTO;
 
 @WebServlet("/cosmetics")
 @MultipartConfig
@@ -36,6 +38,15 @@ public class CosmeticsController extends HttpServlet {
             // 일반 사용자: 전체 목록 조회 (뷰에서 카테고리별 4개씩 보여줌)
             List<CosmeticsDTO> list = cosmeticsRepo.getAllCosmetics();
             request.setAttribute("cosmeticsList", list);
+            
+            // 게시판 리스트 가져오기 (카테고리 "beauty" 사용 가정, 필요시 변경)
+            BoardDAO boardRepo = BoardDAO.getInstance();
+            ArrayList<BoardDTO> boardList = boardRepo.getBoardList(1, 5, null, null, "beauty");
+            request.setAttribute("boardList", boardList);
+
+            // 현재 페이지 넘버도 함께 전달 (뷰에서 사용 중이라면)
+            request.setAttribute("currentPage", 1);
+            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/beauty.jsp");
             dispatcher.forward(request, response);
 

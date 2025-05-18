@@ -63,14 +63,6 @@ public class BoardController extends HttpServlet {
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./food.jsp");
 			rd.forward(request, response);	
-		}else if (command.equals("/BoardListActionF.do")) {// 등록된 글 목록 페이지 출력하기
-			requestBoardList(request);
-			RequestDispatcher rd = request.getRequestDispatcher("./food.jsp");
-			rd.forward(request, response);
-		}else if (command.equals("/BoardListActionL.do")) {// 등록된 글 목록 페이지 출력하기
-			requestBoardList(request);
-			RequestDispatcher rd = request.getRequestDispatcher("./location.jsp");
-			rd.forward(request, response);	
 		} else if (command.equals("/MyPage.do")) { // 마이페이지
 	        requestLoginName(request);       // 로그인한 사용자 이름 가져오기
 	        requestMyBoard(request);         // 내가 쓴 게시글 목록 가져오기
@@ -82,8 +74,10 @@ public class BoardController extends HttpServlet {
 			rd.forward(request, response);
 		} else if (command.equals("/BoardWriteAction.do")) { // 새로운 글 등록
 			try {
+				String category = request.getParameter("category"); // ✅ category 받아오기
 				requestBoardWrite(request);
-				response.sendRedirect("BoardListAction.do");
+				response.sendRedirect("BoardListAction.do?category=" + category); // ✅ 유지해서 리디렉션
+
 			} catch (Exception e) {
 				System.out.println("BoardWriteAction 처리 중 오류: " + e.getMessage());
 				e.printStackTrace();
