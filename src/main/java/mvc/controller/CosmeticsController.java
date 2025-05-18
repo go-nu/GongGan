@@ -161,6 +161,11 @@ public class CosmeticsController extends HttpServlet {
 
             // 이미지 파일 처리
             Part filePart = request.getPart("image_file");
+            if (filePart == null || filePart.getSize() == 0 || filePart.getSubmittedFileName().isEmpty()) {
+                request.setAttribute("uploadError", "이미지 파일을 등록해야 합니다.");
+                request.getRequestDispatcher("/AddCosmetics.jsp").forward(request, response);
+                return;
+            }
             if (filePart != null) {
                 // 업로드된 파일의 원래 이름 가져오기
                 String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();

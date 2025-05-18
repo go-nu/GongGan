@@ -14,17 +14,24 @@
 <link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
 
 <script type="text/javascript">
-   function checkForm() {
-      if (!document.updateWrite.subject.value) {
-         alert("제목을 입력하세요.");
-         return false;
-      }
-      if (!document.updateWrite.content.value) {
-         alert("내용을 입력하세요.");
-         return false;
-      }      
-      return true;
+function showModal(message) {
+    document.getElementById("formAlertMessage").textContent = message;
+    const modal = new bootstrap.Modal(document.getElementById("formAlertModal"));
+    modal.show();
+}
+
+function checkForm() {
+   const form = document.updateWrite;
+   if (!form.subject.value.trim()) {
+      showModal("제목을 입력하세요.");
+      return false;
    }
+   if (!form.content.value.trim()) {
+      showModal("내용을 입력하세요.");
+      return false;
+   }
+   return true;
+}
 </script>
 <title>게시글 수정</title>
 </head>
@@ -88,7 +95,23 @@
             </div>
         </div>
     </div>
-
+	<!-- 입력 오류용 부트스트랩 모달 -->
+<div class="modal fade" id="formAlertModal" tabindex="-1" aria-labelledby="formAlertModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="formAlertModalLabel">입력 오류</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+      </div>
+      <div class="modal-body" id="formAlertMessage">
+        <!-- 메시지는 JavaScript로 삽입됨 -->
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
     <jsp:include page="../footer.jsp" />
 </body>
 </html>

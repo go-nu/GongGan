@@ -45,7 +45,8 @@
             <button type="submit" class="btn btn-outline-primary" style="height: 38px; font-size: 14px;">카테고리 필터</button>
           </form>
 
-          <a href="AddCosmetics.jsp" class="btn btn-sm btn-outline-primary" style="height: 38px; font-size: 14px;">상품 등록</a>
+          <a href="AddCosmetics.jsp" class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center" 
+          	style="height: 38px; font-size: 14px;">상품 등록</a>
         </div>
       </div>
 

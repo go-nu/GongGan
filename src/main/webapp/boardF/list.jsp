@@ -38,7 +38,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= categoryName %> Guide - 커뮤니티 게시판</title>
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="./resources/css/styles.css">
+    <script src="./resources/js/bootstrap.bundle.min.js"></script>
     <!-- 카테고리 탭 스타일 추가 -->
     <style>
         .category-tabs {
@@ -73,12 +75,19 @@
     <script type="text/javascript">
     var id = "<%= session.getAttribute("id") != null ? session.getAttribute("id") : "" %>";
     
+    function showModal(message) {
+        const modal = new bootstrap.Modal(document.getElementById("alertModal"));
+        document.getElementById("alertMessage").textContent = message;
+        modal.show();
+    }
+    
     function checkForm() {
-        if ("${id}" == "") {
-            alert("로그인 해주세요.");
+        const id = "<%= sessionId != null ? sessionId : "" %>";
+        if (id === "") {
+            showModal("로그인 후 이용 가능합니다.");
             return false;
         }
-        location.href = "./BoardWriteForm.do?id=${id}&category=<%= category %>";
+        location.href = "./BoardWriteForm.do?id=" + id + "&category=<%= category %>";
     }
     </script>
 </head>
@@ -177,7 +186,23 @@
             </div>
         </div>
     </section>
-
+	<!-- 부트스트랩 알림 모달 -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="alertModalLabel">알림</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+	      </div>
+	      <div class="modal-body" id="alertMessage">
+	        <!-- 자바스크립트에서 메시지가 삽입됩니다 -->
+	      </div>
+	      <div class="modal-footer border-0">
+	        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
     <%@ include file="../footer.jsp" %>
 </body>
 </html>

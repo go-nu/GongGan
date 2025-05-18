@@ -33,7 +33,7 @@
 </style>
 <body>
 <%@ include file="header.jsp" %>
-<section class="hero">
+<section class="hero" style="padding-top: 100px; margin-bottom: 100px;">
 	<div class="container">
 		<div class="row align-items-md-stretch   text-center">
 			<div class="row justify-content-center align-items-center">

@@ -179,7 +179,7 @@
 	          이 항목을 정말 삭제하시겠습니까?
 	          <input type="hidden" name="id" id="delete-id">
 	        </div>
-	        <div class="modal-footer">
+	        <div class="modal-footer border-0">
 	          <button type="submit" class="btn btn-danger">삭제</button>
 	          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 	        </div>

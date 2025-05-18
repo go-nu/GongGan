@@ -23,7 +23,8 @@
     
     function checkForm() {
         if ("${id}" == "") {
-            alert("로그인 후 이용 가능합니다.");
+       	 	const modal = new bootstrap.Modal(document.getElementById('loginAlertModal'));
+            modal.show();
             return false;
         }
         location.href = "./BoardWriteForm.do?id=${id}";
@@ -118,7 +119,24 @@
             </div>
         </div>
     </section>
-
+<!-- 로그인 필요 모달 -->
+<div class="modal fade" id="loginAlertModal" tabindex="-1" aria-labelledby="loginAlertModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginAlertModalLabel">로그인 필요</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+      </div>
+      <div class="modal-body">
+        로그인 후 이용 가능합니다.
+      </div>
+      <div class="modal-footer border-0">
+        <a href="login.jsp?redirect=BoardListAction.do" class="btn btn-warning">로그인</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
     <%@ include file="../footer.jsp" %>
 </body>
 </html>
