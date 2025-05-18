@@ -11,37 +11,45 @@
 	    redirectURL += "?" + queryString;
 	}
 	String encodedRedirect = java.net.URLEncoder.encode(redirectURL, "UTF-8");
+    boolean isSuccess = false;
+    String errorMessage = "활동 등록 중 오류가 발생했습니다.";
+
+    try {
+	    String savePath = application.getRealPath("/resources/img");
+	    int maxSize = 10 * 1024 * 1024;
+	    MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
 	
-    String savePath = application.getRealPath("/resources/img");
-    int maxSize = 10 * 1024 * 1024;
-    MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
-
-    // 필드값 가져오기
-    String title     = multi.getParameter("TITLE");
-    int price        = Integer.parseInt(multi.getParameter("PRICE"));
-    String img       = multi.getFilesystemName("image_file_upload");
-    int maxCount     = Integer.parseInt(multi.getParameter("MAX_COUNT"));
-    String actDate   = multi.getParameter("ACT_DATE");
-    String address   = multi.getParameter("ADDRESS");
-    String note      = multi.getParameter("NOTE");
-
-    // ACT_ID 생성 (랜덤 8자리 영숫자)
-    String actId = "A" + UUID.randomUUID().toString().replaceAll("-", "").substring(0, 7).toUpperCase();
-
-    String sql = "INSERT INTO fs_semi.activity (ACT_ID, TITLE, PRICE, IMG, MAX_COUNT, ACT_DATE, ADDRESS, NOTE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    PreparedStatement pstmt = conn.prepareStatement(sql);
-    pstmt.setString(1, actId);
-    pstmt.setString(2, title);
-    pstmt.setInt(3, price);
-    pstmt.setString(4, img);
-    pstmt.setInt(5, maxCount);
-    pstmt.setString(6, actDate);
-    pstmt.setString(7, address);
-    pstmt.setString(8, note);
-
-    int result = pstmt.executeUpdate();
-    pstmt.close();
-    conn.close();
+	    // 필드값 가져오기
+	    String title     = multi.getParameter("TITLE");
+	    int price        = Integer.parseInt(multi.getParameter("PRICE"));
+	    String img       = multi.getFilesystemName("image_file_upload");
+	    int maxCount     = Integer.parseInt(multi.getParameter("MAX_COUNT"));
+	    String actDate   = multi.getParameter("ACT_DATE");
+	    String address   = multi.getParameter("ADDRESS");
+	    String note      = multi.getParameter("NOTE");
+	
+	    // ACT_ID 생성 (랜덤 8자리 영숫자)
+	    String actId = "A" + UUID.randomUUID().toString().replaceAll("-", "").substring(0, 7).toUpperCase();
+	
+	    String sql = "INSERT INTO fs_semi.activity (ACT_ID, TITLE, PRICE, IMG, MAX_COUNT, ACT_DATE, ADDRESS, NOTE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	    PreparedStatement pstmt = conn.prepareStatement(sql);
+	    pstmt.setString(1, actId);
+	    pstmt.setString(2, title);
+	    pstmt.setInt(3, price);
+	    pstmt.setString(4, img);
+	    pstmt.setInt(5, maxCount);
+	    pstmt.setString(6, actDate);
+	    pstmt.setString(7, address);
+	    pstmt.setString(8, note);
+	
+	    int result = pstmt.executeUpdate();
+	    pstmt.close();
+	    conn.close();
+	    if (result > 0) isSuccess = true;
+	
+	} catch (Exception e) {
+	    errorMessage = e.getMessage(); // 또는 사용자 친화적인 메시지로 변경 가능
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -52,7 +60,7 @@
     <script src="./resources/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<% if (result > 0) { %>
+<% if (isSuccess) { %>
 <!-- ✅ 등록 성공 모달 -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -89,7 +97,6 @@
     </div>
 </div>
 <% } %>
-
 <script>
     window.addEventListener("DOMContentLoaded", function () {
         const success = document.getElementById("successModal");

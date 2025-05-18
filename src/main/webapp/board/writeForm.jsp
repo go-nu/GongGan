@@ -11,15 +11,22 @@ String id = (String) session.getAttribute("id");
 <head>
 <link rel="stylesheet" href="./resources/css/styles.css">
 <link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
+<script src="./resources/js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
+	// 공통 모달 호출 함수
+	function showModal(message) {
+	  const modal = new bootstrap.Modal(document.getElementById("alertModal"));
+	  document.getElementById("alertMessage").textContent = message;
+	  modal.show();
+	}
 	function checkForm() {
 		if (!document.newWrite.subject.value) {
-			alert("제목을 입력하세요.");
+			showModal("제목을 입력하세요.");
 			return false;
 		}
 		if (!document.newWrite.content.value) {
-			alert("내용을 입력하세요.");
+			showModal("내용을 입력하세요.");
 			return false;
 		}
 		return true;
@@ -61,7 +68,7 @@ String id = (String) session.getAttribute("id");
 	            ].join(',')
 	        }, function(status, response) {
 	            if (status !== naver.maps.Service.Status.OK) {
-	                return alert('주소를 가져올 수 없습니다.');
+	            	 return showModal('주소를 가져올 수 없습니다.');
 	            }
 
 	            const address = response.v2.address.roadAddress || response.v2.address.jibunAddress;
@@ -73,7 +80,7 @@ String id = (String) session.getAttribute("id");
 	    function searchAddress() {
 	        const address = document.getElementById("addressInput").value;
 	        if (!address.trim()) {
-	            alert("주소를 입력하세요.");
+	        	showModal("주소를 입력하세요.");
 	            return;
 	        }
 
@@ -81,7 +88,7 @@ String id = (String) session.getAttribute("id");
 	            query: address
 	        }, function(status, response) {
 	            if (status !== naver.maps.Service.Status.OK) {
-	                return alert('주소 검색 실패');
+	            	return showModal('주소 검색 실패');
 	            }
 
 	            const item = response.v2.addresses[0];
@@ -187,7 +194,23 @@ String id = (String) session.getAttribute("id");
 			</div>
 		</div>
 	</div>
-
+<!-- 부트스트랩 공통 알림 모달 -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="alertModalLabel">알림</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+      </div>
+      <div class="modal-body" id="alertMessage">
+        <!-- 자바스크립트에서 메시지가 삽입됩니다 -->
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
 	<jsp:include page="../footer.jsp" />
 </body>
 

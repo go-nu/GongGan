@@ -59,6 +59,11 @@
                 return false;
             }
         }
+        function showAlertModal(message) {
+            document.getElementById("alertModalBody").textContent = message;
+            const modal = new bootstrap.Modal(document.getElementById("alertModal"));
+            modal.show();
+        }
     </script>
 </head>
 <body>
@@ -228,7 +233,21 @@
         </div>
     </div>
     
-    
+    <!-- 댓글 작성자 없을 때 로그인 모달 -->
+<div id="alertModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">알림</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="alertModalBody">메시지가 들어갑니다.</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="modalConfirmBtn" data-bs-dismiss="modal">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
     
     <%@ include file="../footer.jsp" %>
 
@@ -240,7 +259,7 @@
             likeButton.addEventListener('click', function() {
                 // 세션 체크
                 if("${sessionId}" === "") {
-                    alert("로그인 후 이용 가능합니다.");
+                	showAlertModal("로그인 후 이용 가능합니다.");
                     return;
                 }
                 

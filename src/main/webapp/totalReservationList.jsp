@@ -64,11 +64,14 @@
                             </a>
 						</td>
 					    <td>
-					    	<a href="deleteFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI() + "?act_id=" + rs.getString("ACT_ID"), "UTF-8") %>" 
-							   class="btn btn-sm btn-danger"
-							   onclick="return confirm('정말 삭제하시겠습니까?');">
-                                →
-                            </a>
+							<!-- 삭제 버튼 -->
+							<a href="#" class="btn btn-sm btn-danger"
+							   data-bs-toggle="modal"
+							   data-bs-target="#deleteModal"
+							   data-act-id="<%= rs.getString("ACT_ID") %>"
+							>
+							    →
+							</a>
 					    </td>
 					</tr>
 					
@@ -127,6 +130,24 @@
         </div>
     </div>
 </section>
+<!-- 삭제 확인용 모달 -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">삭제 확인</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+      </div>
+      <div class="modal-body">
+        정말 삭제하시겠습니까?
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <a id="confirmDeleteBtn" class="btn btn-danger">삭제</a>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const toggleButtons = document.querySelectorAll('.toggle-btn');
@@ -158,11 +179,7 @@
     });
   });
   
-	function confirmDelete(actId) {
-	    if (confirm("정말 삭제하시겠습니까?")) {
-	        location.href = "deleteFoodActivity.jsp?ACT_ID=" + encodeURIComponent(actId);
-	    }
-	}
+
 </script>
 
 

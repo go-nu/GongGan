@@ -47,7 +47,7 @@
 </style>
 <body>
 	<%@ include file="header.jsp"%>
-	<section class="hero">
+	<section class="hero" style="padding-top: 100px; margin-bottom: 100px;">
 		<div class="container">
 			<div class="row align-items-md-stretch text-center">
 				<h2 class="mt-3 mb-4">회원가입</h2>

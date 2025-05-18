@@ -87,6 +87,30 @@
 </section>
 
 <section class="white-space"></section>
+<c:if test="${not empty uploadError}">
+  <div class="modal fade" id="uploadErrorModal" tabindex="-1" aria-labelledby="errorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="errorLabel">등록 실패</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+        </div>
+        <div class="modal-body">
+          ${uploadError}
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const modal = new bootstrap.Modal(document.getElementById("uploadErrorModal"));
+      modal.show();
+    });
+  </script>
+</c:if>
 
 <%@ include file="footer.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

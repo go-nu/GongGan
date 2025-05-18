@@ -11,24 +11,32 @@ String id = (String) session.getAttribute("id");
 <head>
 <link rel="stylesheet" href="./resources/css/styles.css">
 <link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
+<script src="./resources/js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
-	function checkForm() {
-		if (!document.newWrite.subject.value) {
-			alert("제목을 입력하세요.");
-			return false;
-		}
-		if (!document.newWrite.content.value) {
-			alert("내용을 입력하세요.");
-			return false;
-		}
-		return true;
+function showModal(message) {
+	const modal = new bootstrap.Modal(document.getElementById("alertModal"));
+	document.getElementById("alertMessage").textContent = message;
+	modal.show();
+}
+
+function checkForm() {
+	const form = document.newWrite;
+
+	if (!form.subject.value.trim()) {
+		showModal("제목을 입력하세요.");
+		return false;
 	}
-	
+	if (!form.content.value.trim()) {
+		showModal("내용을 입력하세요.");
+		return false;
+	}
 	if (!document.querySelector('input[name="category"]:checked')) {
-	    alert("카테고리를 선택하세요.");
-	    return false;
+		showModal("카테고리를 선택하세요.");
+		return false;
 	}
+	return true;
+}
 	
 	
 	  /* let map, marker; 주소 필요 시 사용
@@ -193,7 +201,23 @@ String id = (String) session.getAttribute("id");
 			</div>
 		</div>
 	</div>
-
+	<!-- 부트스트랩 모달 -->
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="alertModalLabel">입력 오류</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+	      </div>
+	      <div class="modal-body" id="alertMessage">
+	        <!-- 자바스크립트에서 메시지 삽입 -->
+	      </div>
+	      <div class="modal-footer border-0">
+	        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	<jsp:include page="../footer.jsp" />
 </body>
 
