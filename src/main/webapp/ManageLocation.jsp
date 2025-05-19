@@ -15,8 +15,7 @@
       gap: 10px;
       margin-top: 30px;
     }
-    .btn-group-bottom form,
-    .btn-group-bottom button {
+    .btn-group-bottom form, .btn-group-bottom button {
       margin: 0;
       padding: 0;
     }
@@ -37,6 +36,7 @@
 <section class="bg-image">
   <div class="overlay">
     <div class="container pt-5 pb-5">
+
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="mb-0">지역 수정 / 삭제</h3>
         <form method="get" action="" class="d-flex flex-nowrap gap-2 align-items-center">
@@ -44,14 +44,16 @@
             <option value="city" <%= "city".equals(request.getParameter("table")) ? "selected" : "" %>>city</option>
             <option value="city_district" <%= "city_district".equals(request.getParameter("table")) ? "selected" : "" %>>city_district</option>
           </select>
-          <input type="number" name="id" class="form-control" placeholder="ID" value="<%= request.getParameter("id") != null ? request.getParameter("id") : "" %>" style="max-width: 160px;">
-          <button type="submit" class="btn btn-outline-primary" style="white-space: nowrap;">조회</button>
+          <input type="text" name="title" class="form-control" placeholder="지역명/도시명"
+                 value="<%= request.getParameter("title") != null ? request.getParameter("title") : "" %>" style="max-width: 200px;">
+          <button type="submit" class="btn btn-outline-primary">조회</button>
         </form>
       </div>
 
 <%
 String table = request.getParameter("table");
-String id = request.getParameter("id");
+String titleParam = request.getParameter("title");
+String id = "";
 String title = "";
 String note = "";
 String tag1 = "";
@@ -62,16 +64,18 @@ String tag1_img = "no_image.jpg";
 String tag2_img = "no_image.jpg";
 String tag3_img = "no_image.jpg";
 
-if (table != null && id != null) {
+if (table != null && titleParam != null) {
   PreparedStatement pstmt = null;
   ResultSet rs = null;
   try {
-    String sql = "SELECT * FROM " + table + " WHERE " + ("city".equals(table) ? "city_num" : "id") + " = ?";
+    String columnName = "city".equals(table) ? "title" : "d_title";
+    String sql = "SELECT * FROM " + table + " WHERE " + columnName + " = ?";
     pstmt = conn.prepareStatement(sql);
-    pstmt.setInt(1, Integer.parseInt(id));
+    pstmt.setString(1, titleParam);
     rs = pstmt.executeQuery();
     if (rs.next()) {
       if ("city".equals(table)) {
+        id = rs.getString("city_num");
         title = rs.getString("title");
         note = rs.getString("note");
         tag1 = rs.getString("tag1");
@@ -79,6 +83,7 @@ if (table != null && id != null) {
         tag3 = rs.getString("tag3");
         img = rs.getString("img");
       } else {
+        id = rs.getString("id");
         title = rs.getString("d_title");
         note = rs.getString("d_note");
         tag1 = rs.getString("d_tag1");
@@ -99,16 +104,16 @@ if (table != null && id != null) {
 }
 %>
 
-      <!-- 수정 폼 시작 -->
+      <!-- 수정 폼 -->
       <form method="post" action="process_UpdateLocation.jsp" enctype="multipart/form-data" class="grid-form">
         <input type="hidden" name="table" value="<%= table != null ? table : "city" %>">
-        <input type="hidden" name="id" value="<%= id != null ? id : "" %>">
+        <input type="hidden" name="id" value="<%= id %>">
 
         <div class="form-left-side">
           <div class="form-row-custom">
             <div class="form-col">
               <label>ID</label>
-              <input type="number" class="form-control" name="num" value="<%= id != null ? id : "" %>">
+              <input type="text" class="form-control" name="num" value="<%= id %>" readonly>
             </div>
             <div class="form-col">
               <label>이름</label>
@@ -154,24 +159,23 @@ if (table != null && id != null) {
           <div class="tag-preview-box"><img id="preview_tag3" src="<%= request.getContextPath() %>/resources/img/<%= tag3_img %>" /></div>
         </div>
         <% } %>
-        
-			<!-- 버튼 영역: 항상 오른쪽 아래로 고정 -->
-			<div class="btn-group-bottom mt-4">
-			  <!-- 수정 form -->
-			  <form method="post" action="process_UpdateLocation.jsp" enctype="multipart/form-data">
-			    <input type="hidden" name="table" value="<%= table != null ? table : "city" %>">
-			    <input type="hidden" name="id" value="<%= id != null ? id : "" %>">
-			    <button type="submit" class="btn btn-success">수정</button>
-			  </form>
-			
-			  <!-- 삭제 form -->
-			  <form method="post" action="process_DeleteLocation.jsp" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-			    <input type="hidden" name="table" value="<%= table %>">
-			    <input type="hidden" name="id" value="<%= id != null ? id : "" %>">
-			    <button type="submit" class="btn btn-danger">삭제</button>
-			  </form>
-			</div>
-    	   </div>
+
+        <div class="btn-group-bottom mt-4">
+          <form method="post" action="process_UpdateLocation.jsp" enctype="multipart/form-data">
+            <input type="hidden" name="table" value="<%= table != null ? table : "city" %>">
+            <input type="hidden" name="id" value="<%= id %>">
+            <button type="submit" class="btn btn-success">수정</button>
+          </form>
+
+          <form method="post" action="process_DeleteLocation.jsp" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <input type="hidden" name="table" value="<%= table %>">
+            <input type="hidden" name="id" value="<%= id %>">
+            <button type="submit" class="btn btn-danger">삭제</button>
+          </form>
+        </div>
+      </form>
+
+    </div>
   </div>
 </section>
 <section class="white-space"></section>
