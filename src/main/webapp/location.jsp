@@ -44,7 +44,7 @@
     <section class="featured-section">
         <div class="container">
             <div class="section-title">
-                <h2>이번주 생일 카페</h2>
+                <h2>이번 주 생일 카페</h2>
             </div>
             <%@ include file="map3.jsp" %>
         </div>
@@ -53,8 +53,8 @@
 <!-- 초록칸 -->
     <section class="about-section" id="lCity">
         <div class="container">
-         	<div class="section-title">
-	      		<h2>한국의 매력 도시</h2>
+         	<div class="section-title mb-5">
+	      		<h2>한국의 매력적인 도시</h2>
 	    	</div>
             <div class="about-content">
 				<div class="category-grid">
@@ -93,11 +93,11 @@
 <!-- 사이트 설명 -->
     <section class="community-section" id="lBoard">
         <div class="container">
-            <div class="section-title py-5">
+            <div class="section-title py-3">
                 <h2>게시판</h2>
             </div>
             <!-- 게시판 미리 보기 -->
-            <div class="my-4 board" style="min-height: 400px;">
+            <div class="mb-4 board" style="min-height: 400px;">
 				<div class="px-2 ps-sm-5">
 					<a class="nav-link text-secondary" href="<c:url value='/BoardListAction.do?pageNum=1&category=location' />">more &raquo;</a>
 					<div class="board-section">

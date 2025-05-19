@@ -31,6 +31,9 @@
 
 <!--  화장품 섹션  -->
 <section class="featured-section">
+   	<div class="section-title">
+		<h2>제품 정보</h2>
+	</div>
 	<div class="container">
     <%
       List<CosmeticsDTO> allCosmetics = (List<CosmeticsDTO>) request.getAttribute("cosmeticsList");
@@ -138,5 +141,8 @@
 
 <%@ include file="footer.jsp" %>
 <script src="<%= request.getContextPath() %>/resources/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+le.min.js"></script>
 </body>
 </html>
