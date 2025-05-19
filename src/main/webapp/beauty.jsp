@@ -31,6 +31,9 @@
 
 <!--  화장품 섹션  -->
 <section class="featured-section">
+   	<div class="section-title">
+		<h2>제품 정보</h2>
+	</div>
 	<div class="container">
     <%
       List<CosmeticsDTO> allCosmetics = (List<CosmeticsDTO>) request.getAttribute("cosmeticsList");
@@ -78,7 +81,10 @@
 
 <!--  중단 -->
 <section class="about-section" id="storeMap">
-  	<div class="container text-center py-5">
+	<div class="section-title">
+		<h2>매장 찾기</h2>
+	</div>
+  	<div class="container text-center pb-5">
     	<%@ include file="map.jsp" %>
     </div>
 </section>
@@ -86,7 +92,9 @@
 <!-- 하단 -->
 <section class="class-section" id="beautyBoard">
   <div class="container text-center py-5">
-    <h2>게시판</h2>
+   	<div class="section-title">
+		<h2>게시판</h2>
+	</div>
     <!-- 게시판 미리 보기 -->
     <div class="my-4 board" style="min-height: 400px;">
 		<div class="px-2 ps-sm-5">
@@ -133,5 +141,8 @@
 
 <%@ include file="footer.jsp" %>
 <script src="<%= request.getContextPath() %>/resources/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+le.min.js"></script>
 </body>
 </html>
