@@ -56,6 +56,19 @@
          	<div class="section-title">
 	      		<h2>한국의 매력 도시</h2>
 	    	</div>
+	    	
+	    <!-- Location 관리자 CRUD 버튼 -->
+        <% 
+          String loginId = (String) session.getAttribute("id");
+          boolean isAdmin = loginId != null && loginId.equals("admin");
+          if (isAdmin) {
+        %>
+          <div class="text-center mb-3">
+            <a href="AddLocation.jsp" class="btn btn-primary">등록</a>
+            <a href="ManageLocation.jsp" class="btn btn-success">수정/삭제</a>
+          </div>
+        <% } %>
+        
             <div class="about-content">
 				<div class="category-grid">
 					<%
