@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ page import="mvc.model.CosmeticsDTO" %>
 <%@ page import="mvc.model.CosmeticsDAO" %>
 <!DOCTYPE html>
@@ -69,21 +70,22 @@
     </div>
 
     <!-- 페이지 네비게이션 -->
-    <nav aria-label="Page navigation example" class="mt-4">
-      <ul class="pagination justify-content-center">
-        <li class="page-item <%= (currentPage == 1) ? "disabled" : "" %>">
-          <a class="page-link" href="?category=<%= category %>&page=<%= currentPage - 1 %>">이전</a>
-        </li>
-        <% for (int i = 1; i <= totalPages; i++) { %>
-          <li class="page-item <%= (i == currentPage) ? "active" : "" %>">
-            <a class="page-link" href="?category=<%= category %>&page=<%= i %>"><%= i %></a>
-          </li>
-        <% } %>
-        <li class="page-item <%= (currentPage == totalPages) ? "disabled" : "" %>">
-          <a class="page-link" href="?category=<%= category %>&page=<%= currentPage + 1 %>">다음</a>
-        </li>
-      </ul>
-    </nav>
+    
+	<nav class="mt-4">
+	  <ul class="pagination justify-content-center">
+	    <li class="page-item <%= (currentPage == 1) ? "disabled" : "" %>">
+	      <a class="page-link" href="cosmetics?action=category&category=<%= URLEncoder.encode(category, "UTF-8") %>&page=<%= currentPage - 1 %>">이전</a>
+	    </li>
+	    <% for (int i = 1; i <= totalPages; i++) { %>
+	      <li class="page-item <%= (i == currentPage) ? "active" : "" %>">
+	        <a class="page-link" href="cosmetics?action=category&category=<%= URLEncoder.encode(category, "UTF-8") %>&page=<%= i %>"><%= i %></a>
+	      </li>
+	    <% } %>
+	    <li class="page-item <%= (currentPage == totalPages) ? "disabled" : "" %>">
+	      <a class="page-link" href="cosmetics?action=category&category=<%= URLEncoder.encode(category, "UTF-8") %>&page=<%= currentPage + 1 %>">다음</a>
+	    </li>
+	  </ul>
+	</nav>
   </div>
 </section>
 
