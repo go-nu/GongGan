@@ -16,7 +16,7 @@ a {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
 }
 
 .hero {
@@ -54,18 +54,16 @@ a {
 }
 
 .featured-section {
-    padding: 80px 0;
+    padding: 60px 0;
 }
 
 .section-title {
     text-align: center;
-    margin: 20px 0 !important;
 }
 
 .section-title h2 {
     font-size: 36px;
     color: #1d3557;
-    margin-bottom: 15px;
 }
 
 .section-title p {
@@ -77,7 +75,7 @@ a {
 
 /* 게시판 섹션 스타일 */
 .board-section {
-    padding: 8px 0 0 0;
+	 padding: 60px 0;
 }
 
 .board-header {
@@ -267,7 +265,7 @@ a {
 
 
 .about-section {
-    padding: 20px 0;
+    padding: 60px 0;
     background-color: #f1faee;
 }
 
@@ -353,7 +351,7 @@ a {
 }
 
 .community-section {
-    padding: 80px 0;
+    padding: 30px 0;
 }
 
 .community-cards {
