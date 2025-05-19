@@ -33,71 +33,72 @@
 		</div>
 	</section>
 
-	<div class="container mt-5">
-		<div class="justify-content-center">
-			<div class="section-title">
-				<h2>내가 작성한 글</h2>
-				<p><%=session.getAttribute("id") %></p>
-			</div>
-			<section class="board-section">
-				<div class="container">
-					<table class="board-table">
-						<thead>
-							<tr>
-								<th class="post-number">번호</th>
-								<th class="post-title">제목</th>
-								<th class="post-author">글쓴이</th>
-								<th class="post-date">작성일</th>
-								<th class="post-views">조회수</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:if test="${empty boardList}">
-								<tr>
-									<td colspan="5" style="text-align: center; padding: 50px 0;">등록된 게시글이 없습니다.</td>
-								</tr>
-							</c:if>
-							<c:forEach var="board" items="${boardList}">
-								<tr>
-									<td class="post-number">${board.num}</td>
-									<td class="post-title">
-										<a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
-											${board.subject}
-										</a>
-									</td>
-									<td class="post-author">${board.id}</td>
-									<td class="post-date">${board.regist_day}</td>
-									<td class="post-views">${board.hit}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<div class="board-footer">
-						<ul class="pagination">
-							<c:if test="${pageNum > 1}">
-								<li><a href="MyPage.do?pageNum=${pageNum - 1}">«</a></li>
-							</c:if>
-							<c:forEach var="i" begin="${startPage}" end="${endPage}">
-								<li <c:if test="${i == pageNum}">class="active"</c:if>>
-									<a href="MyPage.do?pageNum=${i}">${i}</a>
-								</li>
-							</c:forEach>
-							<c:if test="${pageNum < total_page}">
-								<li><a href="MyPage.do?pageNum=${pageNum + 1}">»</a></li>
-							</c:if>
-						</ul>
-					</div>
-				</div>
-			</section>
-		</div>
-	</div>
+<!-- 내가작성한글, 게시판 -->
+	<section class="featured-section">
+  <div class="container">
+    <div class="section-title text-center">
+      <h2>내가 작성한 글</h2>
+      <p><%= session.getAttribute("id") %></p>
+    </div>
+
+    <!-- 게시글 테이블 -->
+    <table class="board-table">
+      <thead>
+        <tr>
+          <th class="post-number">번호</th>
+          <th class="post-title">제목</th>
+          <th class="post-author">글쓴이</th>
+          <th class="post-date">작성일</th>
+          <th class="post-views">조회수</th>
+        </tr>
+      </thead>
+      <tbody>
+        <c:if test="${empty boardList}">
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 50px 0;">등록된 게시글이 없습니다.</td>
+          </tr>
+        </c:if>
+        <c:forEach var="board" items="${boardList}">
+          <tr>
+            <td class="post-number">${board.num}</td>
+            <td class="post-title">
+              <a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}" class="title-link">
+                ${board.subject}
+              </a>
+            </td>
+            <td class="post-author">${board.id}</td>
+            <td class="post-date">${board.regist_day}</td>
+            <td class="post-views">${board.hit}</td>
+          </tr>
+        </c:forEach>
+      </tbody>
+    </table>
+
+    <!-- 페이지네이션 -->
+    <div class="board-footer mt-3">
+      <ul class="pagination justify-content-center">
+        <c:if test="${pageNum > 1}">
+          <li><a href="MyPage.do?pageNum=${pageNum - 1}">«</a></li>
+        </c:if>
+        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+          <li <c:if test="${i == pageNum}">class="active"</c:if>>
+            <a href="MyPage.do?pageNum=${i}">${i}</a>
+          </li>
+        </c:forEach>
+        <c:if test="${pageNum < total_page}">
+          <li><a href="MyPage.do?pageNum=${pageNum + 1}">»</a></li>
+        </c:if>
+      </ul>
+    </div>
+  </div>
+</section>
 
 <!-- 체험 활동 -->
 	<%@ include file="myReservationList.jsp" %>	
 
 	<section class="community-section">
 		<div class="container">
-			<div class="section-title mt-3">
+			<div class="section-title">
 				<div class="d-flex justify-content-end gap-2">
 				    <form action="updateAccount.jsp" method="get" class="m-0 p-0">
 				        <button type="submit" class="btn btn-link text-decoration-none p-0 m-0 align-baseline">

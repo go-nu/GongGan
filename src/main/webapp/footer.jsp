@@ -16,7 +16,7 @@
                 <div class="footer-column">
                     <h3>FOOD</h3>
                     <ul>
-                        <li><a href="food.jsp#foodBoard">음식 게시판</a></li>
+                        <li><a href="BoardListActionF.do#foodBoard">음식 게시판</a></li>
                         <li><a href="foodActivity.jsp">체험활동 신청</a></li>
                     </ul>
                 </div>

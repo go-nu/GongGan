@@ -8,6 +8,12 @@ if (id == null || id.trim().equals("")) {
     id = "admin";
 }
 %>
+<%
+    String category = request.getParameter("category");
+    if (category == null || category.trim().isEmpty()) {
+        category = "food"; // 기본값
+    }
+%>
 <script type="text/javascript"
 	src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=14z98e6lun"></script>
 <html>
@@ -63,6 +69,7 @@ function checkForm() {
 					enctype="multipart/form-data" onsubmit="return checkForm()">
 					<!-- 서버에 전달할 사용자 ID (숨김) -->
 					<input type="hidden" name="id" value="<%= id %>">
+					<input type="hidden" name="category" value="<%=category%>">
 					
 					<!-- 사용자에게 보여줄 ID -->
 					<div class="mb-3 row">
@@ -73,7 +80,7 @@ function checkForm() {
 					</div>
 					
 					<!-- ✅ 카테고리 선택 -->
-					<div class="mb-3">
+					<!-- <div class="mb-3">
 					    <label class="col-sm-2 col-form-label"><strong>카테고리 선택</strong></label>
 					    <div class="form-check form-check-inline">
 					        <input class="form-check-input" type="radio" name="category" id="categoryFood" value="food" checked>
@@ -87,7 +94,7 @@ function checkForm() {
 					        <input class="form-check-input" type="radio" name="category" id="categoryLocation" value="location">
 					        <label class="form-check-label" for="categoryLocation">K-Location</label>
 					    </div>
-					</div>
+					</div> -->
 					
 
 					<div class="mb-3 row">
@@ -121,6 +128,8 @@ function checkForm() {
 						<div class="offset-sm-2 col-sm-10">
 							<input type="submit" class="btn btn-primary me-2" value="등록">
 							<a href="BoardListAction.do" class="btn btn-secondary">취소</a>
+							<!-- 목록 버튼 추가 (카테고리 전달 포함) 250519 -->
+							<a href="BoardListAction.do?category=${param.category}" class="btn btn-success">목록</a>
 						</div>
 					</div>
 					

@@ -21,7 +21,9 @@
 	    redirectURL = "/K_Culture/BoardViewAction.do" + (queryString != null ? "?" + queryString : "");
 	} else if (redirectURL.contains("beauty.jsp") || redirectURL.contains("cosmetics_detail.jsp")) {
 	    redirectURL = "/K_Culture/cosmetics" + (queryString != null ? "?" + queryString : "");
-	} 
+	} else if (redirectURL.contains("beauty.jsp")) {
+	    redirectURL = "/SEMI/cosmetics?action=list";
+	}
 	String encodedRedirect = java.net.URLEncoder.encode(redirectURL, "UTF-8");
 %>
     <header>

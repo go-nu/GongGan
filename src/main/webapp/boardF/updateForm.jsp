@@ -44,7 +44,7 @@
             <div class="container">
                 <h2 class="mb-4">✏️ 게시글 수정</h2>
 
-                <form name="updateWrite" action="./BoardUpdateAction.do" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
+                <form name="updateWrite" action="./BoardUpdateAction.do?category=${param.category}" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
                     <!-- 서버에 전달할 hidden 필드들 -->
                     <input type="hidden" name="id" id="id" value="<%=id%>">
 					<input type="hidden" name="num" id="num" value="<%=num%>">
