@@ -33,20 +33,34 @@
 		</div>
 	</section>
 
-	<div class="container mt-5">
-		<div class="justify-content-center">
-			<div class="section-title">
-				<h2>공지글 작성</h2>
-				<p><%=session.getAttribute("id") %></p>
-			</div>
-			<section class="board-section">
-				<div class="container">
-
-
+	<section class="featured-section">
+		<div class="container">
+			<div class="justify-content-center">
+				<div class="section-title">
+					<h2>공지글 작성</h2>
+					<p><%=session.getAttribute("id") %></p>
 				</div>
-			</section>
+				<div class="card" onclick="location.href='BoardWriteForm.do?id=admin&category=food'" style="cursor: pointer;">
+					<img>
+					<div class="card-info">
+						<h3>FOOD 게시판 공지 작성</h3>
+					</div>
+				</div>
+				<div class="card" onclick="location.href='BoardWriteForm.do?id=admin&category=beauty'" style="cursor: pointer;">
+					<img>
+					<div class="card-info">
+						<h3>BEAUTY 게시판 공지 작성</h3>
+					</div>
+				</div>
+				<div class="card" onclick="location.href='BoardWriteForm.do?id=admin&category=location'" style="cursor: pointer;">
+					<img>
+					<div class="card-info">
+						<h3>LOCATION 게시판 공지 작성</h3>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+	</section>
 
 <!-- 체험 활동 -->
 	<%@ include file="totalReservationList.jsp" %>	

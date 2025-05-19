@@ -144,24 +144,32 @@
                     </c:if>
                     
                     <c:forEach var="board" items="${boardList}">
-                        <tr>
-                            <td class="post-number">${board.num}</td>
-                            <td class="post-title">
-                                <a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}&category=<%= category %>" class="title-link">
-                                    ${board.subject}
-                                    <c:if test="${not empty board.fileName}">
-                                        <i class="bi bi-paperclip"></i> <!-- 첨부파일 아이콘 -->
-                                    </c:if>
-                                    <c:if test="${board.comment_count > 0}">
-                                        <span class="comment-count">${board.comment_count}</span>
-                                    </c:if>
-                                </a>
-                            </td>
-                            <td class="post-author">${board.id}</td>
-                            <td class="post-date">${board.regist_day}</td>
-                            <td class="post-views">${board.hit}</td>
-                        </tr>
-                    </c:forEach>
+					    <tr>
+					        <td class="post-number">${board.num}</td>
+					        <td class="post-title">
+					            <a href="BoardViewAction.do?num=${board.num}&pageNum=${currentPage}&category=<%= category %>" class="title-link">
+					                <!-- 공지 뱃지 -->
+					                <c:if test="${board.id == 'admin'}">
+					                    <span class="badge bg-danger me-1">공지</span>
+					                </c:if>
+					
+					                ${board.subject}
+					                
+					                <c:if test="${not empty board.fileName}">
+					                    <i class="bi bi-paperclip"></i>
+					                </c:if>
+					
+					                <c:if test="${board.comment_count > 0}">
+					                    <span class="comment-count">${board.comment_count}</span>
+					                </c:if>
+					            </a>
+					        </td>
+					        <td class="post-author">${board.id}</td>
+					        <td class="post-date">${board.regist_day}</td>
+					        <td class="post-views">${board.hit}</td>
+					    </tr>
+					</c:forEach>
+
                 </tbody>
             </table>
             

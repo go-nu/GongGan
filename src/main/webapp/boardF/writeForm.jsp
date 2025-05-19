@@ -3,7 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-String id = (String) session.getAttribute("id");
+String id = request.getParameter("id");
+if (id == null || id.trim().equals("")) {
+    id = "admin";
+}
 %>
 <script type="text/javascript"
 	src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=14z98e6lun"></script>
@@ -36,81 +39,6 @@ function checkForm() {
 	}
 	return true;
 }
-	
-	
-	  /* let map, marker; 주소 필요 시 사용
-
-	    function initMap() {
-	        const defaultCenter = new naver.maps.LatLng(37.5665, 126.9780); // 서울시청 좌표
-	        map = new naver.maps.Map('map', {
-	            center: defaultCenter,
-	            zoom: 14
-	        });
-
-	        marker = new naver.maps.Marker({
-	            position: defaultCenter,
-	            map: map
-	        });
-
-	        // 지도 클릭 시 주소 설정
-	        naver.maps.Event.addListener(map, 'click', function(e) {
-	            const latlng = e.coord;
-	            marker.setPosition(latlng);
-	            setLatLng(latlng.lat(), latlng.lng());
-	            reverseGeocode(latlng);
-	        });
-	    }
-
-	    function setLatLng(lat, lng) {
-	        document.getElementById("lat").value = lat;
-	        document.getElementById("lng").value = lng;
-	    }
-
-	    function reverseGeocode(coord) {
-	        naver.maps.Service.reverseGeocode({
-	            coords: coord,
-	            orders: [
-	                naver.maps.Service.OrderType.ADDR,
-	                naver.maps.Service.OrderType.ROAD_ADDR
-	            ].join(',')
-	        }, function(status, response) {
-	            if (status !== naver.maps.Service.Status.OK) {
-	                return alert('주소를 가져올 수 없습니다.');
-	            }
-
-	            const address = response.v2.address.roadAddress || response.v2.address.jibunAddress;
-	            document.getElementById("addressInput").value = address;
-	            document.getElementById("location").value = address;
-	        });
-	    }
-
-	    function searchAddress() {
-	        const address = document.getElementById("addressInput").value;
-	        if (!address.trim()) {
-	            alert("주소를 입력하세요.");
-	            return;
-	        }
-
-	        naver.maps.Service.geocode({
-	            query: address
-	        }, function(status, response) {
-	            if (status !== naver.maps.Service.Status.OK) {
-	                return alert('주소 검색 실패');
-	            }
-
-	            const item = response.v2.addresses[0];
-	            const latlng = new naver.maps.LatLng(item.y, item.x);
-	            map.setCenter(latlng);
-	            marker.setPosition(latlng);
-	            setLatLng(item.y, item.x);
-	            document.getElementById("location").value = item.roadAddress || item.jibunAddress;
-	        });
-	    }
-
-	    window.onload = function() {
-	        initMap();
-	        document.getElementById("searchBtn").addEventListener("click", searchAddress);
-	    }; */
 </script>
 <title>Board</title>
 <style>
@@ -134,14 +62,14 @@ function checkForm() {
 				<form name="newWrite" action="./BoardWriteAction.do" method="post"
 					enctype="multipart/form-data" onsubmit="return checkForm()">
 					<!-- 서버에 전달할 사용자 ID (숨김) -->
-					<input type="hidden" name="id" value="<%=id%>">
-
+					<input type="hidden" name="id" value="<%= id %>">
+					
 					<!-- 사용자에게 보여줄 ID -->
 					<div class="mb-3 row">
-						<label class="col-sm-2 col-form-label"><strong>작성자</strong></label>
-						<div class="col-sm-4">
-							<input type="text" class="form-control" value="<%=id%>" readonly>
-						</div>
+					    <label class="col-sm-2 col-form-label"><strong>작성자</strong></label>
+					    <div class="col-sm-4">
+					        <input type="text" class="form-control" value="<%= id %>" readonly>
+					    </div>
 					</div>
 					
 					<!-- ✅ 카테고리 선택 -->
@@ -195,26 +123,7 @@ function checkForm() {
 							<a href="BoardListAction.do" class="btn btn-secondary">취소</a>
 						</div>
 					</div>
-					<!-- 위치 선택 -->
-					<!-- <div class="mb-3 row">
-						<label class="col-sm-2 col-form-label">위치</label>
-						<div class="col-sm-10">
-							주소 입력창 + 검색 버튼
-							<div class="input-group mb-2">
-								<input type="text" id="addressInput" class="form-control"
-									placeholder="주소 입력">
-								<button type="button" id="searchBtn"
-									class="btn btn-outline-secondary">검색</button>
-							</div>
-							지도 영역
-							<div id="map"></div>
-
-							숨겨진 좌표 및 주소값 전송용
-							<input type="hidden" name="location" id="location"> <input
-								type="hidden" name="lat" id="lat"> <input type="hidden"
-								name="lng" id="lng">
-						</div>
-					</div> -->
+					
 				</form>
 			</div>
 		</div>

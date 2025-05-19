@@ -133,9 +133,9 @@ public class BoardDAO {
 	        
 	        // items 값이 빈 문자열이라 WHERE LIKE '%%' 처럼 컬럼명이 없이 LIKE만 남아서 SQL 문법 오류가 발생에 따른 수정 쿼리문
 	        if (items == null || items.trim().equals("") || text == null || text.trim().equals("")) {
-	        	sql = "SELECT * FROM boardf WHERE category=? AND status='active' ORDER BY num DESC LIMIT ?, ?";
+	        	sql = "SELECT * FROM boardf WHERE category=? AND status='active' ORDER BY (id = 'admin') DESC, num DESC LIMIT ?, ?";
 	        } else {
-	            sql = "SELECT * FROM boardf WHERE " + items + " LIKE ? AND category=? AND status='active' ORDER BY num DESC LIMIT ?, ?";
+	            sql = "SELECT * FROM boardf WHERE " + items + " LIKE ? AND category=? AND status='active' ORDER BY (id = 'admin') DESC, num DESC LIMIT ?, ?";
 	        }
 	        
 	        ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
