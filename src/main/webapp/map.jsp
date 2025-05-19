@@ -41,7 +41,7 @@
 	}
 </style>
 <!-- 메인 컨테이너 -->
-<div class="container mt-5 py-5 d-flex flex-column align-items-center">
+<div class="container py-2 d-flex flex-column align-items-center">
 	<div class="row justify-content-center w-100">
 		<!-- 왼쪽: 목록 -->
 		<div class="col-md-3">
@@ -161,7 +161,9 @@ function initMap(centerLatLng) {
 	if (!map) {
 	  	map = new naver.maps.Map('map', {
 	    	center: centerLatLng,
-	    	zoom: 15
+	    	zoom: 15,
+	    	minZoom: 15,
+	    	maxZoom: 16
 	  	});
 	} else {
 	  	map.setCenter(centerLatLng);
