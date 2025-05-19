@@ -109,6 +109,10 @@ a {
 
 .category-image {
     height: 200px;
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
     background-size: cover;
     background-position: center;
 }

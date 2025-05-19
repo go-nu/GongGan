@@ -12,8 +12,8 @@ String id = (String) session.getAttribute("id");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GONGGAN</title>
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
-	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./resources/css/index_style.css">
+	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 <style>
 .floating-edit-btn {
 	position: fixed;
@@ -129,7 +129,7 @@ String id = (String) session.getAttribute("id");
 	<section class="featured-section">
 		<div class="container">
 			<div class="section-title">
-				<h2>메인 카테고리</h2>
+				<h2>카테고리</h2>
 			</div>
 			<div class="category-grid">
 				<%
@@ -193,9 +193,13 @@ String id = (String) session.getAttribute("id");
 			<div class="about-content">
 				<div class="about-text">
 					<h2>
-						한국을 방문한 <br>외국인 관광객수
+						🌏 한국을 찾은 <br>외국인 관광객들!
 					</h2>
-					<p>여성 관광객이 남성보다 월등히 많음</p>
+					<p>최근 1년 동안 한국을 방문한 </p>
+					<p>외국인 관광객 수를 보여주는 그래프예요.</p>
+					<p>여성 관광객의 비중이 더 높고, </p>
+					<p>특히 여름과 봄 시즌에 방문객 수가 눈에 띄게 많아요!</p>
+					<p>한국 여행, 생각보다 더 많은 사람들이 오고 있다는 사실! 😎</p>
 				</div>
 				<div class="about-image">
 					<%@ include file="chart.jsp"%>
@@ -208,8 +212,7 @@ String id = (String) session.getAttribute("id");
 	<section class="community-section">
 		<div class="container">
 			<div class="section-title">
-				<h2>[사이트 이름] 사용법</h2>
-				<p>사용법 어쩌고 저쩌고</p>
+				<h2>GONGGAN 사용법</h2>
 			</div>
 			<div class="community-cards">
 				<div class="community-card">
