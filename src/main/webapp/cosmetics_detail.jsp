@@ -69,7 +69,7 @@
 <section class="about-section" style="padding: 60px 0;">
   <div class="container">
     <h3 class="px-5 pb-3">관련 상품</h3>
-    <div id="reviewCarousel" class="carousel slide mb-5 px-5" data-bs-interval="false">
+    <div id="reviewCarousel" class="carousel slide" data-bs-interval="false">
       <div class="carousel-inner">
         <c:forEach var="group" items="${relatedGroups}" varStatus="status">
           <div class="carousel-item ${status.first ? 'active' : ''}">
