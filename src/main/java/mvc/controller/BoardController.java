@@ -51,11 +51,12 @@ public class BoardController extends HttpServlet {
 		String RequestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String command = RequestURI.substring(contextPath.length());
+		String category = request.getParameter("category"); // ✅ category 받아오기
 
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
-		if (command.equals("/BoardListAction.do")) {// 등록된 글 목록 페이지 출력하기 1
+		if (command.equals("/BoardListAction.do")) {// 등록된 글 목록 페이지 출력하기
 			requestBoardList(request);
 			RequestDispatcher rd = request.getRequestDispatcher("./boardF/list.jsp");
 			rd.forward(request, response);
@@ -74,7 +75,7 @@ public class BoardController extends HttpServlet {
 			rd.forward(request, response);
 		} else if (command.equals("/BoardWriteAction.do")) { // 새로운 글 등록
 			try {
-				String category = request.getParameter("category"); // ✅ category 받아오기
+				category = request.getParameter("category"); // ✅ category 받아오기
 				requestBoardWrite(request);
 				response.sendRedirect("BoardListAction.do?category=" + category); // ✅ 유지해서 리디렉션
 
@@ -87,83 +88,85 @@ public class BoardController extends HttpServlet {
 
 			}
 		} else if (command.equals("/BoardViewAction.do")) { // 선택된 글 상자 페이지 가져오기
-			try {
-				// 파라미터 검증
-				String numParam = request.getParameter("num");
-				String pageNumParam = request.getParameter("pageNum");
+	         try {
+	             // 파라미터 검증
+	             String numParam = request.getParameter("num");
+	             String pageNumParam = request.getParameter("pageNum");
 
-				if (numParam == null || pageNumParam == null) {
-					System.out.println("필수 파라미터 누락: num=" + numParam + ", pageNum=" + pageNumParam);
-					response.sendRedirect("BoardListAction.do");
-					return;
-				}
+	             if (numParam == null || pageNumParam == null) {
+	                System.out.println("필수 파라미터 누락: num=" + numParam + ", pageNum=" + pageNumParam);
+	                response.sendRedirect("BoardListAction.do");
+	                return;
+	             }
 
-				// 게시글 상세 정보 가져오기
-				requestBoardView(request, response);
+	             // 게시글 상세 정보 가져오기
+	             requestBoardView(request, response);
 
-				// board 객체 확인
-				BoardDTO board = (BoardDTO) request.getAttribute("board");
-				if (board == null) {
-					System.out.println("게시글 정보를 찾을 수 없음: num=" + numParam);
-					response.sendRedirect("BoardListAction.do");
-					return;
-				}
-				// forward 전에 이미 응답이 커밋되었는지 확인
-				if (!response.isCommitted()) {
-					// 직접 view.jsp로 포워딩 (BoardView.do로 가지 않고)
-					// 정상적으로 게시글 정보가 있으면 뷰 페이지로 포워딩
-					RequestDispatcher rd = request.getRequestDispatcher("./boardF/view.jsp");
-					rd.forward(request, response);
-				}
-			} catch (Exception e) {
-				System.out.println("BoardViewAction.do 처리 중 오류: " + e);
-				e.printStackTrace();
-				response.sendRedirect("BoardListAction.do");
-			}
-		} else if (command.equals("/BoardView.do")) { // 글 상세 페이지 출력
-			response.sendRedirect("BoardListAction.do");
-		} else if (command.equals("/BoardUpdateForm.do")) { // 글 수정 폼 출력 250512 수정
-			requestBoardView(request, response); // 기존 게시글 정보 가져오기
-			requestLoginName(request); // 로그인 사용자 정보 가져오기
-			RequestDispatcher rd = request.getRequestDispatcher("./boardF/updateForm.jsp");
-			rd.forward(request, response);
-		} else if (command.equals("/BoardUpdateAction.do")) { // 글 수정 처리
-			System.out.println("request.getParameter(\"num\") : " + request.getParameter("num"));
-			requestBoardUpdate(request);
-			String num = request.getParameter("num");
-			String pageNum = request.getParameter("pageNum");
-			response.sendRedirect("BoardViewAction.do?num=" + num + "&pageNum=" + pageNum);
+	             // board 객체 확인
+	             BoardDTO board = (BoardDTO) request.getAttribute("board");
+	             if (board == null) {
+	                System.out.println("게시글 정보를 찾을 수 없음: num=" + numParam);
+	                response.sendRedirect("BoardListAction.do");
+	                return;
+	             }
+	             // forward 전에 이미 응답이 커밋되었는지 확인
+	             if (!response.isCommitted()) {
+	                // 직접 view.jsp로 포워딩 (BoardView.do로 가지 않고)
+	                // 정상적으로 게시글 정보가 있으면 뷰 페이지로 포워딩
+	                RequestDispatcher rd = request.getRequestDispatcher("./boardF/view.jsp");
+	                rd.forward(request, response);
+	             }
+	          } catch (Exception e) {
+	             System.out.println("BoardViewAction.do 처리 중 오류: " + e);
+	             e.printStackTrace();
+	             response.sendRedirect("BoardListAction.do");
+	          }
+	       } else if (command.equals("/BoardView.do")) { // 글 상세 페이지 출력
+	          response.sendRedirect("BoardListAction.do");
+	       } else if (command.equals("/BoardUpdateForm.do")) { // 글 수정 폼 출력 250512 수정
+	          requestBoardView(request, response); // 기존 게시글 정보 가져오기
+	          requestLoginName(request); // 로그인 사용자 정보 가져오기
+	          RequestDispatcher rd = request.getRequestDispatcher("./boardF/updateForm.jsp");
+	          rd.forward(request, response);
+	       } else if (command.equals("/BoardUpdateAction.do")) { // 글 수정 처리
+	          System.out.println("request.getParameter(\"num\") : " + request.getParameter("num"));
+	          requestBoardUpdate(request);
+	          String num = request.getParameter("num");
+	          String pageNum = request.getParameter("pageNum");
+	          response.sendRedirect("BoardViewAction.do?num=" + num + "&pageNum=" + pageNum);
 
-		} else if (command.equals("/BoardDeleteAction.do")) { // 선택된 글 삭제하기
-			requestBoardDelete(request);
-			RequestDispatcher rd = request.getRequestDispatcher("/BoardListAction.do");
-			rd.forward(request, response);
-		} else if (command.equals("/BoardLikeAction.do")) { // 좋아요 기능 처리
-			requestBoardLike(request, response);
-			// 이 메서드는 AJAX 요청을 처리하므로 여기서 JSON 응답을 직접 반환함
-		} else if (command.equals("/CommentWriteAction.do")) {
-			requestCommentWrite(request, response);
-			return;
-		} else if (command.equals("/CommentUpdateAction.do")) { // 수정 후 해당 게시글 상세 페이지로 리다이렉트
-            requestCommentUpdate(request);
-            int boardNum = Integer.parseInt(request.getParameter("boardNum"));
-            int pageNum = Integer.parseInt(request.getParameter("pageNum"));
-            int commentPage = Integer.parseInt(request.getParameter("commentPage"));
-            response.sendRedirect("BoardViewAction.do?num=" + boardNum 
-                                + "&pageNum=" + pageNum 
-                                + "&commentPage=" + commentPage); 
-		} else if (command.equals("/CommentDeleteAction.do")) { // 댓글 삭제 처리 추가
-            requestCommentDelete(request);
-            // 삭제 후 해당 게시글 상세 페이지로 리다이렉트
-            int boardNum = Integer.parseInt(request.getParameter("boardNum"));
-            int pageNum = Integer.parseInt(request.getParameter("pageNum"));
-            int commentPage = Integer.parseInt(request.getParameter("commentPage"));
-            response.sendRedirect("BoardViewAction.do?num=" + boardNum 
-                                + "&pageNum=" + pageNum 
-                                + "&commentPage=" + commentPage);
-        }
+	       } else if (command.equals("/BoardDeleteAction.do")) { // 선택된 글 삭제하기
+	          requestBoardDelete(request);
+	          if (category == null || category.trim().isEmpty()) {
+	               category = "food"; // 기본값 설정
+	           }
+	           response.sendRedirect("BoardListAction.do?category=" + category);
+	       } else if (command.equals("/BoardLikeAction.do")) { // 좋아요 기능 처리
+	          requestBoardLike(request, response);
+	          // 이 메서드는 AJAX 요청을 처리하므로 여기서 JSON 응답을 직접 반환함
+	       } else if (command.equals("/CommentWriteAction.do")) {
+	          requestCommentWrite(request, response);
+	          return;
+	       } else if (command.equals("/CommentUpdateAction.do")) { // 수정 후 해당 게시글 상세 페이지로 리다이렉트
+	             requestCommentUpdate(request);
+	             int boardNum = Integer.parseInt(request.getParameter("boardNum"));
+	             int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+	             int commentPage = Integer.parseInt(request.getParameter("commentPage"));
+	             response.sendRedirect("BoardViewAction.do?num=" + boardNum 
+	                                 + "&pageNum=" + pageNum 
+	                                 + "&commentPage=" + commentPage); 
+	       } else if (command.equals("/CommentDeleteAction.do")) { // 댓글 삭제 처리 추가
+	             requestCommentDelete(request);
+	             // 삭제 후 해당 게시글 상세 페이지로 리다이렉트
+	             int boardNum = Integer.parseInt(request.getParameter("boardNum"));
+	             int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+	             int commentPage = Integer.parseInt(request.getParameter("commentPage"));
+	             response.sendRedirect("BoardViewAction.do?num=" + boardNum 
+	                                 + "&pageNum=" + pageNum 
+	                                 + "&commentPage=" + commentPage);
+	         }
 
-	}
+	    }
 	
 
 	// 등록된 글 목록 가져오기
@@ -303,9 +306,12 @@ public class BoardController extends HttpServlet {
 		String id = (String) session.getAttribute("sessionId");
 
 		// 로그인 확인
-		if (id == null || id.isEmpty()) {
-			id = (String) session.getAttribute("id");
-		}
+	    if (id == null || id.isEmpty()) {
+	        id = (String) session.getAttribute("id");
+	        if (id == null || id.isEmpty()) {
+	            id = "admin";
+	        }
+	    }
 
 		board.setId(id);
 		board.setSubject(request.getParameter("subject"));
