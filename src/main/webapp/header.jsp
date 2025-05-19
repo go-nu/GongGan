@@ -21,13 +21,15 @@
 	    redirectURL = "/K_Culture/BoardViewAction.do" + (queryString != null ? "?" + queryString : "");
 	} else if (redirectURL.contains("beauty.jsp") || redirectURL.contains("cosmetics_detail.jsp")) {
 	    redirectURL = "/K_Culture/cosmetics" + (queryString != null ? "?" + queryString : "");
-	} 
+	} else if (redirectURL.contains("beauty.jsp")) {
+	    redirectURL = "/SEMI/cosmetics?action=list";
+	}
 	String encodedRedirect = java.net.URLEncoder.encode(redirectURL, "UTF-8");
 %>
     <header>
         <div class="container">
             <div class="header-content">
-                <a class="logo" href="index.jsp">K-<span>CULTURE</span> GUIDE</a>
+                <a class="logo" href="index.jsp">GO<span>NG GAN</span></a>
                 <nav>
                     <ul>
                     	<!-- 관리자권한일 때 헤더 메뉴 -->
