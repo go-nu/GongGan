@@ -57,66 +57,52 @@ if (request.isUserInRole("admin")) {
 						<%
 							PreparedStatement pstmt = null;
 							ResultSet rs = null;
-							String sql = "SELECT * FROM activity ORDER BY STR_TO_DATE(act_date, '%Y/%c/%e %H:%i') ASC limit 4";
 							
-							pstmt = conn.prepareStatement(sql);
-							rs = pstmt.executeQuery();
-							
-						    SimpleDateFormat sdf = new SimpleDateFormat("yy/M/d HH:mm");
-						    Date now = new Date();
-						    // 자정 기준 시간으로 설정
-						    Calendar cal = Calendar.getInstance();
-						    cal.setTime(now);
-						    cal.set(Calendar.HOUR_OF_DAY, 0);
-						    cal.set(Calendar.MINUTE, 0);
-						    cal.set(Calendar.SECOND, 0);
-						    cal.set(Calendar.MILLISECOND, 0);
-						    now = cal.getTime();
-						    
-						 	// 오늘 기준 시간 정리
-	                       	Calendar nowCal = Calendar.getInstance();
-	                        nowCal.set(Calendar.HOUR_OF_DAY, 0);
-	                        nowCal.set(Calendar.MINUTE, 0);
-	                        nowCal.set(Calendar.SECOND, 0);
-	                        nowCal.set(Calendar.MILLISECOND, 0);
-	                        
-	                        // 이번 주 일요일
-	                        Calendar startCal = (Calendar) nowCal.clone();
-	                        startCal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-
-	                        // 다음 주 일요일 = 이번 주 일요일 + 7일
-	                        startCal.add(Calendar.DATE, 7);
-	                        Date startDate = startCal.getTime();
-
-	                        // 다음 주 토요일 = 다음 주 일요일 + 6일
-	                        Calendar endCal = (Calendar) startCal.clone();
-	                        endCal.add(Calendar.DATE, 6);
-	                        Date endDate = endCal.getTime();
-						    
+						    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d HH:mm");
+						    SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						    SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-						    String isoDateStr = ""; // try-catch 외부에서 미리 선언
+						    
+						    // 자정 기준 시간으로 설정
+					    	Calendar nowCal = Calendar.getInstance();
+							nowCal.set(Calendar.HOUR_OF_DAY, 0);
+							nowCal.set(Calendar.MINUTE, 0);
+							nowCal.set(Calendar.SECOND, 0);
+							nowCal.set(Calendar.MILLISECOND, 0);
+						    
+							// 다음 주 일요일
+							Calendar startCal = (Calendar) nowCal.clone();
+							startCal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+							startCal.add(Calendar.DATE, 7);
+							Date startDate = startCal.getTime();
+	                        
+							// 다음 주 토요일 (23:59:59까지)
+							Calendar endCal = (Calendar) startCal.clone();
+							endCal.add(Calendar.DATE, 6);
+							endCal.set(Calendar.HOUR_OF_DAY, 23);
+							endCal.set(Calendar.MINUTE, 59);
+							endCal.set(Calendar.SECOND, 59);
+							endCal.set(Calendar.MILLISECOND, 999);
+							Date endDate = endCal.getTime();
+							
+							String startDateStr = sqlFormat.format(startDate);
+							String endDateStr = sqlFormat.format(endDate);
+							
+							// SQL: 다음 주 범위 내 활동만 가져오기
+							String sql = "SELECT * FROM activity " +
+							             "WHERE STR_TO_DATE(act_date, '%Y/%c/%e %H:%i') BETWEEN ? AND ? " +
+							             "ORDER BY STR_TO_DATE(act_date, '%Y/%c/%e %H:%i') ASC LIMIT 4";
+
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setString(1, startDateStr);
+							pstmt.setString(2, endDateStr);
+							rs = pstmt.executeQuery();
 						    
 						    // D-day가 0 이하일 때 화면에 보이지 않음
 							while(rs.next()) {
 								try {
 								    String actDateStr = rs.getString("act_date");
 								    Date actDate = sdf.parse(actDateStr);
-								    // 자정 기준으로 변환
-		                            Calendar actCal = Calendar.getInstance();
-		                            actCal.setTime(actDate);
-		                            actCal.set(Calendar.HOUR_OF_DAY, 0);
-		                            actCal.set(Calendar.MINUTE, 0);
-		                            actCal.set(Calendar.SECOND, 0);
-		                            actCal.set(Calendar.MILLISECOND, 0);
-		                            actDate = actCal.getTime();
-
-								    long diff = actDate.getTime() - now.getTime();
-								    long days = (long) Math.ceil((double) diff / (24 * 60 * 60 * 1000));
-
-								 	// 다음 주 범위 안에 없으면 건너뜀
-	                                if (actDate.before(startDate) || actDate.after(endDate)) continue;
-
-								    isoDateStr = isoFormat.format(actDate);
+								    String isoDateStr = isoFormat.format(actDate);
 									%>
 					        		<div class="swiper-slide">
 					        			<a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" style="text-decoration: none; color: inherit;">
