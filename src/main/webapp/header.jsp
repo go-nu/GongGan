@@ -32,7 +32,7 @@
                     <ul>
                     	<!-- 관리자권한일 때 헤더 메뉴 -->
                     	<% if (request.isUserInRole("admin")) { %>
-                    	<li><a href="food.jsp">한식 (K-FOOD)</a></li>
+                    	<li><a href="<c:url value="/BoardListActionF.do?pageNum=1&items=${items}&text=${text}"/>">한식 (K-FOOD)</a></li>
                     	<li><a href="cosmetics?action=adminlist">뷰티 (K-BEAUTY)</a></li>
                     	<li><a href="Admin_Location.jsp">관광지 (LOCATION)</a></li>
                     	<li><a href="logout.jsp">로그아웃</a></li>
