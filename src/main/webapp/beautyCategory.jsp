@@ -54,16 +54,16 @@
       <% for (int i = startIndex; i < endIndex; i++) {
         CosmeticsDTO cosmetic = cosmeticsList.get(i); %>
         <div class="col">
-          <div class="card h-100 shadow-sm border-0" style="height: 300px;">
-            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" class="card-img-top" alt="<%= cosmetic.getName() %>" style="height: 200px; object-fit: cover;">
-            <div class="card-body p-2 text-center" style="height: 120px; overflow: hidden;">
-              <h5 class="card-title mb-2"><%= cosmetic.getName() %></h5>
-              <p class="card-text small text-muted mb-2">주요 성분: <%= cosmetic.getMain_ingredient() %></p>
-              <div style="font-size: 12px; color: #d33; line-height: 1; margin-bottom: 6px;">
-			  ❤️ <span style="font-size: 12px; color: #333;"><%= cosmetic.getLikes() %></span>
-			  </div>
+          <div class="card h-100 shadow-sm border-0" style="height: 350px;">
+            <img src="<%= request.getContextPath() %>/resources/img/<%= cosmetic.getImage_file() %>" class="card-img-top" alt="<%= cosmetic.getName() %>" style="height: 220px; object-fit: cover;">
+            <div class="card-body p-2 text-center" style="height: 130px; overflow: hidden;">
+              <h5 class="card-title" style="margin-bottom: 3px;"><%= cosmetic.getName() %></h5>
+              <p class="card-text small text-muted mb-3">주요 성분: <%= cosmetic.getMain_ingredient() %></p>
+              <div style="font-size: 12px; color: #d33; line-height: 1; margin-bottom: 9px;">
+                ❤️ <span style="font-size: 12px; color: #333;"><%= cosmetic.getLikes() %></span>
+              </div>
               <a href="cosmetics?action=detail&id=<%= cosmetic.getId() %>" class="btn btn-sm btn-outline-primary">상세보기</a>
-            </div>	
+            </div>
           </div>
         </div>
       <% } %>
@@ -71,7 +71,7 @@
 
     <!-- 페이지 네비게이션 -->
     
-	<nav class="mt-4">
+	<nav class="pt-5">
 	  <ul class="pagination justify-content-center">
 	    <li class="page-item <%= (currentPage == 1) ? "disabled" : "" %>">
 	      <a class="page-link" href="cosmetics?action=category&category=<%= URLEncoder.encode(category, "UTF-8") %>&page=<%= currentPage - 1 %>">이전</a>
@@ -86,20 +86,6 @@
 	    </li>
 	  </ul>
 	</nav>
-  </div>
-</section>
-
-<!-- 중단 -->
-<section class="about-section">
-  	 <div class="container text-center py-5">
-     <h4 class="text-muted">중단 섹션</h4>
-     </div>
-</section>
-
-<!-- 하단 -->
-<section class="class-section">
-  <div class="container text-center py-5">
-    <h4 class="text-muted">하단 섹션</h4>
   </div>
 </section>
 
