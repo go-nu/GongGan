@@ -86,11 +86,11 @@
 <!-- 하단 -->
 <section class="class-section" id="beautyBoard">
   <div class="container text-center py-5">
-    <h4 class="text-muted">하단</h4>
+    <h2>게시판</h2>
     <!-- 게시판 미리 보기 -->
     <div class="my-4 board" style="min-height: 400px;">
 		<div class="px-2 ps-sm-5">
-			<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&category=beauty"/>">more &raquo;</a>
+			<a class="nav-link text-secondary text-start" href="<c:url value="/BoardListAction.do?pageNum=1&category=beauty"/>">more &raquo;</a>
 			<div class="board-section">
 				<div class="container">
 					<table class="board-table">

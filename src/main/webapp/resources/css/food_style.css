@@ -11,7 +11,7 @@ body {
     color: #333;
 }
 a {
-	text-decoration: none;
+	text-decoration: none !important;
 }
 
 
@@ -91,12 +91,11 @@ nav ul li a:hover {
 }
 
 .featured-section {
-    padding: 80px 0;
+    padding: 40px 0;
 }
 
 .section-title {
     text-align: center;
-    margin-bottom: 50px;
 }
 
 .section-title a {
@@ -279,7 +278,7 @@ nav ul li a:hover {
 
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
 }
 
@@ -303,6 +302,7 @@ nav ul li a:hover {
 
 .category-info {
     padding: 20px;
+    letter-spacing: .1em;
 }
 
 .category-info h3 {
