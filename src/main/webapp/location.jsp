@@ -106,7 +106,7 @@
 <!-- 사이트 설명 -->
     <section class="community-section" id="lBoard">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title py-5">
                 <h2>게시판</h2>
             </div>
             <!-- 게시판 미리 보기 -->
