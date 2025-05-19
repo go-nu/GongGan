@@ -44,7 +44,7 @@
     <section class="featured-section">
         <div class="container">
             <div class="section-title">
-                <h2>이번주 생일 카페</h2>
+                <h2>이번 주 생일 카페</h2>
             </div>
             <%@ include file="map3.jsp" %>
         </div>
@@ -53,8 +53,8 @@
 <!-- 초록칸 -->
     <section class="about-section" id="lCity">
         <div class="container">
-         	<div class="section-title">
-	      		<h2>한국의 매력 도시</h2>
+         	<div class="section-title mb-5">
+	      		<h2>한국의 매력적인 도시</h2>
 	    	</div>
             <div class="about-content">
 				<div class="category-grid">
@@ -68,20 +68,20 @@
 						
 						while(rs.next()) {
 					%>
-					<a href="location_detail.jsp?city_num=<%=rs.getString("city_num")%>">
-		                <div class="category-card">
-		                    <img src="./resources/img/<%=rs.getString("img")%>" class="category-image">
-		                    <div class="category-info">
-		                        <h3><%=rs.getString("title")%></h3>
-		                        <p><%=rs.getString("note")%></p>
-		                        <div>
-		                            <span class="tag"><%=rs.getString("tag1")%></span>
-		                            <span class="tag"><%=rs.getString("tag2")%></span>
-		                            <span class="tag"><%=rs.getString("tag3")%></span>
-		                        </div>
-		                    </div>
-		                </div>
-	                </a>
+					<a href="location_detail.jsp?city_num=<%=rs.getString("city_num")%>" class="text-decoration-none text-dark">
+					  <div class="card h-100 shadow-sm border-0" style="height: 300px;">
+					    <img src="./resources/img/<%=rs.getString("img")%>" class="card-img-top" alt="<%=rs.getString("title")%>" style="height: 200px; object-fit: cover;">
+					    <div class="card-body p-2 text-center" style="height: 100px; overflow: hidden;">
+					      <h6 class="card-title mb-1"><%=rs.getString("title")%></h6>
+					      <p class="card-text small text-muted mb-1"><%=rs.getString("note")%></p>
+					      <div>
+					        <span class="tag"><%=rs.getString("tag1")%></span>
+					        <span class="tag"><%=rs.getString("tag2")%></span>
+					        <span class="tag"><%=rs.getString("tag3")%></span>
+					      </div>
+					    </div>
+					  </div>
+					</a>
 	                <%
 						}
 	                %>
@@ -93,13 +93,13 @@
 <!-- 사이트 설명 -->
     <section class="community-section" id="lBoard">
         <div class="container">
-            <div class="section-title py-5">
+            <div class="section-title">
                 <h2>게시판</h2>
             </div>
             <!-- 게시판 미리 보기 -->
-            <div class="my-4 board" style="min-height: 400px;">
+            <div class="board mb-0">
 				<div class="px-2 ps-sm-5">
-					<a class="nav-link text-secondary" href="<c:url value='/BoardListAction.do?pageNum=1&category=location' />">more &raquo;</a>
+					<a class="nav-link text-end me-3" href="<c:url value='/BoardListAction.do?pageNum=1&category=location' />">more &raquo;</a>
 					<div class="board-section">
 						<div class="container">
 							<table class="board-table">

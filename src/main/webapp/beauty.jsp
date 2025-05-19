@@ -31,7 +31,11 @@
 
 <!--  화장품 섹션  -->
 <section class="featured-section">
+  <div class="section-title">
+		<h2>제품 정보</h2>
+	</div>
 	<div class="container">
+
     <%
       List<CosmeticsDTO> allCosmetics = (List<CosmeticsDTO>) request.getAttribute("cosmeticsList");
 
@@ -41,14 +45,18 @@
         categorizedCosmetics.computeIfAbsent(category, k -> new ArrayList<>()).add(cosmetic);
       }
 
+      int totalCategories = categorizedCosmetics.size();
+      int currentIndex = 0;
+
       for (Map.Entry<String, List<CosmeticsDTO>> entry : categorizedCosmetics.entrySet()) {
         String categoryName = entry.getKey();
         List<CosmeticsDTO> categoryCosmetics = entry.getValue();
+        currentIndex++;
     %>
-    <div class="mb-2">
+    <div class="<%= (currentIndex < totalCategories) ? "mb-4" : "" %>">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h3><%= categoryName %></h3>
-        <a href="cosmetics?action=category&category=<%= categoryName %>" class="btn btn-sm btn-outline-secondary">더보기(More)</a>
+        <a href="cosmetics?action=category&category=<%= categoryName %>" class="btn btn-sm btn-outline-secondary">more &raquo;</a>
       </div>
       <div class="row row-cols-1 row-cols-md-4 g-4">
         <%
@@ -63,12 +71,12 @@
               <h5 class="card-title" style="margin-bottom: 2px;"><%= cosmetic.getName() %></h5>
               <p class="card-text small text-muted mb-2">주요 성분: <%= cosmetic.getMain_ingredient() %></p>
               <div style="font-size: 12px; color: #d33; line-height: 1; margin-bottom: 6px;">
-				  ❤️ <span style="font-size: 12px; color: #333;"><%= cosmetic.getLikes() %></span>
-			  </div>
+                ❤️ <span style="font-size: 12px; color: #333;"><%= cosmetic.getLikes() %></span>
+              </div>
               <a href="cosmetics?action=detail&id=<%= cosmetic.getId() %>" class="btn btn-sm btn-outline-primary">상세보기</a>
             </div>
           </div>
-        </div>	
+        </div>
         <% } %>
       </div>
     </div>
@@ -76,24 +84,27 @@
   </div>
 </section>
 
+
 <!--  중단 -->
 <section class="about-section" id="storeMap">
+
 	<div class="section-title">
 		<h2>매장 찾기</h2>
 	</div>
-  	<div class="container text-center pb-5">
+  	<div class="container text-center">
+
     	<%@ include file="map.jsp" %>
     </div>
 </section>
 
 <!-- 하단 -->
 <section class="class-section" id="beautyBoard">
-  <div class="container text-center py-5">
+  <div class="container text-center">
    	<div class="section-title">
 		<h2>게시판</h2>
 	</div>
     <!-- 게시판 미리 보기 -->
-    <div class="my-4 board" style="min-height: 400px;">
+    <div class="board mb-0">
 		<div class="px-2 ps-sm-5">
 			<a class="nav-link text-secondary text-start" href="<c:url value="/BoardListAction.do?pageNum=1&category=beauty"/>">more &raquo;</a>
 			<div class="board-section">
@@ -138,5 +149,8 @@
 
 <%@ include file="footer.jsp" %>
 <script src="<%= request.getContextPath() %>/resources/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+le.min.js"></script>
 </body>
 </html>

@@ -45,9 +45,9 @@
                 <h2>K-FOOD 게시판</h2>
             </div>
             <!-- 게시판 미리 보기 -->
-            <div class="my-4 board" style="min-height: 400px;">
+            <div class="board mb-0">
 				<div class="px-2 ps-sm-5">
-					<a class="nav-link text-secondary" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
+					<a class="nav-link text-end me-3 mb-2" href="<c:url value="/BoardListAction.do?pageNum=1&items=${items}&text=${text}"/>">more &raquo;</a>
 					<div class="board-section">
 						<div class="container">
 							<table class="board-table">
@@ -175,7 +175,7 @@
 				<div class="swiper-button-prev"></div>
 				<div class="swiper-button-next"></div>
 		    </div>
-		    <a href="foodActivity.jsp"  class="text-end mt-5">전체 활동 보기 &raquo;</a>
+		    <a href="foodActivity.jsp"  class="text-end d-block mt-2">전체 활동 보기 &raquo;</a>
         </div>
     </section>
     
