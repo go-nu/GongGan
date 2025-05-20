@@ -35,30 +35,24 @@
 				            <label for="TITLE" class="form-label">제목</label>
 				            <input type="text" name="TITLE" id="TITLE" class="form-control" required>
 				        </div>
-				
-				        <div class="form-col">
-				            <label for="PRICE" class="form-label">가격</label>
-				            <input type="number" name="PRICE" id="PRICE" class="form-control" required>
-				        </div>
+   				        <div class="form-col">
+				            <label for="MAX_COUNT" class="form-label">정원</label>
+				            <input type="number" name="MAX_COUNT" id="MAX_COUNT" class="form-control" required>
+				        </div>    
 			        </div>
 			
 					<div class="form-row-custom">
-				        <div class="form-col">
-				            <label for="MAX_COUNT" class="form-label">정원</label>
-				            <input type="number" name="MAX_COUNT" id="MAX_COUNT" class="form-control" required>
-				        </div>
-				
 				        <div class="form-col">
 				            <label for="ACT_DATE" class="form-label">체험일자</label>
 				            <input type="text" name="ACT_DATE" id="ACT_DATE" class="form-control" required>
 				        </div>
-			        </div>
-			
-					<div class="form-row-custom">
 				        <div class="form-col">
 				            <label for="ADDRESS" class="form-label">주소</label>
 				            <input type="text" name="ADDRESS" id="ADDRESS" class="form-control" required>
 				        </div>
+			        </div>
+			
+					<div class="form-row-custom">
 					</div>
 					<div class="form-row-custom">
 				        <div class="form-col">
@@ -85,7 +79,7 @@
 		
 		        <div class="text-end">
 		            <button type="submit" class="btn btn-primary">등록</button>
-		            <a href="admin_FoodActivity.jsp" class="btn btn-secondary">취소</a>
+		            <a href="adminPage.jsp" class="btn btn-danger">취소</a>
 		        </div>
 		    </form>
 		</div>

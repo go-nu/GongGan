@@ -76,7 +76,7 @@
                 체험 정보가 수정되었습니다.
             </div>
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-success" onclick="location.href='<%= returnURL %>'">확인</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='<%= returnURL %>'">확인</button>
             </div>
         </div>
     </div>

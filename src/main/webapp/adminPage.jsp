@@ -11,8 +11,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Admin Page</title>
 	<script src="./resources/js/bootstrap.bundle.min.js"></script>
-	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="./resources/css/ap_style.css">
+	<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
