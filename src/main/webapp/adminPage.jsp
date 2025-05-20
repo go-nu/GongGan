@@ -76,14 +76,14 @@
 	<section class="community-section">
 		<div class="container">
 			        <div class="section-title">
-            <h2>지도 관리</h2>
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">생일 카페 추가</button>
+            <h2 class="mb-3">지도 관리</h2>
+            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#addModal">생일 카페 추가</button>
         </div>
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover text-center align-middle">
                 <thead class="table-light">
-                    <tr>
+                    <tr>	
                         <th>카테고리</th>
                         <th>가게명</th>
                         <th>지역</th>
@@ -115,7 +115,7 @@
 					    <td><%= rsM.getDouble("lat") %></td>
 					    <td><%= rsM.getDouble("lng") %></td>
 					    <td>
-							<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+							<button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
 						        data-bs-target="#editModal" data-id="<%= rsM.getInt("id") %>">→</button>
 						</td>
 						<td>
