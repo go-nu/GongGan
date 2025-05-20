@@ -74,7 +74,7 @@
                 <p class="card-text"><%=displayNote%></p>
             </div>
             <div class="card-footer bg-white border-0 text-center">
-                <a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" class="btn btn-sm">예약하기</a>
+                <a href="reservation.jsp?act_id=<%=rs.getString("act_id")%>" class="btn btn-success btn-sm">예약하기</a>
             </div>
         </div>
     </div>
@@ -89,10 +89,21 @@
 <!-- Ajax용 페이징 -->
 <nav aria-label="Page navigation" class="mt-4">
   <ul class="pagination justify-content-center">
+    <%-- 이전 버튼 --%>
+    <li class="page-item <%= (pageNum <= 1) ? "disabled" : "" %>">
+      <a class="page-link ajax-page" href="?page=<%= pageNum - 1 %>" data-page="<%= pageNum - 1 %>">이전</a>
+    </li>
+
+    <%-- 숫자 버튼 --%>
     <% for (int i = 1; i <= totalPages; i++) { %>
-        <li class="page-item <%= (i == pageNum) ? "active" : "" %>">
-            <a class="page-link ajax-page" href="?page=<%=i%>" data-page="<%=i%>"><%=i%></a>
-        </li>
+      <li class="page-item <%= (i == pageNum) ? "active" : "" %>">
+        <a class="page-link ajax-page" href="?page=<%= i %>" data-page="<%= i %>"><%= i %></a>
+      </li>
     <% } %>
+
+    <%-- 다음 버튼 --%>
+    <li class="page-item <%= (pageNum >= totalPages) ? "disabled" : "" %>">
+      <a class="page-link ajax-page" href="?page=<%= pageNum + 1 %>" data-page="<%= pageNum + 1 %>">다음</a>
+    </li>
   </ul>
 </nav>
