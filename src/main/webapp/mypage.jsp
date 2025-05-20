@@ -37,7 +37,7 @@
 	<section class="featured-section">
   <div class="container">
     <div class="section-title text-center">
-      <h2>내가 작성한 글</h2>
+      <h2 class="mb-4">내가 작성한 글</h2>
       <p><%= session.getAttribute("id") %></p>
     </div>
 
