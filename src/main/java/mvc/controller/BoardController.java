@@ -310,9 +310,12 @@ public class BoardController extends HttpServlet {
 		String id = (String) session.getAttribute("sessionId");
 
 		// 로그인 확인
-		if (id == null || id.isEmpty()) {
-			id = (String) session.getAttribute("id");
-		}
+	    if (id == null || id.isEmpty()) {
+	        id = (String) session.getAttribute("id");
+	        if (id == null || id.isEmpty()) {
+	            id = "admin";
+	        }
+	    }
 
 		board.setId(id);
 		board.setSubject(request.getParameter("subject"));
