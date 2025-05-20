@@ -106,9 +106,9 @@
                 </div>
                 <div class="modal-footer border-0">
                     <% if (isError) { %>
-                        <button type="button" class="btn btn-secondary" onclick="history.back()">확인</button>
+                        <button type="button" class="btn btn-primary" onclick="history.back()">확인</button>
                     <% } else { %>
-                        <button type="button" class="btn btn-success" onclick="location.href='<%= redirectURL %>'">확인</button>
+                        <button type="button" class="btn btn-primary" onclick="location.href='<%= redirectURL %>'">확인</button>
                     <% } %>
                 </div>
             </div>

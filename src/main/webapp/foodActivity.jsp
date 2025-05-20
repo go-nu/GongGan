@@ -25,6 +25,16 @@ if (request.isUserInRole("admin")) {
 }
 %>
 </head>
+<style>
+.card-img-top2 {
+	width:100%;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+}
+</style>
 <body>
     <%@ include file="header.jsp" %>
     <%@ include file="dbconn.jsp" %>

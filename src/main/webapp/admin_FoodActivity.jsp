@@ -24,8 +24,13 @@
   	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <style>
-.btn-primary {
-	
+.card-img-top2 {
+	width:100%;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
 }
 </style>
 <body> 
@@ -123,7 +128,7 @@
        	<div class="section-title">
       		<h2>전체 체험 활동</h2>
       		<div class="container text-end w-100 my-5">
-      			<a class="btn btn-lg btn-warning" href="insertFoodActivity.jsp">추가 등록</a>
+      			<a class="btn btn-lg btn-primary" href="insertFoodActivity.jsp">추가 등록</a>
       		</div>
       		<!-- 4카드 섹션  -->
 			<div class="container pt-3 pb-5">
@@ -174,7 +179,7 @@
 					          		<p class="card-text"><%=rsS.getString("note")%></p>
 					        		</div>
 					        		<div class="card-footer bg-white border-0 text-end">
-					          			<a href="adminReservation.jsp?act_id=<%=rsS.getString("act_id")%>" class="btn btn-md btn-primary">관리</a>
+					          			<a href="adminReservation.jsp?act_id=<%=rsS.getString("act_id")%>" class="btn btn-md btn-success">관리</a>
 					        		</div>
 					      		</div>
 					    	</div>

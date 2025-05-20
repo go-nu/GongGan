@@ -300,21 +300,30 @@
 					boolean isFirst = true;
 	
 					for (int i = 0; i < subImg.size(); i += groupSize) {
+				        int currentCount = Math.min(groupSize, subImg.size() - i); // 남은 이미지 수
+				        String imgWidth = "23%";
+				        if (currentCount == 3) {
+				            imgWidth = "30%";
+				        } else if (currentCount == 2) {
+				            imgWidth = "45%";
+				        } else if (currentCount == 1) {
+				            imgWidth = "90%";
+				        }
 				%>
 				<div class="carousel-item <%= isFirst ? "active" : "" %>">
-					<div class="d-flex justify-content-between custom-carousel-inner px-5">
-						<%
-							for (int j = i; j < i + groupSize && j < subImg.size(); j++) {
-						%>
-						<img src="./resources/img/<%= subImg.get(j) %>" class="d-block mx-1" alt="상세 이미지" style="width: 23%;">
-						<%
-							}
-						%>
-					</div>
+				    <div class="d-flex justify-content-between custom-carousel-inner px-5">
+				        <%
+				            for (int j = 0; j < currentCount; j++) {
+				        %>
+				        <img src="./resources/img/<%= subImg.get(i + j) %>" class="d-block mx-1" alt="상세 이미지" style="width: <%= imgWidth %>;">
+				        <%
+				            }
+				        %>
+				    </div>
 				</div>
 				<%
-						isFirst = false;
-					}
+				    isFirst = false; // 여기에 있어야 다음 루프에 적용됨
+				    }
 	
 					if (sRs != null) sRs.close();
 					if (sPstmt != null) sPstmt.close();

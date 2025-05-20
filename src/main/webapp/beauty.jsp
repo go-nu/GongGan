@@ -106,7 +106,7 @@
     <!-- 게시판 미리 보기 -->
     <div class="board mb-0">
 		<div class="px-2 ps-sm-5">
-			<a class="nav-link text-secondary text-start" href="<c:url value="/BoardListAction.do?pageNum=1&category=beauty"/>">more &raquo;</a>
+			<a class="nav-link text-secondary text-end me-3" href="<c:url value="/BoardListAction.do?pageNum=1&category=beauty"/>">more &raquo;</a>
 			<div class="board-section">
 				<div class="container">
 					<table class="board-table">

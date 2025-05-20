@@ -58,7 +58,7 @@
 	    	</div>
 	    	
 	    <!-- Location 관리자 CRUD 버튼 -->
-          <div class="text-center mb-3">
+          <div class="text-end mb-3">
             <a href="AddLocation.jsp" class="btn btn-primary">등록</a>
             <a href="ManageLocation.jsp" class="btn btn-success">수정/삭제</a>
           </div>
