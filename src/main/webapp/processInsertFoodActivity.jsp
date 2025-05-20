@@ -21,7 +21,6 @@
 	
 	    // 필드값 가져오기
 	    String title     = multi.getParameter("TITLE");
-	    int price        = Integer.parseInt(multi.getParameter("PRICE"));
 	    String img       = multi.getFilesystemName("image_file_upload");
 	    int maxCount     = Integer.parseInt(multi.getParameter("MAX_COUNT"));
 	    String actDate   = multi.getParameter("ACT_DATE");
@@ -31,16 +30,15 @@
 	    // ACT_ID 생성 (랜덤 8자리 영숫자)
 	    String actId = "A" + UUID.randomUUID().toString().replaceAll("-", "").substring(0, 7).toUpperCase();
 	
-	    String sql = "INSERT INTO fs_semi.activity (ACT_ID, TITLE, PRICE, IMG, MAX_COUNT, ACT_DATE, ADDRESS, NOTE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	    String sql = "INSERT INTO fs_semi.activity (ACT_ID, TITLE, IMG, MAX_COUNT, ACT_DATE, ADDRESS, NOTE) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	    PreparedStatement pstmt = conn.prepareStatement(sql);
 	    pstmt.setString(1, actId);
 	    pstmt.setString(2, title);
-	    pstmt.setInt(3, price);
-	    pstmt.setString(4, img);
-	    pstmt.setInt(5, maxCount);
-	    pstmt.setString(6, actDate);
-	    pstmt.setString(7, address);
-	    pstmt.setString(8, note);
+	    pstmt.setString(3, img);
+	    pstmt.setInt(4, maxCount);
+	    pstmt.setString(5, actDate);
+	    pstmt.setString(6, address);
+	    pstmt.setString(7, note);
 	
 	    int result = pstmt.executeUpdate();
 	    pstmt.close();

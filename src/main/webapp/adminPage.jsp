@@ -77,7 +77,7 @@
 		<div class="container">
 			        <div class="section-title">
             <h2>지도 관리</h2>
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">생일 카페 추가</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">생일 카페 추가</button>
         </div>
 
         <div class="table-responsive">
@@ -115,7 +115,7 @@
 					    <td><%= rsM.getDouble("lat") %></td>
 					    <td><%= rsM.getDouble("lng") %></td>
 					    <td>
-							<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+							<button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
 						        data-bs-target="#editModal" data-id="<%= rsM.getInt("id") %>">→</button>
 						</td>
 						<td>
@@ -187,7 +187,7 @@
 	    </form>
 	  </div>
 	</div>
-	<!-- 삭제 -->
+	<!-- 삭제 맵 -->
 	<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <form action="deleteMap.jsp" method="post">
@@ -208,7 +208,7 @@
 	    </form>
 	  </div>
 	</div>
-		
+
 	<%@ include file="footer.jsp"%>
 </body>
 </html>

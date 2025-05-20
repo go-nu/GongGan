@@ -59,18 +59,25 @@
 							</button>
 					    </td>
 					    <td>
-							<a href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>" class="btn btn-sm btn-success">
+							<a href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("act_id") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>" class="btn btn-sm btn-success">
                                 →
                             </a>
 						</td>
 					    <td>
 							<!-- 삭제 버튼 -->
-							<a href="deleteFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>" class="btn btn-sm btn-danger"
+		<%-- 					<a href="deleteFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>" class="btn btn-sm btn-danger"
 							   data-bs-toggle="modal"
 							   data-bs-target="#deleteModal"
 							   data-act-id="<%= rs.getString("ACT_ID") %>"
 							>
 							    →
+							</a> --%>
+							<a href="#" class="btn btn-sm btn-danger"
+							   data-bs-toggle="modal"
+							   data-bs-target="#deleteModal"
+							   data-act-id="<%= rs.getString("act_id") %>"
+							   data-return-url="<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>">
+							   →
 							</a>
 					    </td>
 					</tr>
@@ -143,7 +150,11 @@
       </div>
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-        <a id="confirmDeleteBtn" class="btn btn-danger">삭제</a>
+        <form action="deleteFoodActivity.jsp" method="get">
+		  <input type="hidden" name="ACT_ID" value="전달값">
+		  <input type="hidden" name="returnURL" value="adminPage.jsp">
+		  <button type="submit" class="btn btn-danger">삭제</button>
+		</form>
       </div>
     </div>
   </div>
@@ -179,7 +190,19 @@
     });
   });
   
+  document.addEventListener('DOMContentLoaded', function () {
+	    const deleteModal = document.getElementById('deleteModal');
+	    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
+	    deleteModal.addEventListener('show.bs.modal', function (event) {
+	      const button = event.relatedTarget;
+	      const actId = button.getAttribute('data-act-id');
+	      const returnUrl = button.getAttribute('data-return-url');
+	      
+	      const deleteUrl = `deleteFoodActivity.jsp?ACT_ID=${encodeURIComponent(actId)}&returnURL=${encodeURIComponent(returnUrl)}`;
+	      confirmDeleteBtn.setAttribute('href', deleteUrl);
+	    });
+	  });
 </script>
 
 
