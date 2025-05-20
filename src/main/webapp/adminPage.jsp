@@ -17,7 +17,7 @@
 </head>
 <body>
 	<%@ include file="header.jsp"%>
-
+	
 	<!-- 슬라이드 -->
 	<section class="hero">
 		<div id="colorCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -47,7 +47,7 @@
 	                        <h3>FOOD 게시판 공지 작성</h3>
 	                    </div>
 	                </div>
-	            </div>
+	            </div>	
 	            <div class="col-md-4 text-center">
 	                <div class="card py-4" onclick="location.href='BoardWriteForm.do?id=admin&category=beauty'" style="cursor: pointer;">
 	                    <img>

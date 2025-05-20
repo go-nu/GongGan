@@ -150,9 +150,9 @@
       </div>
       <div class="modal-footer border-0">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-        <form action="deleteFoodActivity.jsp" method="get">
-		  <input type="hidden" name="ACT_ID" value="전달값">
-		  <input type="hidden" name="returnURL" value="adminPage.jsp">
+		<form action="deleteFoodActivity.jsp" method="get">
+		  <input type="hidden" name="ACT_ID" id="modal-act-id">
+		  <input type="hidden" name="returnURL" id="modal-return-url">
 		  <button type="submit" class="btn btn-danger">삭제</button>
 		</form>
       </div>
@@ -191,18 +191,18 @@
   });
   
   document.addEventListener('DOMContentLoaded', function () {
-	    const deleteModal = document.getElementById('deleteModal');
-	    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+	  const deleteModal = document.getElementById('deleteModal');
 
-	    deleteModal.addEventListener('show.bs.modal', function (event) {
-	      const button = event.relatedTarget;
-	      const actId = button.getAttribute('data-act-id');
-	      const returnUrl = button.getAttribute('data-return-url');
-	      
-	      const deleteUrl = `deleteFoodActivity.jsp?ACT_ID=${encodeURIComponent(actId)}&returnURL=${encodeURIComponent(returnUrl)}`;
-	      confirmDeleteBtn.setAttribute('href', deleteUrl);
-	    });
+	  deleteModal.addEventListener('show.bs.modal', function (event) {
+	    const button = event.relatedTarget;
+	    const actId = button.getAttribute('data-act-id');
+	    const returnUrl = button.getAttribute('data-return-url');
+
+	    // 해당 input에 값을 넣어준다
+	    document.getElementById('modal-act-id').value = actId;
+	    document.getElementById('modal-return-url').value = returnUrl;
 	  });
+	});
 </script>
 
 
