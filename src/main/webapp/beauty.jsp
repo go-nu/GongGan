@@ -151,6 +151,5 @@
 <script src="<%= request.getContextPath() %>/resources/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-le.min.js"></script>
 </body>
 </html>

@@ -50,7 +50,7 @@ try {
     Class.forName("com.mysql.cj.jdbc.Driver");
     connMap = DriverManager.getConnection("jdbc:mysql://localhost:3306/fs_semi?serverTimezone=UTC", "root", "1234");
 
-    String sqlM = "SELECT * FROM map_loc WHERE category = ?";
+    String sqlM = "SELECT * FROM map_loc WHERE brand = ?";
     pstmtM = connMap.prepareStatement(sqlM);
     pstmtM.setString(1, "생일카페");
     rsM = pstmtM.executeQuery();

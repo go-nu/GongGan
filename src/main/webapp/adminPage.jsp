@@ -76,14 +76,14 @@
 	<section class="community-section">
 		<div class="container">
 			        <div class="section-title">
-            <h2 class="mb-3">지도 관리</h2>
-            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#addModal">생일 카페 추가</button>
+            <h2>지도 관리</h2>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">생일 카페 추가</button>
         </div>
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover text-center align-middle">
                 <thead class="table-light">
-                    <tr>	
+                    <tr>
                         <th>카테고리</th>
                         <th>가게명</th>
                         <th>지역</th>
@@ -108,14 +108,14 @@
 
 					%>
 					<tr>
-					    <td><%= rsM.getString("category") %></td>
+					    <td><%= rsM.getString("brand") %></td>
 					    <td><%= rsM.getString("name") %></td>
 					    <td><%= rsM.getString("region") %></td>
 					    <td><%= rsM.getString("address") %></td>
 					    <td><%= rsM.getDouble("lat") %></td>
 					    <td><%= rsM.getDouble("lng") %></td>
 					    <td>
-							<button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
+							<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
 						        data-bs-target="#editModal" data-id="<%= rsM.getInt("id") %>">→</button>
 						</td>
 						<td>
@@ -146,7 +146,7 @@
 	          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	        </div>
 	        <div class="modal-body">
-	          <div class="mb-2"><label>카테고리</label><input type="text" name="category" class="form-control" required></div>
+	          <div class="mb-2"><label>카테고리</label><input type="text" name="category" class="form-control" value="생일카페" readonly></div>
 	          <div class="mb-2"><label>가게명</label><input type="text" name="name" class="form-control" required></div>
 	          <div class="mb-2"><label>지역</label><input type="text" name="region" class="form-control" required></div>
 	          <div class="mb-2"><label>주소</label><input type="text" name="address" class="form-control" required></div>
@@ -172,7 +172,7 @@
 	        </div>
 	        <div class="modal-body">
 	          <input type="hidden" name="id" id="edit-id">
-	          <div class="mb-2"><label>카테고리</label><input type="text" name="category" class="form-control"></div>
+	          <div class="mb-2"><label>카테고리</label><input type="text" name="category" class="form-control" value="생일카페" readonly></div>
 	          <div class="mb-2"><label>가게명</label><input type="text" name="name" class="form-control"></div>
 	          <div class="mb-2"><label>지역</label><input type="text" name="region" class="form-control"></div>
 	          <div class="mb-2"><label>주소</label><input type="text" name="address" class="form-control"></div>
