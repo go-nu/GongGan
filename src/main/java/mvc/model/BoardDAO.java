@@ -126,7 +126,11 @@ public class BoardDAO {
 	        PreparedStatement pstmt = null;
 	        ResultSet rs = null;
 	        
+	        // 페이지 번호가 1보다 작으면 1로 설정 (방어 코드 추가)
+	        if (page < 1) page = 1;
 	        int start = (page - 1) * limit;
+	        if (start < 0) start = 0;
+	        
 	        int index = start + 1;
 	        
 	        String sql;

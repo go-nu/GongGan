@@ -229,15 +229,13 @@ a {
 }
 
 .board-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 8px;
+    position: relative;
 }
 
 .pagination {
     display: flex;
-    list-style: none;
+    justify-content: center;
+  	width: 100%;
 }
 
 .pagination li {
@@ -258,7 +256,7 @@ a {
 }
 
 .pagination li.active a {
-    background-color: #1d3557;
+    background-color: #0d6efd;
     color: white;
 }
 /* 게시판 */

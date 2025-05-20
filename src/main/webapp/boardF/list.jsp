@@ -72,6 +72,7 @@
     }
     
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
     var id = "<%= session.getAttribute("id") != null ? session.getAttribute("id") : "" %>";
     
@@ -110,7 +111,7 @@
             
             <div class="board-options">
                 <div class="total-posts">
-                    총 게시물 <strong>${total_record}</strong>건
+                    총 게시물 <strong>${totalPosts}</strong>건
                 </div>
                 <div class="search-container">
                     <form action="BoardListAction.do" method="get">
@@ -173,25 +174,54 @@
                 </tbody>
             </table>
             
+            <!-- 이전/다음 페이지 번호 계산 -->
+			<c:set var="prevPage" value="${currentPage - 1}" />
+			<c:set var="nextPage" value="${currentPage + 1}" />
             <div class="board-footer">
-                <ul class="pagination">
-                    <c:if test="${pageNum > 1}">
-                        <li><a href="BoardListAction.do?pageNum=${pageNum - 1}&category=<%= category %><c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">«</a></li>
-                    </c:if>
-                    
-                    <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                        <li <c:if test="${i == pageNum}">class="active"</c:if>>
-                            <a href="BoardListAction.do?pageNum=${i}&category=<%= category %><c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">${i}</a>
-                        </li>
-                    </c:forEach>
-                    
-                    <c:if test="${pageNum < total_page}">
-                        <li><a href="BoardListAction.do?pageNum=${pageNum + 1}&category=<%= category %><c:if test="${not empty param.items}">&items=${param.items}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">»</a></li>
-                    </c:if>
-                </ul>
-                
-                <button onclick="checkForm()" class="write-btn">글쓰기</button>
-            </div>
+			  <!-- 페이지네이션 -->
+			    <nav class="pt-5">
+				    <ul class="pagination justify-content-center">
+				
+				      <!-- 이전 페이지 버튼 -->
+				      <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+				        <a class="page-link" 
+				           href="BoardListAction.do?pageNum=${prevPage}&category=${category}
+				                 <c:if test='${not empty param.items}'>&items=${param.items}</c:if>
+				                 <c:if test='${not empty param.text}'>&text=${param.text}</c:if>">
+				           이전
+				        </a>
+				      </li>
+				
+				      <!-- 페이지 번호 버튼들 -->
+				      <c:forEach var="i" begin="${startPage}" end="${endPage}">
+				        <li class="page-item ${i == currentPage ? 'active' : ''}">
+				          <a class="page-link" 
+				             href="BoardListAction.do?pageNum=${i}&category=${category}
+				                   <c:if test='${not empty param.items}'>&items=${param.items}</c:if>
+				                   <c:if test='${not empty param.text}'>&text=${param.text}</c:if>">
+				             ${i}
+				          </a>
+				        </li>
+				      </c:forEach>
+				
+				      <!-- 다음 페이지 버튼 -->
+				      <li class="page-item ${currentPage == totalPage ? 'disabled' : ''}">
+				        <a class="page-link" 
+				           href="BoardListAction.do?pageNum=${nextPage}&category=${category}
+				                 <c:if test='${not empty param.items}'>&items=${param.items}</c:if>
+				                 <c:if test='${not empty param.text}'>&text=${param.text}</c:if>">
+				           다음
+				        </a>
+				      </li>
+				
+				    </ul>
+				  </nav>
+			  
+			  <!-- 글쓰기 버튼 컨테이너 -->
+			  <div class="d-flex justify-content-end mt-3">
+			    <button onclick="checkForm()" class="write-btn btn btn-primary">글쓰기</button>
+			  </div>
+			</div>
         </div>
     </section>
 	<!-- 부트스트랩 알림 모달 -->

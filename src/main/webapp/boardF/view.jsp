@@ -38,7 +38,7 @@
     <meta charset="UTF-8">
 <!--     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <title><c:out value="${board.subject}"/> - 상세보기</title>
-    <link rel="stylesheet" href="./resources/./css/styles.css">
+    <link rel="stylesheet" href="./resources/css/styles.css">
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
     <style>
         .like-icon {
@@ -134,7 +134,7 @@
                             </div>
                             <div class="btn-group">
                                 <c:if test="${sessionId == board.id || isAdmin}">
-                                    <a href="./BoardUpdateForm.do?num=${board.num}&pageNum=${page}&category=${board.category}" class="btn btn-outline-primary btn-sm">수정</a>
+                                    <a href="./BoardUpdateForm.do?num=${board.num}&pageNum=${page}&category=${board.category}" class="btn btn-outline-success btn-sm">수정</a>
                              <a href="./BoardDeleteAction.do?num=${board.num}&pageNum=${page}&category=${board.category}" 
                                        class="btn btn-outline-danger btn-sm" 
                                        onclick="return confirmDelete()">삭제</a>
@@ -220,7 +220,7 @@
                                                         <c:if test="${sessionId == comment.id}">
                                                             <div class="d-flex mt-2">
                                                                 <a href="BoardViewAction.do?num=${board.num}&pageNum=${page}&commentPage=${currentCommentPage}&edit_id=${comment.num}" 
-                                                                   class="btn btn-sm btn-outline-primary me-2">수정</a>
+                                                                   class="btn btn-sm btn-outline-success me-2">수정</a>
                                                                 <form action="CommentDeleteAction.do" method="post">
                                                                     <input type="hidden" name="num" value="${comment.num}">
                                                                     <input type="hidden" name="boardNum" value="${board.num}">
@@ -288,7 +288,7 @@
                     <div class="d-flex justify-content-between">
                         <a href="BoardListAction.do?pageNum=${page}&category=${board.category}" class="btn btn-secondary">목록</a>
                         <c:if test="${not empty sessionId}">
-                            <a href="BoardWriteForm.do?category=${board.category}" class="btn btn-success">새로 글쓰기</a>
+                            <a href="BoardWriteForm.do?category=${board.category}" class="btn btn-primary">새로 글쓰기</a>
                         </c:if>
                     </div>
                 </c:if>
