@@ -108,15 +108,9 @@ String address = (String) session.getAttribute("address");
 				</div>
 				
 				<%
-				    // yyyy-MM-dd 형식으로 생일 포맷 맞추기
 				    String formattedBirth = birth;
-				    try {
-				        java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
-				        java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
-				        java.util.Date birthDate = inputFormat.parse(birth);
-				        formattedBirth = outputFormat.format(birthDate);
-				    } catch (Exception e) {
-				        // 에러 무시하고 원본 그대로 사용
+				    if (birth != null && birth.length() == 8) {
+				        formattedBirth = birth.substring(0, 4) + "-" + birth.substring(4, 6) + "-" + birth.substring(6);
 				    }
 				%>
 				<div class="mb-3">
