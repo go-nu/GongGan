@@ -38,7 +38,7 @@
   <div class="container">
     <div class="section-title text-center">
       <h2 class="mb-4">내가 작성한 글</h2>
-      <p><%= session.getAttribute("id") %></p>
+      <p class="mb-4"><%= session.getAttribute("id") %></p>
     </div>
 
     <!-- 게시글 테이블 -->

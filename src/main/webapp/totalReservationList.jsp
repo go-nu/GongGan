@@ -6,8 +6,8 @@
 <section class="about-section">
     <div class="container">
         <div class="section-title">
-            <h2>전체 프로그램</h2>
-            <a class="btn btn-md btn-warning" href="insertFoodActivity.jsp">추가 등록</a>
+            <h2 class="mb-3">전체 프로그램</h2>
+            <a class="btn btn-md btn-primary mb-2" href="insertFoodActivity.jsp">추가 등록</a>
         </div>
 
         <div class="table-responsive">
@@ -50,7 +50,7 @@
 					    <td><%= rs.getString("total_count") != null ? rs.getInt("total_count") + "명" : "-" %></td>
 					    <td><%= rs.getInt("max_count") %>명</td>
 					    <td>
-							<button class="btn btn-sm btn-success toggle-btn" type="button"
+							<button class="btn btn-sm btn-warning toggle-btn" type="button"
 							        data-bs-toggle="collapse"
 							        data-bs-target="#<%= collapseId %>"
 							        aria-expanded="false"
@@ -59,7 +59,7 @@
 							</button>
 					    </td>
 					    <td>
-							<a href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>" class="btn btn-sm btn-primary">
+							<a href="updateFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>" class="btn btn-sm btn-success">
                                 →
                             </a>
 						</td>
