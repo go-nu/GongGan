@@ -21,17 +21,8 @@
     <%@ include file="header.jsp" %>
     
 <!-- 메인 카테고리 -->
-    <section class="featured-section my-5 pt-5">
-        <div class="container">
-            <div class="section-title">
-                <h1 style="font-size: 4rem;">공간 소개</h1>
-            </div>
-        </div>
-    </section>
-    
-<!-- 체험 활동 -->
-	<section class="about-section">
-	    <div class="container">
+    <section class="featured-section">
+		 <div class="container pt-5">
 	        <div class="row align-items-center g-1">
 	        	<div class="col-md-1"></div>
 	            <!-- 이미지 영역 -->
@@ -41,7 +32,7 @@
 	
 	            <!-- 텍스트 영역 -->
 	            <div class="col-md-5 ms-5">
-	            	
+	            	<h2 class="mb-2">공간 소개</h2>
 	                <p>GONG GAN은 K-POP, K-FOOD, K-BEAUTY 등 전 세계적으로 사랑받는 한국 문화에
 	                    관심이 있는 외국인 관광객들을 위한 정보 공유 커뮤니티 플랫폼입니다.</p>
 	
@@ -62,38 +53,47 @@
 	            </div>
 	        </div>
 	    </div>
+    </section>
+    
+<!-- 체험 활동 -->
+	<section class="about-section" style="padding: 80px 0;">
+    <div class="container">
+    
+        <!-- 커뮤니티 카드 목록 -->
+        <div class="community-cards d-flex justify-content-center flex-wrap gap-4">
+            <!-- 카드 1 -->
+            <div class="community-card text-center p-4 border rounded shadow-sm" style="width: 300px;">
+                <div class="community-icon mb-3" style="font-size: 40px;">🍱‍</div>
+                <h3 style="font-size: 20px;">FOOD</h3>
+                <p class="mt-2" style="font-size: 15px;">
+                    원데이 클래스
+                </p>
+            </div>
+
+            <!-- 카드 2 -->
+            <div class="community-card text-center p-4 border rounded shadow-sm" style="width: 300px;">
+                <div class="community-icon mb-3" style="font-size: 40px;">💄</div>
+                <h3 style="font-size: 20px;">BEAUTY</h3>
+                <p class="mt-2" style="font-size: 15px;">
+                    화장품 정보 공유
+                </p>
+            </div>
+
+            <!-- 카드 3 -->
+            <div class="community-card text-center p-4 border rounded shadow-sm" style="width: 300px;">
+                <div class="community-icon mb-3" style="font-size: 40px;">🗺</div>
+                <h3 style="font-size: 20px;">LOCATION</h3>
+                <p class="mt-2" style="font-size: 15px;">
+                    관광 정보 공유
+                </p>
+            </div>
+        	</div>
+    	</div>
 	</section>
 
 <!-- 공란 -->
-    <section class="class-section my-5 py-5">
-		<div class="container">
-			<div class="row justify-content-center text-center">
-	            <div class="col-md-4">
-	                <div class="card py-3">
-	                    <img>
-	                    <div class="card-info">
-	                        <h3>FOOD<br>원데이 클래스</h3>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="col-md-4">
-	                <div class="card py-3">
-	                    <img>
-	                    <div class="card-info">
-	                        <h3>BEAUTY<br>화장품 정보 공유</h3>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="col-md-4">
-	                <div class="card py-3">
-	                    <img>
-	                    <div class="card-info">
-	                        <h3>LOCATION<br>관광 정보 공유</h3>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	  	</div>
+    <section class="community-section">
+		
 	</section>	
 	
     <%@ include file="swiper.jsp" %>
