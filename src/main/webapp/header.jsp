@@ -15,9 +15,9 @@
 	    redirectURL += "?" + queryString;
 	}
 	// JSP 파일일 경우 → 해당 JSP로 forward하는 .do 주소로 교체
-	if (redirectURL.contains("board/list.jsp")) {
+	if (redirectURL.contains("boardF/list.jsp")) {
 	    redirectURL = "/K_Culture/BoardListAction.do" + (queryString != null ? "?" + queryString : "");
-	} else if (redirectURL.contains("board/view.jsp")) {
+	} else if (redirectURL.contains("boardF/view.jsp")) {
 	    redirectURL = "/K_Culture/BoardViewAction.do" + (queryString != null ? "?" + queryString : "");
 	} else if (redirectURL.contains("beauty.jsp") || redirectURL.contains("cosmetics_detail.jsp")) {
 	    redirectURL = "/K_Culture/cosmetics" + (queryString != null ? "?" + queryString : "");
