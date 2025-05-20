@@ -23,7 +23,8 @@
         BoardDAO dao = BoardDAO.getInstance();
         userLiked = dao.getLikeStatus(num, sessionId);
     }
-    
+	boolean isAdmin = request.isUserInRole("admin");
+	pageContext.setAttribute("isAdmin", isAdmin);
     // JSP 페이지에서 사용할 수 있도록 변수 설정
     pageContext.setAttribute("page", nowpage); // 250514 첨부파일 추가및 수정 중 추가
     pageContext.setAttribute("userLiked", userLiked);
@@ -132,7 +133,7 @@
                                 <span class="count">${board.liking}</span>
                             </div>
                             <div class="btn-group">
-                                <c:if test="${sessionId == board.id}">
+                                <c:if test="${sessionId == board.id || isAdmin}">
                                     <a href="./BoardUpdateForm.do?num=${board.num}&pageNum=${page}&category=${board.category}" class="btn btn-outline-primary btn-sm">수정</a>
                              <a href="./BoardDeleteAction.do?num=${board.num}&pageNum=${page}&category=${board.category}" 
                                        class="btn btn-outline-danger btn-sm" 

@@ -10,8 +10,7 @@
                 <div class="footer-column">
                     <h3>K-CULTURE GUIDE</h3>
                     <ul>
-                        <li><a href="#">소개</a></li>
-                        <li><a href="#">팀 소개</a></li>
+                        <li><a href="introduce.jsp">소개</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">

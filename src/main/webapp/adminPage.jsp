@@ -25,7 +25,7 @@
 				<div class="carousel-item active">
 					<img src="./resources/img/slideimg01.jpg" class="d-block w-100" alt="...">
 					<div class="fixed-caption">
-						<h3>myPage</h3>
+						<h3>Admin Page</h3>
 						
 					</div>
 				</div>
@@ -34,33 +34,40 @@
 	</section>
 
 	<section class="featured-section">
-		<div class="container">
-			<div class="justify-content-center">
-				<div class="section-title">
-					<h2>공지글 작성</h2>
-					<p><%=session.getAttribute("id") %></p>
-				</div>
-				<div class="card" onclick="location.href='BoardWriteForm.do?id=admin&category=food'" style="cursor: pointer;">
-					<img>
-					<div class="card-info">
-						<h3>FOOD 게시판 공지 작성</h3>
-					</div>
-				</div>
-				<div class="card" onclick="location.href='BoardWriteForm.do?id=admin&category=beauty'" style="cursor: pointer;">
-					<img>
-					<div class="card-info">
-						<h3>BEAUTY 게시판 공지 작성</h3>
-					</div>
-				</div>
-				<div class="card" onclick="location.href='BoardWriteForm.do?id=admin&category=location'" style="cursor: pointer;">
-					<img>
-					<div class="card-info">
-						<h3>LOCATION 게시판 공지 작성</h3>
-					</div>
-				</div>
-			</div>
-		</div>
+	    <div class="container">
+	        <div class="section-title text-center">
+	            <h2 class="mb-4">공지글 작성</h2>
+	        </div>
+	
+	        <div class="row justify-content-center">
+	            <div class="col-md-4 text-center">
+	                <div class="card py-4" onclick="location.href='BoardWriteForm.do?id=admin&category=food'" style="cursor: pointer;">
+	                    <img>
+	                    <div class="card-info">
+	                        <h3>FOOD 게시판 공지 작성</h3>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-md-4 text-center">
+	                <div class="card py-4" onclick="location.href='BoardWriteForm.do?id=admin&category=beauty'" style="cursor: pointer;">
+	                    <img>
+	                    <div class="card-info">
+	                        <h3>BEAUTY 게시판 공지 작성</h3>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="col-md-4 text-center">
+	                <div class="card py-4" onclick="location.href='BoardWriteForm.do?id=admin&category=location'" style="cursor: pointer;">
+	                    <img>
+	                    <div class="card-info">
+	                        <h3>LOCATION 게시판 공지 작성</h3>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</section>
+
 
 <!-- 체험 활동 -->
 	<%@ include file="totalReservationList.jsp" %>	

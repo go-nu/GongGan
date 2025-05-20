@@ -29,7 +29,7 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <a class="logo" href="index.jsp">K-<span>CULTURE</span> GUIDE</a>
+                <a class="logo" href="index.jsp">GO<span>NG GAN</span></a>
                 <nav>
                     <ul>
                     	<!-- 관리자권한일 때 헤더 메뉴 -->
