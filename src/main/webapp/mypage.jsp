@@ -106,15 +106,35 @@
 				    </form>
 					<span>ㆍ</span>
 				    <form action="confirmDeleteUser.jsp" method="post" class="m-0 p-0">
-				        <button type="submit" class="btn btn-link text-decoration-none p-0 m-0 align-baseline"
-				                onclick="return confirm('비밀번호 확인 후 탈퇴가 진행됩니다. 진행하시겠습니까?');">
-				            회원 탈퇴
-				        </button>
+				        <button type="button" class="btn btn-link text-decoration-none p-0 m-0 align-baseline" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+						    회원 탈퇴
+						</button>
 				    </form>
 				</div>
 			</div>
 		</div>
 	</section>
+	<!-- 회원 탈퇴 확인 모달 -->
+	<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="confirmDeleteModalLabel">회원 탈퇴 확인</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+	      </div>
+	      <div class="modal-body">
+	        비밀번호 확인 후 탈퇴가 진행됩니다. 정말 탈퇴하시겠습니까?
+	      </div>
+	      <div class="modal-footer border-0">
+	        <!-- 실제 탈퇴 요청 폼 -->
+	        <form action="confirmDeleteUser.jsp" method="post">
+	          <button type="submit" class="btn btn-danger">탈퇴 진행</button>
+	        </form>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 	<%@ include file="footer.jsp"%>
 </body>
