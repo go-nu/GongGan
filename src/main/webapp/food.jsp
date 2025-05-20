@@ -92,7 +92,7 @@
     <section class="about-section">
         <div class="container">
          	<div class="section-title">
-	      		<h2>다음 주 체험활동</h2>
+	      		<h2 class="mb-5">다음 주 체험활동</h2>
 	      		<!-- <p>25/5/5 ~ 25/5/12 활동</p> -->
 	    	</div>
 	    	

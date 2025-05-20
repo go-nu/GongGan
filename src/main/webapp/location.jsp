@@ -71,7 +71,7 @@
 					<a href="location_detail.jsp?city_num=<%=rs.getString("city_num")%>" class="text-decoration-none text-dark">
 					  <div class="card h-100 shadow-sm border-0" style="height: 300px;">
 					    <img src="./resources/img/<%=rs.getString("img")%>" class="card-img-top" alt="<%=rs.getString("title")%>" style="height: 200px; object-fit: cover;">
-					    <div class="card-body p-2 text-center" style="height: 100px; overflow: hidden;">
+					    <div class="card-body p-2 me-2 text-start" style="height: 100px; overflow: hidden;">
 					      <h6 class="card-title mb-1"><%=rs.getString("title")%></h6>
 					      <p class="card-text small text-muted mb-1"><%=rs.getString("note")%></p>
 					      <div>

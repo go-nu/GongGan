@@ -6,7 +6,7 @@
 <section class="about-section">
     <div class="container">
         <div class="section-title">
-            <h2>내가 신청한 프로그램</h2>
+            <h2 class="mb-4">내가 신청한 프로그램</h2>
         </div>
 
         <div class="table-responsive">
