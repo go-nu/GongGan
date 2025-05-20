@@ -108,7 +108,7 @@ String returnURL = request.getParameter("returnURL");
 		
 		        <div class="text-end">
 		            <button type="submit" class="btn btn-primary">수정 완료</button>
-		            <a href="#" onclick="history.back(); return false;" class="btn btn-secondary">취소</a>
+		            <a href="#" onclick="history.back(); return false;" class="btn btn-danger">취소</a>
 		        </div>
 		    </form>
 		</div>

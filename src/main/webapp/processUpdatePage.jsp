@@ -102,7 +102,7 @@ if (conn != null) {
                 <%= message %>
             </div>
             <div class="modal-footer border-0">
-                <button type="button" class="btn <%= isSuccess ? "btn-success" : "btn-danger" %>" onclick="location.href='<%= redirectURL %>'">확인</button>
+                <button type="button" class="btn <%= isSuccess ? "btn-primary" : "btn-danger" %>" onclick="location.href='<%= redirectURL %>'">확인</button>
             </div>
         </div>
     </div>

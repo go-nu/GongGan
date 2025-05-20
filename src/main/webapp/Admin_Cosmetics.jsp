@@ -7,9 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 상품 관리</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/resources/css/beauty_style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="<%= request.getContextPath() %>/resources/js/dday.js"></script>
 </head>
 <body>
