@@ -94,7 +94,7 @@
     <section class="community-section" id="lBoard">
         <div class="container">
             <div class="section-title">
-                <h2>게시판</h2>
+                <h2>K-Location 게시판</h2>
             </div>
             <!-- 게시판 미리 보기 -->
             <div class="board mb-0">
