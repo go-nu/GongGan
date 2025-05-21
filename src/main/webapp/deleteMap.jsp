@@ -11,7 +11,7 @@
 	<%
 	    request.setCharacterEncoding("UTF-8");
 	    String id = request.getParameter("id");
-	
+
 	    PreparedStatement pstmt = null;
 	    String sql = "DELETE FROM map_loc WHERE id=?";
 	    pstmt = conn.prepareStatement(sql);

@@ -119,8 +119,8 @@
 						        data-bs-target="#editModal" data-id="<%= rsM.getInt("id") %>">→</button>
 						</td>
 						<td>
-						    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-								data-bs-target="#deleteModal" data-id="<%= rsM.getInt("id") %>">→</button>
+							<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+							    data-bs-target="#deleteModalm" data-id="<%= rsM.getInt("id") %>">삭제</button>
 						</td>
 
 					</tr>
@@ -187,13 +187,13 @@
 	    </form>
 	  </div>
 	</div>
-	<!-- 삭제 맵 -->
-	<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+	<!-- 삭제 -->
+	<div class="modal fade" id="deleteModalm" tabindex="-1" aria-labelledby="deleteModalmLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <form action="deleteMap.jsp" method="post">
 	      <div class="modal-content">
 	        <div class="modal-header">
-	          <h5 class="modal-title" id="deleteModalLabel">삭제 확인</h5>
+	          <h5 class="modal-title" id="deleteModalmLabel">삭제 확인</h5>
 	          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 	        </div>
 	        <div class="modal-body">
@@ -215,7 +215,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var editModal = document.getElementById('editModal');
-  var deleteModal = document.getElementById('deleteModal');
+  var deleteModalm = document.getElementById('deleteModalm');
 
   editModal.addEventListener('show.bs.modal', function (event) {
     var button = event.relatedTarget;
@@ -223,9 +223,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('edit-id').value = id;
   });
 
-  deleteModal.addEventListener('show.bs.modal', function (event) {
-    var button = event.relatedTarget;
-    var id = button.getAttribute('data-id');
+  deleteModalm.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const id = button.getAttribute('data-id');
     document.getElementById('delete-id').value = id;
   });
 });

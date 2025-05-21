@@ -12,16 +12,16 @@
 	    request.setCharacterEncoding("UTF-8");
 	    String id = request.getParameter("id");
 	    String name = request.getParameter("name");
-	    String category = request.getParameter("category");
+	    String brand = request.getParameter("category");
 	    String region = request.getParameter("region");
 	    String address = request.getParameter("address");
 	    String lat = request.getParameter("lat");
 	    String lng = request.getParameter("lng");
 	
 	    PreparedStatement pstmt = null;
-	    String sql = "UPDATE map_loc SET category=?, name=?, region=?, address=?, lat=?, lng=? WHERE id=?";
+	    String sql = "UPDATE map_loc SET brand=?, name=?, region=?, address=?, lat=?, lng=? WHERE id=?";
 	    pstmt = conn.prepareStatement(sql);
-	    pstmt.setString(1, category);
+	    pstmt.setString(1, brand);
 	    pstmt.setString(2, name);
 	    pstmt.setString(3, region);
 	    pstmt.setString(4, address);

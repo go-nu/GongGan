@@ -11,7 +11,7 @@
 	<%
 	    request.setCharacterEncoding("UTF-8");
 	
-	    String category = request.getParameter("category");
+	    String brand = request.getParameter("category");
 	    String name = request.getParameter("name");
 	    String region = request.getParameter("region");
 	    String address = request.getParameter("address");
@@ -19,9 +19,9 @@
 	    String lng = request.getParameter("lng");
 	
 	    PreparedStatement pstmt = null;
-	    String sql = "INSERT INTO map_loc (category, name, region, address, lat, lng) VALUES (?, ?, ?, ?, ?, ?)";
+	    String sql = "INSERT INTO map_loc (brand, name, region, address, lat, lng) VALUES (?, ?, ?, ?, ?, ?)";
 	    pstmt = conn.prepareStatement(sql);
-	    pstmt.setString(1, category);
+	    pstmt.setString(1, brand);
 	    pstmt.setString(2, name);
 	    pstmt.setString(3, region);
 	    pstmt.setString(4, address);

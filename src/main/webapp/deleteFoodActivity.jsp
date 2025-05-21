@@ -25,15 +25,24 @@
 
         if (checkRs.next() && checkRs.getInt(1) > 0) {
             showHasReservationModal = true;
-        } else {
-            // 삭제 수행
-            String deleteSql = "DELETE FROM fs_semi.activity WHERE ACT_ID = ?";
-            PreparedStatement pstmtDelete = conn.prepareStatement(deleteSql);
-            pstmtDelete.setString(1, actId);
-            pstmtDelete.executeUpdate();
-            pstmtDelete.close();
+        }else {
+            // 먼저 sub_img 테이블에서 참조 데이터 삭제
+            String deleteSubImgSql = "DELETE FROM fs_semi.sub_img WHERE act_id = ?";
+            PreparedStatement pstmtSubImg = conn.prepareStatement(deleteSubImgSql);
+            pstmtSubImg.setString(1, actId);
+            pstmtSubImg.executeUpdate();
+            pstmtSubImg.close();
+
+            // 그런 다음 activity에서 삭제
+            String deleteActivitySql = "DELETE FROM fs_semi.activity WHERE ACT_ID = ?";
+            PreparedStatement pstmtActivity = conn.prepareStatement(deleteActivitySql);
+            pstmtActivity.setString(1, actId);
+            pstmtActivity.executeUpdate();
+            pstmtActivity.close();
+
             showDeleteSuccessModal = true;
         }
+
         checkRs.close();
         checkStmt.close();
     }
@@ -92,7 +101,7 @@
             </div>
             <div class="modal-body">해당 활동이 삭제되었습니다.</div>
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-success" onclick="redirect()">확인</button>
+                <button type="button" class="btn btn-success" onclick="location.href='adminPage.jsp'">확인</button>
             </div>
         </div>
     </div>
