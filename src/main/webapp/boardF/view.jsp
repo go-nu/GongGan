@@ -133,12 +133,21 @@
                                 <span class="count">${board.liking}</span>
                             </div>
                             <div class="btn-group">
-                                <c:if test="${sessionId == board.id || isAdmin}">
-                                    <a href="./BoardUpdateForm.do?num=${board.num}&pageNum=${page}&category=${board.category}" class="btn btn-outline-success btn-sm">수정</a>
-                             <a href="./BoardDeleteAction.do?num=${board.num}&pageNum=${page}&category=${board.category}" 
-                                       class="btn btn-outline-danger btn-sm" 
-                                       onclick="return confirmDelete()">삭제</a>
-                                </c:if>
+								<c:if test="${sessionId == board.id}">
+								    <!-- 일반 사용자 본인 글일 경우: 수정, 삭제 모두 표시 -->
+								    <a href="./BoardUpdateForm.do?num=${board.num}&pageNum=${page}&category=${board.category}" 
+								       class="btn btn-outline-success btn-sm">수정</a>
+								    <a href="./BoardDeleteAction.do?num=${board.num}&pageNum=${page}&category=${board.category}" 
+								       class="btn btn-outline-danger btn-sm" 
+								       onclick="return confirmDelete()">삭제</a>
+								</c:if>
+								
+								<c:if test="${sessionId != board.id && isAdmin}">
+								    <!-- 관리자이면서 다른 사람 글일 경우: 삭제만 표시 -->
+								    <a href="./BoardDeleteAction.do?num=${board.num}&pageNum=${page}&category=${board.category}" 
+								       class="btn btn-outline-danger btn-sm" 
+								       onclick="return confirmDelete()">삭제</a>
+								</c:if>
                             </div>
                         </div>
                         <!-- 첨부파일 정보 표시 부분을 추가 -->
