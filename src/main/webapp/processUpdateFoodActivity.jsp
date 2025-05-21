@@ -20,28 +20,25 @@
 
     String actId     = multi.getParameter("ACT_ID");
     String title     = multi.getParameter("TITLE");
-    int price        = Integer.parseInt(multi.getParameter("PRICE"));
     int maxCount     = Integer.parseInt(multi.getParameter("MAX_COUNT"));
     String actDate   = multi.getParameter("ACT_DATE");
     String address   = multi.getParameter("ADDRESS");
     String note      = multi.getParameter("NOTE");
-
     String oldImg    = multi.getParameter("oldImg");
     String newImg    = multi.getFilesystemName("image_file_upload");
 
     String finalImg = (newImg != null) ? newImg : oldImg;
 
-    String sql = "UPDATE fs_semi.activity SET TITLE=?, PRICE=?, IMG=?, MAX_COUNT=?, ACT_DATE=?, ADDRESS=?, NOTE=? WHERE ACT_ID=?";
+    String sql = "UPDATE fs_semi.activity SET TITLE=?, IMG=?, MAX_COUNT=?, ACT_DATE=?, ADDRESS=?, NOTE=? WHERE ACT_ID=?";
 
     PreparedStatement pstmt = conn.prepareStatement(sql);
     pstmt.setString(1, title);
-    pstmt.setInt(2, price);
-    pstmt.setString(3, finalImg);
-    pstmt.setInt(4, maxCount);
-    pstmt.setString(5, actDate);
-    pstmt.setString(6, address);
-    pstmt.setString(7, note);
-    pstmt.setString(8, actId);
+    pstmt.setString(2, finalImg);
+    pstmt.setInt(3, maxCount);
+    pstmt.setString(4, actDate);
+    pstmt.setString(5, address);
+    pstmt.setString(6, note);
+    pstmt.setString(7, actId);
 
     int result = pstmt.executeUpdate();
 

@@ -64,14 +64,6 @@
                             </a>
 						</td>
 					    <td>
-							<!-- 삭제 버튼 -->
-		<%-- 					<a href="deleteFoodActivity.jsp?ACT_ID=<%= rs.getString("ACT_ID") %>&returnURL=<%= java.net.URLEncoder.encode(request.getRequestURI(), "UTF-8") %>" class="btn btn-sm btn-danger"
-							   data-bs-toggle="modal"
-							   data-bs-target="#deleteModal"
-							   data-act-id="<%= rs.getString("ACT_ID") %>"
-							>
-							    →
-							</a> --%>
 							<a href="#" class="btn btn-sm btn-danger"
 							   data-bs-toggle="modal"
 							   data-bs-target="#deleteModal"

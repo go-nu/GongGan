@@ -57,32 +57,24 @@ String returnURL = request.getParameter("returnURL");
 				            <label for="TITLE" class="form-label">제목</label>
 				            <input type="text" name="TITLE" id="TITLE" class="form-control" value="<%= rs.getString("TITLE") %>" required>
 				        </div>
-				
-				        <div class="form-col">
-				            <label for="PRICE" class="form-label">가격</label>
-				            <input type="number" name="PRICE" id="PRICE" class="form-control" value="<%= rs.getInt("PRICE") %>" required>
+						<div class="form-col">
+				            <label for="MAX_COUNT" class="form-label">정원</label>
+				            <input type="number" name="MAX_COUNT" id="MAX_COUNT" class="form-control" value="<%= rs.getInt("MAX_COUNT") %>" required>
 				        </div>
 			        </div>
 			
 					<div class="form-row-custom">
-				        <div class="form-col">
-				            <label for="MAX_COUNT" class="form-label">정원</label>
-				            <input type="number" name="MAX_COUNT" id="MAX_COUNT" class="form-control" value="<%= rs.getInt("MAX_COUNT") %>" required>
-				        </div>
-				
 				        <div class="form-col">
 				            <label for="ACT_DATE" class="form-label">체험일자</label>
 				            <input type="text" name="ACT_DATE" id="ACT_DATE" class="form-control" value="<%= rs.getString("ACT_DATE") %>" 
 				            	placeholder="yyyy/mm/dd HH:mm" required>
 				        </div>
-			        </div>
-			
-					<div class="form-row-custom">
 				        <div class="form-col">
 				            <label for="ADDRESS" class="form-label">주소</label>
 				            <input type="text" name="ADDRESS" id="ADDRESS" class="form-control" value="<%= rs.getString("ADDRESS") %>" required>
 				        </div>
-					</div>
+			        </div>
+			        
 					<div class="form-row-custom">
 				        <div class="form-col">
 				            <label for="NOTE" class="form-label">설명</label>
