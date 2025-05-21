@@ -143,8 +143,7 @@
 								</c:if>
 								
 								<c:if test="${sessionId != board.id && isAdmin}">
-								    <!-- 관리자이면서 다른 사람 글일 경우: 삭제만 표시 -->
-								    <a href="#" 
+									<a href="#" 
 									   class="btn btn-outline-danger btn-sm" 
 									   data-bs-toggle="modal" 
 									   data-bs-target="#deleteBoard"
@@ -316,11 +315,11 @@
     <form id="deleteForm" method="post">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">삭제 확인</h5>
+          <h5 class="modal-title" id="deleteBoardLabel">삭제 확인</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          이 항목을 정말 삭제하시겠습니까?
+          <p><span id="delete-item-info" class="fw-bold"></span> 항목을 삭제하시겠습니까?</p>
         </div>
         <div class="modal-footer border-0">
           <button type="submit" class="btn btn-danger">삭제</button>
@@ -330,6 +329,7 @@
     </form>
   </div>
 </div>
+
     
     
     <%@ include file="../footer.jsp" %>
@@ -395,6 +395,12 @@
           const form = document.getElementById('deleteForm');
           const actionUrl = `./BoardDeleteAction.do?num=${num}&pageNum=${page}&category=${category}`;
           form.setAttribute('action', actionUrl);
+
+          // 선택적으로 항목 번호 보여주기
+          const itemInfo = document.getElementById('delete-item-info');
+          if (itemInfo) {
+            itemInfo.textContent = `글 번호 ${num}`;
+          }
         });
     });
 </script>
