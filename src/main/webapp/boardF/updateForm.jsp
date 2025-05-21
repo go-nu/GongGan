@@ -87,8 +87,11 @@
 
                     <div class="mb-3 row">
                         <div class="offset-sm-2 col-sm-10">
-                            <input type="submit" class="btn btn-primary me-2" value="수정 완료">
-                            <a href="./BoardViewAction.do?num=<%=num%>&pageNum=<%=nowpage%>" class="btn btn-secondary">취소</a>
+                            <div class="d-flex gap-2">
+	                            <input type="submit" class="btn btn-primary px-2" value="수정 완료">
+	                            <a href="./BoardViewAction.do?num=<%=num%>&pageNum=<%=nowpage%>" class="btn btn-danger px-4">취소</a>
+	                            <a href="BoardListAction.do?category=${param.category}" class="btn btn-secondary px-4" style="min-width: 80px;">목록</a>
+	                        </div>
                         </div>
                     </div>
                 </form>
