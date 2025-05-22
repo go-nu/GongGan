@@ -45,6 +45,7 @@
 				        <div class="form-col">
 				            <label for="ACT_DATE" class="form-label">체험일자</label>
 				            <input type="text" name="ACT_DATE" id="ACT_DATE" class="form-control" required>
+				            <input type="text" name="ACT_DATE" id="ACT_DATE" class="form-control" required placeholder="YYYY/MM/DD HH:mm">
 				        </div>
 				        <div class="form-col">
 				            <label for="ADDRESS" class="form-label">주소</label>
